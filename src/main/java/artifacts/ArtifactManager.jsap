@@ -1,0 +1,57 @@
+<jsap>
+    <parameters>
+        <flaggedOption>
+            <id>architecture</id>
+            <stringParser>
+                <classname>StringStringParser</classname>
+            </stringParser>
+            <required>false</required>
+            <shortFlag>a</shortFlag>
+
+            <help>The architecture on which the artifacts are being installed.</help>
+        </flaggedOption>
+        <flaggedOption>
+            <id>repository</id>
+            <stringParser>
+                <classname>FileStringParser</classname>
+                <properties>
+
+                    <property>
+                        <name>mustBeDirectory</name>
+                        <value>true</value>
+                    </property><property>
+                        <name>mustExist</name>
+                        <value>true</value>
+                    </property>
+                </properties>
+            </stringParser>
+
+            <required>true</required>
+
+            <defaults>
+                <string>/scratchLocal/gobyweb/ARTIFACT_REPOSITORY</string>
+            </defaults>
+            <shortFlag>r</shortFlag>
+
+            <help>The directory that holds the artifact repository on this machine.</help>
+        </flaggedOption>
+
+        <qualifiedSwitch>
+            <id>install</id>
+            <shortFlag>i</shortFlag>
+            <longFlag>install</longFlag>
+            <list>true</list>
+            <listSeparator>,</listSeparator>
+            <help>Requests verbose output.</help>
+        </qualifiedSwitch>
+
+        <unflaggedOption>
+            <id>artifacts</id>
+
+            <required>true</required>
+            <greedy>true</greedy>
+            <help>List of artifacts to install, in the format PLUGIN_ID:ARTIFACT_ID.</help>
+        </unflaggedOption>
+
+    </parameters>
+</jsap>

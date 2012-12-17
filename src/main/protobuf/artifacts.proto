@@ -1,0 +1,12 @@
+package gobyweb.artifacts;
+
+option java_package = "org.campagnelab.gobyweb.artifacts";
+//option java_outer_classname = "ArtifactsProtos";
+
+message Artifact {
+
+  optional string id = 1;
+  optional string relativePath=2;
+  optional string pluginId = 5;
+
+}
