@@ -19,7 +19,8 @@
                     <property>
                         <name>mustBeDirectory</name>
                         <value>true</value>
-                    </property><property>
+                    </property>
+                    <property>
                         <name>mustExist</name>
                         <value>true</value>
                     </property>
@@ -36,14 +37,25 @@
             <help>The directory that holds the artifact repository on this machine.</help>
         </flaggedOption>
 
-        <qualifiedSwitch>
+        <switch>
             <id>install</id>
             <shortFlag>i</shortFlag>
             <longFlag>install</longFlag>
-            <list>true</list>
-            <listSeparator>,</listSeparator>
-            <help>Requests verbose output.</help>
-        </qualifiedSwitch>
+            <help>Install artifacts in the repository</help>
+        </switch>
+        <switch>
+            <id>remove</id>
+            <shortFlag>d</shortFlag>
+            <longFlag>remove</longFlag>
+            <help>Remove artifacts from the repository</help>
+        </switch>
+
+        <switch>
+            <id>help</id>
+            <shortFlag>h</shortFlag>
+            <longFlag>help</longFlag>
+            <help>Print help message.</help>
+        </switch>
 
         <unflaggedOption>
             <id>artifacts</id>

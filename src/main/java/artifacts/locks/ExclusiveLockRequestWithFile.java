@@ -19,16 +19,23 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
     RandomAccessFile lockFile;
     private FileLock lock;
     private static Logger LOG = Logger.getLogger(ExclusiveLockRequestWithFile.class);
+    private final String filename;
 
-    public ExclusiveLockRequestWithFile(File repoDir) {
-        String lockFilename = FilenameUtils.concat(repoDir.getAbsolutePath(), "LOCK");
+    public ExclusiveLockRequestWithFile(String filename, File repoDir) {
+        this.filename=filename;
+        if (!repoDir.exists()) {
+            LOG.warn("Repository directory did not exist, creating..");
+            repoDir.mkdir();
+        }
+        String lockFilename = FilenameUtils.concat(repoDir.getAbsolutePath(), filename);
 
 
         try {
             lockFile = new RandomAccessFile(lockFilename, "rw");
         } catch (FileNotFoundException e) {
-            LOG.error("Cannot create LOCK file", e);
+            LOG.error("Cannot create LOCK on "+this.filename, e);
         }
+
     }
 
     boolean granted = false;
@@ -39,7 +46,7 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
         try {
             granted = (lock = lockFile.getChannel().tryLock()) != null;
         } catch (IOException e) {
-            LOG.error("Could not acquire LOCK file", e);
+            LOG.error("Could not acquire lock on "+filename, e);
             granted = false;
         }
 
@@ -63,5 +70,13 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
      */
     public void release() throws IOException {
         lock.release();
+    }
+
+    /**
+     * Return the file that was locked.
+     * @return
+     */
+    public RandomAccessFile getLockedFile() {
+        return lockFile;
     }
 }

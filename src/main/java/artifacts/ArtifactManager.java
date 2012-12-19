@@ -4,18 +4,31 @@ import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPResult;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Main class of the GobyWeb artifact manager.
  */
 public class ArtifactManager {
 
+    ArtifactRepo repo;
+
+    public ArtifactManager(String repoDir) throws IOException {
+        this(new File(repoDir));
+
+    }
+
+    public ArtifactManager(File repoDir) throws IOException {
+        repo = new ArtifactRepo(repoDir);
+        repo.load(repoDir);
+    }
+
     public static void main(String[] args) throws Exception {
         JSAP jsap = new JSAP(ArtifactManager.class.getResource("ArtifactManager.jsap"));
 
         JSAPResult config = jsap.parse(args);
 
-        if (!config.success()) {
+        if (!config.success() || config.getBoolean("help")) {
 
             // print out the help, then specific error messages describing the problems
             // with the command line, THEN print usage.
@@ -37,27 +50,40 @@ public class ArtifactManager {
 
             System.exit(1);
         }
-        File repoDir=config.getFile("repository");
-        ArtifactRepo repo=new ArtifactRepo(repoDir);
-        try {
-        repo.acquireExclusiveLock();
-        repo.load(repoDir);
-        } finally {
-            repo.releaseLock();
-        }
-        String [] artifacts=config.getStringArray("artifacts");
-        for (String a: artifacts) {
-            String tokens[]=a.split(":");
-            if (tokens.length!=2) {
-                System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID, instead got "+a);
-                System.exit(1);
-            }
-            String pluginId=tokens[0];
-            String artifactId=tokens[1];
-            repo.install(pluginId,artifactId);
-        }
+        File repoDir = config.getFile("repository");
+
+
+        ArtifactManager processor = new ArtifactManager(repoDir);
+        processor.process(config, repoDir);
+
     }
 
+    private void process(JSAPResult config, File repoDir) throws IOException {
+
+        repo.load(repoDir);
+
+        String[] artifacts = config.getStringArray("artifacts");
+        for (String a : artifacts) {
+            String tokens[] = a.split(":");
+            if (tokens.length != 3) {
+                System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID:path-to-install-script, instead got " + a);
+                System.exit(1);
+            }
+            String pluginId = tokens[0];
+            String artifactId = tokens[1];
+            String installScript = tokens[2];
+            if (config.getBoolean("install")) {
+                repo.install(pluginId, artifactId,installScript);
+            } else if (config.getBoolean("remove")) {
+                repo.remove(pluginId, artifactId);
+            }
+        }
+        repo.save(repoDir);
+    }
+
+    public ArtifactRepo getRepo() {
+        return repo;
+    }
 
 
 

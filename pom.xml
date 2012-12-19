@@ -29,7 +29,14 @@
                     <include>**/*.jsap</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>log4j.properties</include>
+                </includes>
+            </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -46,10 +53,12 @@
                         <configuration>
                             <tasks>
                                 <mkdir dir="target/generated-sources"/>
+                                <echo>PATH=${env.PATH}</echo>
                                 <exec executable="protoc">
                                     <arg value="--java_out=target/generated-sources"/>
                                     <arg value="src/main/protobuf/artifacts.proto"/>
                                 </exec>
+
                             </tasks>
                             <sourceRoot>target/generated-sources</sourceRoot>
                         </configuration>
@@ -84,7 +93,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -97,6 +106,17 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+        <dependency>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
+            <version>6.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>dsiutils</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+
 
     </dependencies>
 </project>

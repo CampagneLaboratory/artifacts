@@ -1,6 +1,7 @@
 package artifacts.locks;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 /**
  * @author Fabien Campagne
@@ -20,4 +21,9 @@ public interface ExclusiveLockRequest {
      * Release the lock, call after the lock was granted to release.
      */
     public void release() throws IOException;
+    /**
+        * Return the file that was locked.
+        * @return
+        */
+       public RandomAccessFile getLockedFile() ;
 }

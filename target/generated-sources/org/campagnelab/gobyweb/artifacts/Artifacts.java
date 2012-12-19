@@ -8,14 +8,657 @@ public final class Artifacts {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public enum InstallationState
+      implements com.google.protobuf.ProtocolMessageEnum {
+    INSTALLING(0, 0),
+    INSTALLED(1, 1),
+    FAILED(2, 3),
+    ;
+    
+    public static final int INSTALLING_VALUE = 0;
+    public static final int INSTALLED_VALUE = 1;
+    public static final int FAILED_VALUE = 3;
+    
+    
+    public final int getNumber() { return value; }
+    
+    public static InstallationState valueOf(int value) {
+      switch (value) {
+        case 0: return INSTALLING;
+        case 1: return INSTALLED;
+        case 3: return FAILED;
+        default: return null;
+      }
+    }
+    
+    public static com.google.protobuf.Internal.EnumLiteMap<InstallationState>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<InstallationState>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<InstallationState>() {
+            public InstallationState findValueByNumber(int number) {
+              return InstallationState.valueOf(number);
+            }
+          };
+    
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return org.campagnelab.gobyweb.artifacts.Artifacts.getDescriptor().getEnumTypes().get(0);
+    }
+    
+    private static final InstallationState[] VALUES = {
+      INSTALLING, INSTALLED, FAILED, 
+    };
+    
+    public static InstallationState valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+    
+    private final int index;
+    private final int value;
+    
+    private InstallationState(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+    
+    // @@protoc_insertion_point(enum_scope:gobyweb.artifacts.InstallationState)
+  }
+  
+  public interface RepositoryOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // repeated .gobyweb.artifacts.Artifact artifacts = 1;
+    java.util.List<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact> 
+        getArtifactsList();
+    org.campagnelab.gobyweb.artifacts.Artifacts.Artifact getArtifacts(int index);
+    int getArtifactsCount();
+    java.util.List<? extends org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder> 
+        getArtifactsOrBuilderList();
+    org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder getArtifactsOrBuilder(
+        int index);
+  }
+  public static final class Repository extends
+      com.google.protobuf.GeneratedMessage
+      implements RepositoryOrBuilder {
+    // Use Repository.newBuilder() to construct.
+    private Repository(Builder builder) {
+      super(builder);
+    }
+    private Repository(boolean noInit) {}
+    
+    private static final Repository defaultInstance;
+    public static Repository getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public Repository getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.campagnelab.gobyweb.artifacts.Artifacts.internal_static_gobyweb_artifacts_Repository_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.campagnelab.gobyweb.artifacts.Artifacts.internal_static_gobyweb_artifacts_Repository_fieldAccessorTable;
+    }
+    
+    // repeated .gobyweb.artifacts.Artifact artifacts = 1;
+    public static final int ARTIFACTS_FIELD_NUMBER = 1;
+    private java.util.List<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact> artifacts_;
+    public java.util.List<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact> getArtifactsList() {
+      return artifacts_;
+    }
+    public java.util.List<? extends org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder> 
+        getArtifactsOrBuilderList() {
+      return artifacts_;
+    }
+    public int getArtifactsCount() {
+      return artifacts_.size();
+    }
+    public org.campagnelab.gobyweb.artifacts.Artifacts.Artifact getArtifacts(int index) {
+      return artifacts_.get(index);
+    }
+    public org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder getArtifactsOrBuilder(
+        int index) {
+      return artifacts_.get(index);
+    }
+    
+    private void initFields() {
+      artifacts_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      for (int i = 0; i < getArtifactsCount(); i++) {
+        if (!getArtifacts(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < artifacts_.size(); i++) {
+        output.writeMessage(1, artifacts_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      for (int i = 0; i < artifacts_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, artifacts_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static org.campagnelab.gobyweb.artifacts.Artifacts.Repository parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.campagnelab.gobyweb.artifacts.Artifacts.Repository prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements org.campagnelab.gobyweb.artifacts.Artifacts.RepositoryOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.campagnelab.gobyweb.artifacts.Artifacts.internal_static_gobyweb_artifacts_Repository_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.campagnelab.gobyweb.artifacts.Artifacts.internal_static_gobyweb_artifacts_Repository_fieldAccessorTable;
+      }
+      
+      // Construct using org.campagnelab.gobyweb.artifacts.Artifacts.Repository.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getArtifactsFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        if (artifactsBuilder_ == null) {
+          artifacts_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          artifactsBuilder_.clear();
+        }
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.campagnelab.gobyweb.artifacts.Artifacts.Repository.getDescriptor();
+      }
+      
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Repository getDefaultInstanceForType() {
+        return org.campagnelab.gobyweb.artifacts.Artifacts.Repository.getDefaultInstance();
+      }
+      
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Repository build() {
+        org.campagnelab.gobyweb.artifacts.Artifacts.Repository result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private org.campagnelab.gobyweb.artifacts.Artifacts.Repository buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        org.campagnelab.gobyweb.artifacts.Artifacts.Repository result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Repository buildPartial() {
+        org.campagnelab.gobyweb.artifacts.Artifacts.Repository result = new org.campagnelab.gobyweb.artifacts.Artifacts.Repository(this);
+        int from_bitField0_ = bitField0_;
+        if (artifactsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            artifacts_ = java.util.Collections.unmodifiableList(artifacts_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.artifacts_ = artifacts_;
+        } else {
+          result.artifacts_ = artifactsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.campagnelab.gobyweb.artifacts.Artifacts.Repository) {
+          return mergeFrom((org.campagnelab.gobyweb.artifacts.Artifacts.Repository)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(org.campagnelab.gobyweb.artifacts.Artifacts.Repository other) {
+        if (other == org.campagnelab.gobyweb.artifacts.Artifacts.Repository.getDefaultInstance()) return this;
+        if (artifactsBuilder_ == null) {
+          if (!other.artifacts_.isEmpty()) {
+            if (artifacts_.isEmpty()) {
+              artifacts_ = other.artifacts_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureArtifactsIsMutable();
+              artifacts_.addAll(other.artifacts_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.artifacts_.isEmpty()) {
+            if (artifactsBuilder_.isEmpty()) {
+              artifactsBuilder_.dispose();
+              artifactsBuilder_ = null;
+              artifacts_ = other.artifacts_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              artifactsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getArtifactsFieldBuilder() : null;
+            } else {
+              artifactsBuilder_.addAllMessages(other.artifacts_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        for (int i = 0; i < getArtifactsCount(); i++) {
+          if (!getArtifacts(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder subBuilder = org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addArtifacts(subBuilder.buildPartial());
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // repeated .gobyweb.artifacts.Artifact artifacts = 1;
+      private java.util.List<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact> artifacts_ =
+        java.util.Collections.emptyList();
+      private void ensureArtifactsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          artifacts_ = new java.util.ArrayList<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact>(artifacts_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          org.campagnelab.gobyweb.artifacts.Artifacts.Artifact, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder, org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder> artifactsBuilder_;
+      
+      public java.util.List<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact> getArtifactsList() {
+        if (artifactsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(artifacts_);
+        } else {
+          return artifactsBuilder_.getMessageList();
+        }
+      }
+      public int getArtifactsCount() {
+        if (artifactsBuilder_ == null) {
+          return artifacts_.size();
+        } else {
+          return artifactsBuilder_.getCount();
+        }
+      }
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Artifact getArtifacts(int index) {
+        if (artifactsBuilder_ == null) {
+          return artifacts_.get(index);
+        } else {
+          return artifactsBuilder_.getMessage(index);
+        }
+      }
+      public Builder setArtifacts(
+          int index, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact value) {
+        if (artifactsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArtifactsIsMutable();
+          artifacts_.set(index, value);
+          onChanged();
+        } else {
+          artifactsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setArtifacts(
+          int index, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder builderForValue) {
+        if (artifactsBuilder_ == null) {
+          ensureArtifactsIsMutable();
+          artifacts_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          artifactsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addArtifacts(org.campagnelab.gobyweb.artifacts.Artifacts.Artifact value) {
+        if (artifactsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArtifactsIsMutable();
+          artifacts_.add(value);
+          onChanged();
+        } else {
+          artifactsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addArtifacts(
+          int index, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact value) {
+        if (artifactsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArtifactsIsMutable();
+          artifacts_.add(index, value);
+          onChanged();
+        } else {
+          artifactsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addArtifacts(
+          org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder builderForValue) {
+        if (artifactsBuilder_ == null) {
+          ensureArtifactsIsMutable();
+          artifacts_.add(builderForValue.build());
+          onChanged();
+        } else {
+          artifactsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addArtifacts(
+          int index, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder builderForValue) {
+        if (artifactsBuilder_ == null) {
+          ensureArtifactsIsMutable();
+          artifacts_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          artifactsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllArtifacts(
+          java.lang.Iterable<? extends org.campagnelab.gobyweb.artifacts.Artifacts.Artifact> values) {
+        if (artifactsBuilder_ == null) {
+          ensureArtifactsIsMutable();
+          super.addAll(values, artifacts_);
+          onChanged();
+        } else {
+          artifactsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearArtifacts() {
+        if (artifactsBuilder_ == null) {
+          artifacts_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          artifactsBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeArtifacts(int index) {
+        if (artifactsBuilder_ == null) {
+          ensureArtifactsIsMutable();
+          artifacts_.remove(index);
+          onChanged();
+        } else {
+          artifactsBuilder_.remove(index);
+        }
+        return this;
+      }
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder getArtifactsBuilder(
+          int index) {
+        return getArtifactsFieldBuilder().getBuilder(index);
+      }
+      public org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder getArtifactsOrBuilder(
+          int index) {
+        if (artifactsBuilder_ == null) {
+          return artifacts_.get(index);  } else {
+          return artifactsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder> 
+           getArtifactsOrBuilderList() {
+        if (artifactsBuilder_ != null) {
+          return artifactsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(artifacts_);
+        }
+      }
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder addArtifactsBuilder() {
+        return getArtifactsFieldBuilder().addBuilder(
+            org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.getDefaultInstance());
+      }
+      public org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder addArtifactsBuilder(
+          int index) {
+        return getArtifactsFieldBuilder().addBuilder(
+            index, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.getDefaultInstance());
+      }
+      public java.util.List<org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder> 
+           getArtifactsBuilderList() {
+        return getArtifactsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          org.campagnelab.gobyweb.artifacts.Artifacts.Artifact, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder, org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder> 
+          getArtifactsFieldBuilder() {
+        if (artifactsBuilder_ == null) {
+          artifactsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              org.campagnelab.gobyweb.artifacts.Artifacts.Artifact, org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder, org.campagnelab.gobyweb.artifacts.Artifacts.ArtifactOrBuilder>(
+                  artifacts_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          artifacts_ = null;
+        }
+        return artifactsBuilder_;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:gobyweb.artifacts.Repository)
+    }
+    
+    static {
+      defaultInstance = new Repository(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:gobyweb.artifacts.Repository)
+  }
+  
   public interface ArtifactOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
-    // optional string id = 1;
+    // required string id = 1;
     boolean hasId();
     String getId();
     
-    // optional string relativePath = 2;
+    // required .gobyweb.artifacts.InstallationState state = 2;
+    boolean hasState();
+    org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState getState();
+    
+    // required int64 installationTime = 10;
+    boolean hasInstallationTime();
+    long getInstallationTime();
+    
+    // optional string relativePath = 3;
     boolean hasRelativePath();
     String getRelativePath();
     
@@ -52,7 +695,7 @@ public final class Artifacts {
     }
     
     private int bitField0_;
-    // optional string id = 1;
+    // required string id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private java.lang.Object id_;
     public boolean hasId() {
@@ -84,11 +727,31 @@ public final class Artifacts {
       }
     }
     
-    // optional string relativePath = 2;
-    public static final int RELATIVEPATH_FIELD_NUMBER = 2;
+    // required .gobyweb.artifacts.InstallationState state = 2;
+    public static final int STATE_FIELD_NUMBER = 2;
+    private org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState state_;
+    public boolean hasState() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState getState() {
+      return state_;
+    }
+    
+    // required int64 installationTime = 10;
+    public static final int INSTALLATIONTIME_FIELD_NUMBER = 10;
+    private long installationTime_;
+    public boolean hasInstallationTime() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public long getInstallationTime() {
+      return installationTime_;
+    }
+    
+    // optional string relativePath = 3;
+    public static final int RELATIVEPATH_FIELD_NUMBER = 3;
     private java.lang.Object relativePath_;
     public boolean hasRelativePath() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     public String getRelativePath() {
       java.lang.Object ref = relativePath_;
@@ -120,7 +783,7 @@ public final class Artifacts {
     public static final int PLUGINID_FIELD_NUMBER = 5;
     private java.lang.Object pluginId_;
     public boolean hasPluginId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     public String getPluginId() {
       java.lang.Object ref = pluginId_;
@@ -150,6 +813,8 @@ public final class Artifacts {
     
     private void initFields() {
       id_ = "";
+      state_ = org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState.INSTALLING;
+      installationTime_ = 0L;
       relativePath_ = "";
       pluginId_ = "";
     }
@@ -158,6 +823,18 @@ public final class Artifacts {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
       
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasInstallationTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -169,10 +846,16 @@ public final class Artifacts {
         output.writeBytes(1, getIdBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getRelativePathBytes());
+        output.writeEnum(2, state_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(3, getRelativePathBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getPluginIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(5, getPluginIdBytes());
+        output.writeInt64(10, installationTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -189,11 +872,19 @@ public final class Artifacts {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getRelativePathBytes());
+          .computeEnumSize(2, state_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getRelativePathBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getPluginIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getPluginIdBytes());
+          .computeInt64Size(10, installationTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -321,10 +1012,14 @@ public final class Artifacts {
         super.clear();
         id_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        relativePath_ = "";
+        state_ = org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState.INSTALLING;
         bitField0_ = (bitField0_ & ~0x00000002);
-        pluginId_ = "";
+        installationTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
+        relativePath_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        pluginId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
       
@@ -370,9 +1065,17 @@ public final class Artifacts {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.relativePath_ = relativePath_;
+        result.state_ = state_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.installationTime_ = installationTime_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.relativePath_ = relativePath_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
         }
         result.pluginId_ = pluginId_;
         result.bitField0_ = to_bitField0_;
@@ -394,6 +1097,12 @@ public final class Artifacts {
         if (other.hasId()) {
           setId(other.getId());
         }
+        if (other.hasState()) {
+          setState(other.getState());
+        }
+        if (other.hasInstallationTime()) {
+          setInstallationTime(other.getInstallationTime());
+        }
         if (other.hasRelativePath()) {
           setRelativePath(other.getRelativePath());
         }
@@ -405,6 +1114,18 @@ public final class Artifacts {
       }
       
       public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasState()) {
+          
+          return false;
+        }
+        if (!hasInstallationTime()) {
+          
+          return false;
+        }
         return true;
       }
       
@@ -436,14 +1157,30 @@ public final class Artifacts {
               id_ = input.readBytes();
               break;
             }
-            case 18: {
-              bitField0_ |= 0x00000002;
+            case 16: {
+              int rawValue = input.readEnum();
+              org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState value = org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                state_ = value;
+              }
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000008;
               relativePath_ = input.readBytes();
               break;
             }
             case 42: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000010;
               pluginId_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000004;
+              installationTime_ = input.readInt64();
               break;
             }
           }
@@ -452,7 +1189,7 @@ public final class Artifacts {
       
       private int bitField0_;
       
-      // optional string id = 1;
+      // required string id = 1;
       private java.lang.Object id_ = "";
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
@@ -488,10 +1225,55 @@ public final class Artifacts {
         onChanged();
       }
       
-      // optional string relativePath = 2;
+      // required .gobyweb.artifacts.InstallationState state = 2;
+      private org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState state_ = org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState.INSTALLING;
+      public boolean hasState() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState getState() {
+        return state_;
+      }
+      public Builder setState(org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        state_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        state_ = org.campagnelab.gobyweb.artifacts.Artifacts.InstallationState.INSTALLING;
+        onChanged();
+        return this;
+      }
+      
+      // required int64 installationTime = 10;
+      private long installationTime_ ;
+      public boolean hasInstallationTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public long getInstallationTime() {
+        return installationTime_;
+      }
+      public Builder setInstallationTime(long value) {
+        bitField0_ |= 0x00000004;
+        installationTime_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearInstallationTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        installationTime_ = 0L;
+        onChanged();
+        return this;
+      }
+      
+      // optional string relativePath = 3;
       private java.lang.Object relativePath_ = "";
       public boolean hasRelativePath() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       public String getRelativePath() {
         java.lang.Object ref = relativePath_;
@@ -507,19 +1289,19 @@ public final class Artifacts {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000008;
         relativePath_ = value;
         onChanged();
         return this;
       }
       public Builder clearRelativePath() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000008);
         relativePath_ = getDefaultInstance().getRelativePath();
         onChanged();
         return this;
       }
       void setRelativePath(com.google.protobuf.ByteString value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000008;
         relativePath_ = value;
         onChanged();
       }
@@ -527,7 +1309,7 @@ public final class Artifacts {
       // optional string pluginId = 5;
       private java.lang.Object pluginId_ = "";
       public boolean hasPluginId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       public String getPluginId() {
         java.lang.Object ref = pluginId_;
@@ -543,19 +1325,19 @@ public final class Artifacts {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000010;
         pluginId_ = value;
         onChanged();
         return this;
       }
       public Builder clearPluginId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000010);
         pluginId_ = getDefaultInstance().getPluginId();
         onChanged();
         return this;
       }
       void setPluginId(com.google.protobuf.ByteString value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000010;
         pluginId_ = value;
         onChanged();
       }
@@ -572,6 +1354,11 @@ public final class Artifacts {
   }
   
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_gobyweb_artifacts_Repository_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_gobyweb_artifacts_Repository_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_gobyweb_artifacts_Artifact_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -586,21 +1373,35 @@ public final class Artifacts {
   static {
     java.lang.String[] descriptorData = {
       "\n!src/main/protobuf/artifacts.proto\022\021gob" +
-      "yweb.artifacts\">\n\010Artifact\022\n\n\002id\030\001 \001(\t\022\024" +
-      "\n\014relativePath\030\002 \001(\t\022\020\n\010pluginId\030\005 \001(\tB#" +
-      "\n!org.campagnelab.gobyweb.artifacts"
+      "yweb.artifacts\"<\n\nRepository\022.\n\tartifact" +
+      "s\030\001 \003(\0132\033.gobyweb.artifacts.Artifact\"\215\001\n" +
+      "\010Artifact\022\n\n\002id\030\001 \002(\t\0223\n\005state\030\002 \002(\0162$.g" +
+      "obyweb.artifacts.InstallationState\022\030\n\020in" +
+      "stallationTime\030\n \002(\003\022\024\n\014relativePath\030\003 \001" +
+      "(\t\022\020\n\010pluginId\030\005 \001(\t*>\n\021InstallationStat" +
+      "e\022\016\n\nINSTALLING\020\000\022\r\n\tINSTALLED\020\001\022\n\n\006FAIL" +
+      "ED\020\003B#\n!org.campagnelab.gobyweb.artifact" +
+      "s"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_gobyweb_artifacts_Artifact_descriptor =
+          internal_static_gobyweb_artifacts_Repository_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_gobyweb_artifacts_Repository_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_gobyweb_artifacts_Repository_descriptor,
+              new java.lang.String[] { "Artifacts", },
+              org.campagnelab.gobyweb.artifacts.Artifacts.Repository.class,
+              org.campagnelab.gobyweb.artifacts.Artifacts.Repository.Builder.class);
+          internal_static_gobyweb_artifacts_Artifact_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_gobyweb_artifacts_Artifact_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_gobyweb_artifacts_Artifact_descriptor,
-              new java.lang.String[] { "Id", "RelativePath", "PluginId", },
+              new java.lang.String[] { "Id", "State", "InstallationTime", "RelativePath", "PluginId", },
               org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.class,
               org.campagnelab.gobyweb.artifacts.Artifacts.Artifact.Builder.class);
           return null;

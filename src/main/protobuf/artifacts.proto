@@ -1,12 +1,42 @@
 package gobyweb.artifacts;
 
 option java_package = "org.campagnelab.gobyweb.artifacts";
-//option java_outer_classname = "ArtifactsProtos";
+
+message Repository {
+ repeated Artifact artifacts=1;
+}
+
+enum InstallationState {
+    // artifact still installing.
+    INSTALLING = 0;
+    // artifact successfully installed.
+    INSTALLED = 1;
+
+    // Installation failed.
+    FAILED = 3;
+}
 
 message Artifact {
-
-  optional string id = 1;
-  optional string relativePath=2;
+  /*
+   * Artifact ID.
+   */
+  required string id = 1;
+  /*
+   * The installation state of this artifact.
+   */
+  required InstallationState state = 2;
+  /*
+   * Time when the artifact was installed, in UNIX time.
+   */
+  required int64  installationTime=10;
+  /*
+   * Relative path of the directory in which the artifact was installed.
+   */
+  optional string relativePath=3;
+  /*
+   * ID of the plugin that installed this artifact.
+   */
   optional string pluginId = 5;
+
 
 }
