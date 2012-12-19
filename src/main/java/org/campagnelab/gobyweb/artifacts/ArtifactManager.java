@@ -1,4 +1,4 @@
-package artifacts;
+package org.campagnelab.gobyweb.artifacts;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPResult;
@@ -66,16 +66,18 @@ public class ArtifactManager {
         for (String a : artifacts) {
             String tokens[] = a.split(":");
             if (tokens.length != 3) {
-                System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID:path-to-install-script, instead got " + a);
+                System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID:VERSION:path-to-install-script, instead got " + a);
                 System.exit(1);
             }
             String pluginId = tokens[0];
             String artifactId = tokens[1];
-            String installScript = tokens[2];
+            String version = tokens[2];
+            String installScript = tokens[3];
+
             if (config.getBoolean("install")) {
-                repo.install(pluginId, artifactId,installScript);
+                repo.install(pluginId, artifactId,installScript, version);
             } else if (config.getBoolean("remove")) {
-                repo.remove(pluginId, artifactId);
+                repo.remove(pluginId, artifactId,version);
             }
         }
         repo.save(repoDir);

@@ -1,8 +1,7 @@
-package artifacts;
+package org.campagnelab.gobyweb.artifacts;
 
 
 import org.apache.commons.io.FileUtils;
-import org.campagnelab.gobyweb.artifacts.Artifacts;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,15 +66,15 @@ public class ArtifactManagerTest {
         assertNotNull(repo.find("PLUGIN", "FILE1"));
         assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN", "FILE1").getState());
         repo.save();
-        assertTrue(new File("REPO/PLUGIN/FILE1/installed-file-1").exists());
-        assertFalse(new File("REPO/PLUGIN/FILE1/installed-file-2").exists());
+        assertTrue(new File("REPO/PLUGIN/FILE1/VERSION/installed-file-1").exists());
+        assertFalse(new File("REPO/PLUGIN/FILE1/VERSION/installed-file-2").exists());
 
         repo.install("PLUGIN", "FILE2", "test-data/install-scripts/install-script1.sh");
-        assertTrue(new File("REPO/PLUGIN/FILE2/installed-file-2").exists());
+        assertTrue(new File("REPO/PLUGIN/FILE2/VERSION/installed-file-2").exists());
         repo.remove("PLUGIN", "FILE1");
-        assertFalse(new File("REPO/PLUGIN/FILE1/installed-file-1").exists());
+        assertFalse(new File("REPO/PLUGIN/FILE1/VERSION/installed-file-1").exists());
         repo.remove("PLUGIN", "FILE2");
-        assertFalse(new File("REPO/PLUGIN/FILE1/installed-file-2").exists());
+        assertFalse(new File("REPO/PLUGIN/FILE2/VERSION/installed-file-2").exists());
 
     }
 

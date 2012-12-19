@@ -1,12 +1,11 @@
-package artifacts;
+package org.campagnelab.gobyweb.artifacts;
 
-import artifacts.locks.ExclusiveLockRequest;
-import artifacts.locks.ExclusiveLockRequestWithFile;
+import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
+import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
 import it.unimi.dsi.lang.MutableString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.campagnelab.gobyweb.artifacts.Artifacts;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.io.*;
@@ -15,6 +14,7 @@ import java.util.Date;
 /**
  * The artifact repository. Provides methods to install and remove artifacts from the repository, and to
  * keep metadata about the installations.
+ *
  * @author Fabien Campagne
  *         Date: 12/16/12
  *         Time: 12:12 PM
@@ -33,11 +33,22 @@ public class ArtifactRepo {
      * Install an artifact in the repository. Convenience method that does not run an install script. Only useful
      * in practice to test that the system works.
      *
-     * @param pluginId     Plugin Identifier.
-     * @param artifactId   Artifact identifier.
+     * @param pluginId   Plugin Identifier.
+     * @param artifactId Artifact identifier.
      */
     public void install(String pluginId, String artifactId) throws IOException {
-        install(pluginId, artifactId, null);
+        install(pluginId, artifactId, null, "VERSION");
+    }
+
+    /**
+     * Install an artifact in the repository. Convenience method that does not run an install script. Only useful
+     * in practice to test that the system works.
+     *
+     * @param pluginId   Plugin Identifier.
+     * @param artifactId Artifact identifier.
+     */
+    public void install(String pluginId, String artifactId, String pluginScript) throws IOException {
+        install(pluginId, artifactId, pluginScript, "VERSION");
     }
 
     /**
@@ -48,8 +59,8 @@ public class ArtifactRepo {
      * @param pluginScript Path to the plugin install.sh script.
      */
 
-    public void install(String pluginId, String artifactId, String pluginScript) throws IOException {
-        Artifacts.Artifact artifact = find(pluginId, artifactId);
+    public void install(String pluginId, String artifactId, String pluginScript, String version) throws IOException {
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version);
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
             return;
         }
@@ -60,14 +71,16 @@ public class ArtifactRepo {
             artifactBuilder.setPluginId(pluginId);
             artifactBuilder.setState(Artifacts.InstallationState.INSTALLING);
             artifactBuilder.setInstallationTime(new Date().getTime());
-            artifactBuilder.setRelativePath(FilenameUtils.concat(pluginId,artifactId));
+            artifactBuilder.setRelativePath(FilenameUtils.concat(pluginId, artifactId));
+            artifactBuilder.setVersion(version);
+
             artifact = artifactBuilder.build();
             index.put(makeKey(artifact), artifact);
 
             save();
             try {
 
-                runInstallScript(pluginId, artifactId, pluginScript);
+                runInstallScript(pluginId, artifactId, pluginScript, version);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
@@ -94,29 +107,33 @@ public class ArtifactRepo {
      * @param pluginId
      * @param artifactId
      */
-    public void remove(String pluginId, String artifactId) throws IOException {
-        Artifacts.Artifact artifact = find(pluginId, artifactId);
+    public void remove(String pluginId, String artifactId, String version) throws IOException {
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version);
         if (artifact == null) {
             LOG.warn(String.format("Cannot remove artifact %s:%s since it is not present in the repository.",
                     pluginId, artifactId));
             return;
         } else {
-            FileUtils.deleteDirectory(getArtifactDir(pluginId, artifactId));
+            FileUtils.deleteDirectory(getArtifactDir(pluginId, artifactId, version));
             LOG.info(String.format("Removing artifact %s:%s.",
                     pluginId, artifactId));
             index.remove(makeKey(artifact));
         }
     }
 
-    private File getArtifactDir(String pluginId, String artifactId) {
-        return new File(FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(), pluginId), artifactId));
+    private File getArtifactDir(String pluginId, String artifactId, String version) {
+        return new File(FilenameUtils.concat(
+                FilenameUtils.concat(
+                        FilenameUtils.concat(
+                                repoDir.getAbsolutePath(), pluginId), artifactId), version));
     }
 
-    private void runInstallScript(String pluginId, String artifactId, String pluginScript) throws IOException, InterruptedException {
+    private void runInstallScript(String pluginId, String artifactId, String pluginScript, String version)
+            throws IOException, InterruptedException {
         if (pluginScript == null) {
             return;
         }
-        String installationPath = mkDirs(repoDir, pluginId,artifactId);
+        String installationPath = mkDirs(repoDir, pluginId, artifactId, version);
         pluginScript = new File(pluginScript).getAbsolutePath();
         String wrapperTemplate = "( set -x ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
                 " chmod +x $script ;  . $script ; plugin_install_artifact %s %s ; ls -l )%n";
@@ -126,7 +143,7 @@ public class ArtifactRepo {
                 artifactId,
                 installationPath)};
 
-           Runtime rt = Runtime.getRuntime();
+        Runtime rt = Runtime.getRuntime();
         //Process pr = rt.exec("cmd /c dir");
         Process pr = rt.exec(cmds);
         BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
@@ -144,15 +161,19 @@ public class ArtifactRepo {
         }
     }
 
-    private String mkDirs(File repoDir, String pluginId, String artifactId) {
-        final File dir =getArtifactDir(pluginId,artifactId) ;
+    private String mkDirs(File repoDir, String pluginId, String artifactId, String version) {
+        final File dir = getArtifactDir(pluginId, artifactId, version);
         dir.mkdirs();
         return dir.getAbsolutePath();
     }
 
     public Artifacts.Artifact find(String pluginId, String artifactId) {
+        return find(pluginId, artifactId, "VERSION");
+    }
 
-        return index.get(makeKey(pluginId, artifactId));
+    public Artifacts.Artifact find(String pluginId, String artifactId, String version) {
+
+        return index.get(makeKey(pluginId, artifactId, version));
     }
 
     public void load(File repoDir) throws IOException {
@@ -191,14 +212,16 @@ public class ArtifactRepo {
 
     private MutableString makeKey(Artifacts.Artifact artifact) {
 
-        return makeKey(artifact.getPluginId(), artifact.getId());
+        return makeKey(artifact.getPluginId(), artifact.getId(), artifact.getVersion());
 
     }
 
-    private MutableString makeKey(String pluginId, String artifactId) {
+    private MutableString makeKey(String pluginId, String artifactId, String version) {
         MutableString key = new MutableString(pluginId);
         key.append('$');
         key.append(artifactId);
+        key.append('$');
+        key.append(version);
         key.compact();
         return key;
     }
@@ -264,5 +287,9 @@ public class ArtifactRepo {
 
     public void load() throws IOException {
         load(repoDir);
+    }
+
+    public void remove(String plugin, String artifact) throws IOException {
+        remove(plugin,artifact,"VERSION");
     }
 }

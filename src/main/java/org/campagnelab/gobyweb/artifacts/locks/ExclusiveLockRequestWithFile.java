@@ -1,4 +1,4 @@
-package artifacts.locks;
+package org.campagnelab.gobyweb.artifacts.locks;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;

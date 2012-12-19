@@ -1,5 +1,6 @@
 
 function plugin_install_artifact {
+    echo WORKING
     id=$1
     installation_path=$2
     echo Installing ID=${id}

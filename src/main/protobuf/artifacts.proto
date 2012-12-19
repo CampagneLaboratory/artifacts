@@ -16,6 +16,37 @@ enum InstallationState {
     FAILED = 3;
 }
 
+message InstallationSet {
+    /*
+     *  List of artifacts to install, remove or act upon.
+     */
+    repeated ArtifactDetails artifacts=1;
+}
+
+
+message ArtifactDetails {
+    /*
+     * Plugin identifier.
+     */
+    required string plugin_id=1;
+    /*
+     * Artifact identifier.
+     */
+    required string artifact_id=2;
+    /*
+     * Version of the plugin.
+     */
+    required string version=3;
+    /*
+     * Path of the plugin install script on the web app server.
+     */
+    required string scriptInstallPath = 4;
+    /*
+     * The hostname for the web app server where the GobyWeb web app is running.
+     */
+    optional string sshWebAppHost= 5;
+}
+
 message Artifact {
   /*
    * Artifact ID.
@@ -37,6 +68,10 @@ message Artifact {
    * ID of the plugin that installed this artifact.
    */
   optional string pluginId = 5;
+  /*
+   * Version of the artifact.
+   */
+  optional string version=12;
 
 
 }

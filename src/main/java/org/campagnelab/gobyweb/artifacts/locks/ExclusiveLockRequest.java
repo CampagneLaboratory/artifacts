@@ -1,4 +1,4 @@
-package artifacts.locks;
+package org.campagnelab.gobyweb.artifacts.locks;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
