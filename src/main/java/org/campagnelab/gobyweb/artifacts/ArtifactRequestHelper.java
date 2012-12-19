@@ -24,6 +24,12 @@ public class ArtifactRequestHelper {
 
     final String TEMP_DIR = System.getProperty("java.io.tmpdir");
 
+    /**
+     * Install artifacts described in a request, obtaining install scripts as needed from remote web app server.
+     *
+     * @param repoDir Repository directory.
+     * @throws IOException
+     */
     public void install(File repoDir) throws IOException {
         ArtifactRepo repo = new ArtifactRepo(repoDir);
         repo.load();
@@ -31,9 +37,9 @@ public class ArtifactRequestHelper {
             final String scriptInstallPath = request.getScriptInstallPath();
             final String localFilename = FilenameUtils.concat(TEMP_DIR, FilenameUtils.getBaseName(scriptInstallPath));
 
-            String username=System.getProperty("user.name");
-            String server=request.getSshWebAppHost();
-            executor.scp(String.format("%s@%s:%s",username, server, scriptInstallPath),localFilename);
+            String username = System.getProperty("user.name");
+            String server = request.getSshWebAppHost();
+            executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
 
             repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion());
 
@@ -42,7 +48,25 @@ public class ArtifactRequestHelper {
         }
         repo.save();
     }
-    private ExecAndRemote executor=new ExecAndRemote();
+
+    /**
+     * Remove artifacts described in a request.
+     *
+     * @param repoDir Repository directory.
+     * @throws IOException
+     */
+    public void remove(File repoDir) throws IOException {
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
+        repo.load();
+        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+
+            repo.remove(request.getPluginId(), request.getArtifactId(), request.getVersion());
+
+        }
+        repo.save();
+    }
+
+    private ExecAndRemote executor = new ExecAndRemote();
 
 
 }

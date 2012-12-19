@@ -28,7 +28,7 @@ public class ArtifactManager {
 
         JSAPResult config = jsap.parse(args);
 
-        if (!config.success() || config.getBoolean("help")) {
+        if (!config.success() || config.getBoolean("help") || hasError(config)) {
 
             // print out the help, then specific error messages describing the problems
             // with the command line, THEN print usage.
@@ -51,42 +51,60 @@ public class ArtifactManager {
             System.exit(1);
         }
         File repoDir = config.getFile("repository");
-
-
         ArtifactManager processor = new ArtifactManager(repoDir);
         processor.process(config, repoDir);
 
     }
 
+    private static boolean hasError(JSAPResult config) {
+        return !(config.getBoolean("install")|| config.getBoolean("remove"));
+    }
+
     private void process(JSAPResult config, File repoDir) throws IOException {
 
         repo.load(repoDir);
-
         String[] artifacts = config.getStringArray("artifacts");
-        for (String a : artifacts) {
-            String tokens[] = a.split(":");
-            if (tokens.length != 3) {
-                System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID:VERSION:path-to-install-script, instead got " + a);
-                System.exit(1);
-            }
-            String pluginId = tokens[0];
-            String artifactId = tokens[1];
-            String version = tokens[2];
-            String installScript = tokens[3];
-
+        String sshRequests = config.getQualifiedSwitchValue("ssh-requests");
+        if (sshRequests != null) {
+            ArtifactRequestHelper helper = new ArtifactRequestHelper(new File(sshRequests));
             if (config.getBoolean("install")) {
-                repo.install(pluginId, artifactId,installScript, version);
+                helper.install(repoDir);
             } else if (config.getBoolean("remove")) {
-                repo.remove(pluginId, artifactId,version);
+                helper.remove(repoDir);
             }
         }
-        repo.save(repoDir);
+        if (artifacts==null) {
+            artifacts=new String[0];
+        }
+        {
+
+            for (String a : artifacts) {
+                String tokens[] = a.split(":");
+                if (tokens.length != 3) {
+                    System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID:VERSION:path-to-install-script, instead got " + a);
+                    System.exit(1);
+                }
+
+                String pluginId = tokens[0];
+                String artifactId = tokens[1];
+                String version = tokens[2];
+                String installScript = tokens[3];
+
+                if (config.getBoolean("install")) {
+                    repo.install(pluginId, artifactId, installScript, version);
+                } else if (config.getBoolean("remove")) {
+                    repo.remove(pluginId, artifactId, version);
+                }
+            }
+            repo.save(repoDir);
+        }
     }
+
+
 
     public ArtifactRepo getRepo() {
         return repo;
     }
-
 
 
 }

@@ -37,6 +37,24 @@
             <help>The directory that holds the artifact repository on this machine.</help>
         </flaggedOption>
 
+        <flaggedOption>
+                    <id>ssh-requests</id>
+                    <stringParser>
+                        <classname>FileStringParser</classname>
+                        <properties>
+                            <property>
+                                <name>mustExist</name>
+                                <value>true</value>
+                            </property>
+                        </properties>
+                    </stringParser>
+                    <required>false</required>
+                    <shortFlag>p</shortFlag>
+
+                    <help>Artifact description in protobuf format. SSH requests may be performed to the web app server
+                    to retrieve the install scripts for each artifact installation request. </help>
+                </flaggedOption>
+
         <switch>
             <id>install</id>
             <shortFlag>i</shortFlag>
@@ -60,7 +78,7 @@
         <unflaggedOption>
             <id>artifacts</id>
 
-            <required>true</required>
+            <required>false</required>
             <greedy>true</greedy>
             <help>List of artifacts to install, in the format PLUGIN_ID:ARTIFACT_ID.</help>
         </unflaggedOption>
