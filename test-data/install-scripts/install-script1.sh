@@ -1,11 +1,10 @@
 
 function plugin_install_artifact {
-    echo WORKING
     id=$1
     installation_path=$2
     echo Installing ID=${id}
 
-    case $1 in
+    case ${id} in
 
             'FILE1' )
                 touch ${installation_path}/installed-file-1

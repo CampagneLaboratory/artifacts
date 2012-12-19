@@ -2,7 +2,6 @@ package artifacts;
 
 import artifacts.locks.ExclusiveLockRequest;
 import artifacts.locks.ExclusiveLockRequestWithFile;
-import com.martiansoftware.jsap.xml.JSAPConfig;
 import it.unimi.dsi.lang.MutableString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -14,6 +13,8 @@ import java.io.*;
 import java.util.Date;
 
 /**
+ * The artifact repository. Provides methods to install and remove artifacts from the repository, and to
+ * keep metadata about the installations.
  * @author Fabien Campagne
  *         Date: 12/16/12
  *         Time: 12:12 PM
@@ -32,8 +33,8 @@ public class ArtifactRepo {
      * Install an artifact in the repository. Convenience method that does not run an install script. Only useful
      * in practice to test that the system works.
      *
-     * @param pluginId
-     * @param artifactId
+     * @param pluginId     Plugin Identifier.
+     * @param artifactId   Artifact identifier.
      */
     public void install(String pluginId, String artifactId) throws IOException {
         install(pluginId, artifactId, null);
