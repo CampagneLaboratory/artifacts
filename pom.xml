@@ -91,52 +91,35 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>executable</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>executable</classifier>
-                            <!--finalName>artifacts-executable</finalName-->
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib/</classpathPrefix>
-                                    <mainClass>org.campagnelab.gobyweb.artifacts.ArtifactManager</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-
-                    </execution>
-
                 </executions>
 
             </plugin>
+
 
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-
+                        <phase>package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>shade</goal>
                         </goals>
                         <configuration>
-                              <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
+
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>executable</shadedClassifierName>
+                            <transformers>
+                                           <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                             <mainClass>org.campagnelab.gobyweb.artifacts.ArtifactManager</mainClass>
+                                           </transformer>
+                                         </transformers>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-
         </plugins>
 
 
