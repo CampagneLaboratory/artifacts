@@ -33,7 +33,7 @@
                 <string>/scratchLocal/gobyweb/ARTIFACT_REPOSITORY</string>
             </defaults>
             <shortFlag>r</shortFlag>
-
+            <longFlag>repository</longFlag>
             <help>The directory that holds the artifact repository on this machine.</help>
         </flaggedOption>
 
@@ -50,6 +50,7 @@
                     </stringParser>
                     <required>false</required>
                     <shortFlag>p</shortFlag>
+                    <longFlag>ssh-requests</longFlag>
 
                     <help>Artifact description in protobuf format. SSH requests may be performed to the web app server
                     to retrieve the install scripts for each artifact installation request. </help>

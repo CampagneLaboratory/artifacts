@@ -2,6 +2,7 @@ package org.campagnelab.gobyweb.artifacts;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPResult;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.IOException;
  * Main class of the GobyWeb artifact manager.
  */
 public class ArtifactManager {
+    private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactManager.class);
 
     ArtifactRepo repo;
 
@@ -64,10 +66,11 @@ public class ArtifactManager {
 
         repo.load(repoDir);
         String[] artifacts = config.getStringArray("artifacts");
-        String sshRequests = config.getQualifiedSwitchValue("ssh-requests");
+        File sshRequests = config.getFile("ssh-requests");
         if (sshRequests != null) {
-            ArtifactRequestHelper helper = new ArtifactRequestHelper(new File(sshRequests));
+            ArtifactRequestHelper helper = new ArtifactRequestHelper(sshRequests);
             if (config.getBoolean("install")) {
+
                 helper.install(repoDir);
             } else if (config.getBoolean("remove")) {
                 helper.remove(repoDir);

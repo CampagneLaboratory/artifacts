@@ -237,7 +237,7 @@ public class ArtifactRepo {
         try {
             acquireExclusiveLock();
             RandomAccessFile file = getLockedRepoFile();
-            LOG.info(String.format("Saving to " + repoDir.getAbsolutePath()));
+            LOG.info(String.format("Saving to %s %n" ,repoDir.getAbsolutePath()));
             output = new FileOutputStream(file.getFD());
             // recreate the ProtoBuf repo from the index:
             Artifacts.Repository.Builder repoBuilder = Artifacts.Repository.newBuilder();

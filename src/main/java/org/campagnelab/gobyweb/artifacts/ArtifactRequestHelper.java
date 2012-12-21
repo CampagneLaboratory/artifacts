@@ -1,6 +1,7 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.campagnelab.groovySupport.ExecAndRemote;
 
 import java.io.File;
@@ -15,6 +16,8 @@ import java.io.IOException;
  *         Time: 12:15 PM
  */
 public class ArtifactRequestHelper {
+    private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactRequestHelper.class);
+
     private final Artifacts.InstallationSet requests;
 
     public ArtifactRequestHelper(File pbRequestFile) throws IOException {
@@ -34,6 +37,8 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = new ArtifactRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+            LOG.info("Processing install request: "+request.toString());
+
             final String scriptInstallPath = request.getScriptInstallPath();
             final String localFilename = FilenameUtils.concat(TEMP_DIR, FilenameUtils.getBaseName(scriptInstallPath));
 

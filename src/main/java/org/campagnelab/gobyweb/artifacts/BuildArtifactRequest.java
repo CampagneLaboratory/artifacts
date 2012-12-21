@@ -1,5 +1,7 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,18 +14,22 @@ import java.io.IOException;
  *         Time: 10:44 AM
  */
 public class BuildArtifactRequest {
+    private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactManager.class);
+
+
     private String webServerHostname;
     private String webServerUsername;
     private Artifacts.InstallationSet.Builder installationSetBuilder;
 
     public BuildArtifactRequest(String webServerHostname) {
         if (webServerHostname.contains("@")) {
-            final String[] split = webServerHostname.split("@");
+            final String[] split = webServerHostname.split("[@]");
             this.webServerUsername = split[0];
             this.webServerHostname = split[1];
         } else {
-            this.webServerHostname = webServerHostname;
             this.webServerUsername=null;
+            this.webServerHostname = webServerHostname;
+
         }
         installationSetBuilder = Artifacts.InstallationSet.newBuilder();
     }
