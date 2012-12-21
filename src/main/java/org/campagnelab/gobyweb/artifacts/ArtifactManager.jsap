@@ -80,7 +80,7 @@
 
             <required>false</required>
             <greedy>true</greedy>
-            <help>List of artifacts to install, in the format PLUGIN_ID:ARTIFACT_ID.</help>
+            <help>List of artifacts to install, in the format PLUGIN_ID:ARTIFACT_ID:VERSION:installation-script.sh. </help>
         </unflaggedOption>
 
     </parameters>

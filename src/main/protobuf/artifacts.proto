@@ -40,11 +40,15 @@ message ArtifactDetails {
     /*
      * Path of the plugin install script on the web app server.
      */
-    required string scriptInstallPath = 4;
+    required string script_install_path = 4;
     /*
      * The hostname for the web app server where the GobyWeb web app is running.
      */
-    optional string sshWebAppHost= 5;
+    optional string ssh_web_app_host= 5;
+    /*
+     * The username to use for ssh requests to the web app server where the GobyWeb web app is running.
+     */
+    optional string ssh_web_app_user_name = 6;
 }
 
 message Artifact {
@@ -59,7 +63,7 @@ message Artifact {
   /*
    * Time when the artifact was installed, in UNIX time.
    */
-  required int64  installationTime=10;
+  required int64  installation_time=10;
   /*
    * Relative path of the directory in which the artifact was installed.
    */
@@ -67,7 +71,7 @@ message Artifact {
   /*
    * ID of the plugin that installed this artifact.
    */
-  optional string pluginId = 5;
+  optional string plugin_id = 5;
   /*
    * Version of the artifact.
    */

@@ -6,16 +6,25 @@ import java.io.IOException;
 
 /**
  * Helper class to prepare artifact installation requests for installation on the server.
+ *
  * @author Fabien Campagne
  *         Date: 12/19/12
  *         Time: 10:44 AM
  */
 public class BuildArtifactRequest {
     private String webServerHostname;
-    Artifacts.InstallationSet.Builder installationSetBuilder;
+    private String webServerUsername;
+    private Artifacts.InstallationSet.Builder installationSetBuilder;
 
     public BuildArtifactRequest(String webServerHostname) {
-        this.webServerHostname = webServerHostname;
+        if (webServerHostname.contains("@")) {
+            final String[] split = webServerHostname.split("@");
+            this.webServerUsername = split[0];
+            this.webServerHostname = split[1];
+        } else {
+            this.webServerHostname = webServerHostname;
+            this.webServerUsername=null;
+        }
         installationSetBuilder = Artifacts.InstallationSet.newBuilder();
     }
 
@@ -27,6 +36,7 @@ public class BuildArtifactRequest {
         detailsBuilder.setVersion(version);
         detailsBuilder.setScriptInstallPath(new File(installScript).getAbsolutePath());
         detailsBuilder.setSshWebAppHost(webServerHostname);
+        if (webServerUsername!=null) detailsBuilder.setSshWebAppUserName(webServerUsername);
         installationSetBuilder.addArtifacts(detailsBuilder);
     }
 

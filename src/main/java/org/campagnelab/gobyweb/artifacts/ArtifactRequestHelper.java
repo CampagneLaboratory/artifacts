@@ -37,7 +37,9 @@ public class ArtifactRequestHelper {
             final String scriptInstallPath = request.getScriptInstallPath();
             final String localFilename = FilenameUtils.concat(TEMP_DIR, FilenameUtils.getBaseName(scriptInstallPath));
 
-            String username = System.getProperty("user.name");
+            String username = request.hasSshWebAppUserName()? request.getSshWebAppUserName():
+                    System.getProperty("user.name");
+
             String server = request.getSshWebAppHost();
             executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
 
