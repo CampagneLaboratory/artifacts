@@ -59,7 +59,7 @@ public class ArtifactManager {
     }
 
     private static boolean hasError(JSAPResult config) {
-        return !(config.getBoolean("install")|| config.getBoolean("remove"));
+        return !(config.getBoolean("install") || config.getBoolean("remove") || config.getBoolean("get-path"));
     }
 
     private void process(JSAPResult config, File repoDir) throws IOException {
@@ -76,14 +76,14 @@ public class ArtifactManager {
                 helper.remove(repoDir);
             }
         }
-        if (artifacts==null) {
-            artifacts=new String[0];
+        if (artifacts == null) {
+            artifacts = new String[0];
         }
         {
 
             for (String a : artifacts) {
                 String tokens[] = a.split(":");
-                if (tokens.length != 3) {
+                if (tokens.length < 3) {
                     System.err.println("Error parsing artifact description, format must be PLUGIN_ID:ARTIFACT_ID:VERSION:path-to-install-script, instead got " + a);
                     System.exit(1);
                 }
@@ -91,18 +91,19 @@ public class ArtifactManager {
                 String pluginId = tokens[0];
                 String artifactId = tokens[1];
                 String version = tokens[2];
-                String installScript = tokens[3];
+                String installScript = tokens.length >=4 ? tokens[3]:null;
 
                 if (config.getBoolean("install")) {
                     repo.install(pluginId, artifactId, installScript, version);
                 } else if (config.getBoolean("remove")) {
                     repo.remove(pluginId, artifactId, version);
+                } else if (config.getBoolean("get-path")) {
+                    System.out.println(repo.getInstalledPath(pluginId, artifactId, version));
                 }
             }
             repo.save(repoDir);
         }
     }
-
 
 
     public ArtifactRepo getRepo() {

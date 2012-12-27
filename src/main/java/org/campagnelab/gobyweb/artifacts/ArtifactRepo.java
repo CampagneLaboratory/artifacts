@@ -144,18 +144,21 @@ public class ArtifactRepo {
                 installationPath)};
 
         Runtime rt = Runtime.getRuntime();
-        //Process pr = rt.exec("cmd /c dir");
         Process pr = rt.exec(cmds);
         BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        BufferedReader error = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 
         String line = null;
 
         while ((line = input.readLine()) != null) {
             System.out.println(line);
         }
-
+        while ((line = error.readLine()) != null) {
+            System.err.println(line);
+        }
         int exitVal = pr.waitFor();
         LOG.error("Install script exited with error code " + exitVal);
+        System.out.println("Install script exited with error code " + exitVal);
         if (exitVal != 0) {
             throw new IllegalStateException();
         }
@@ -237,7 +240,7 @@ public class ArtifactRepo {
         try {
             acquireExclusiveLock();
             RandomAccessFile file = getLockedRepoFile();
-            LOG.info(String.format("Saving to %s %n" ,repoDir.getAbsolutePath()));
+            LOG.info(String.format("Saving to %s %n", repoDir.getAbsolutePath()));
             output = new FileOutputStream(file.getFD());
             // recreate the ProtoBuf repo from the index:
             Artifacts.Repository.Builder repoBuilder = Artifacts.Repository.newBuilder();
@@ -290,6 +293,20 @@ public class ArtifactRepo {
     }
 
     public void remove(String plugin, String artifact) throws IOException {
-        remove(plugin,artifact,"VERSION");
+        remove(plugin, artifact, "VERSION");
+    }
+
+    public String getInstalledPath(String pluginId, String artifactId) {
+        return getInstalledPath(pluginId, artifactId, "VERSION");
+    }
+
+    public String getInstalledPath(String pluginId, String artifactId, String version) {
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version);
+        if (artifact == null) {
+            System.err.printf("Artifact %s:%s:%s could not be found. %n ", pluginId, artifactId, version);
+            return null;
+        } else {
+            return FilenameUtils.concat(repoDir.getAbsolutePath(), artifact.getRelativePath());
+        }
     }
 }
