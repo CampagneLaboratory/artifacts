@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" />
     </list>
     <ignored path="artifacts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,9 +20,9 @@
     <file path="$PROJECT_DIR$/../JSAP-2.1/META-INF/application.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355674643137" ignored="false" />
     <file path="/ArtifactManager.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356647710409" ignored="false" />
     <file path="/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356047972512" ignored="false" />
-    <file path="/log4j.properties" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355778731266" ignored="false" />
+    <file path="/log4j.properties" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356648242872" ignored="false" />
     <file path="/ArtifactManagerTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356644085699" ignored="false" />
-    <file path="/Dummy.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356643572651" ignored="false" />
+    <file path="/Dummy.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356648039779" ignored="false" />
     <file path="/install-script1.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355876855805" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/controllers/SampleController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/services/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
@@ -260,19 +257,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ArtifactManager.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ArtifactManager.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="0" selection-start="3694" selection-end="3694" vertical-scroll-proportion="0.0">
+            <state line="74" column="38" selection-start="2519" selection-end="2519" vertical-scroll-proportion="0.32098764">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="log4j.properties" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="log4j.properties" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="42" selection-start="73" selection-end="73" vertical-scroll-proportion="0.051635113">
+            <state line="6" column="21" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1179,7 +1176,11 @@
       <created>1356113200101</created>
       <updated>1356113200101</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Add --get-path to retrieve the path of an installed artifact.">
+      <created>1356648047101</created>
+      <updated>1356648047101</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1189,7 +1190,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24982747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39914164" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1197,14 +1198,14 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32618025" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32618025" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24982747" sideWeight="0.6727468" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.6727468" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24982747" sideWeight="0.6738197" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32725322" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24982747" sideWeight="0.6727468" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32725322" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24982747" sideWeight="0.6723769" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1253,7 +1254,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix problems with saving and running requests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add --get-path to retrieve the path of an installed artifact." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1274,6 +1275,7 @@
     <MESSAGE value="Prepare the api and executable jars with shade plugin, much simper." />
     <MESSAGE value="Add username in pb artifact details." />
     <MESSAGE value="Fix problems with saving and running requests." />
+    <MESSAGE value="Add --get-path to retrieve the path of an installed artifact." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1369,16 +1371,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="0" selection-start="3694" selection-end="3694" vertical-scroll-proportion="0.0">
+        <state line="6" column="21" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="42" selection-start="73" selection-end="73" vertical-scroll-proportion="0.051635113">
+        <state line="74" column="38" selection-start="2519" selection-end="2519" vertical-scroll-proportion="0.32098764">
           <folding />
         </state>
       </provider>
