@@ -69,6 +69,11 @@
             <help>Print the path to an installed artifact</help>
         </switch>
         <switch>
+            <id>bash-exports</id>
+            <longFlag>bash-exports</longFlag>
+            <help>Print a set of BASH export statements with each artifact install path.</help>
+        </switch>
+        <switch>
             <id>remove</id>
             <shortFlag>d</shortFlag>
             <longFlag>remove</longFlag>

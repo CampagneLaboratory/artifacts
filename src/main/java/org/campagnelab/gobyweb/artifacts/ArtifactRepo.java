@@ -60,6 +60,7 @@ public class ArtifactRepo {
      */
 
     public void install(String pluginId, String artifactId, String pluginScript, String version) throws IOException {
+
         Artifacts.Artifact artifact = find(pluginId, artifactId, version);
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
             return;
@@ -71,7 +72,7 @@ public class ArtifactRepo {
             artifactBuilder.setPluginId(pluginId);
             artifactBuilder.setState(Artifacts.InstallationState.INSTALLING);
             artifactBuilder.setInstallationTime(new Date().getTime());
-            artifactBuilder.setRelativePath(FilenameUtils.concat(pluginId, artifactId));
+            artifactBuilder.setRelativePath(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId),version));
             artifactBuilder.setVersion(version);
 
             artifact = artifactBuilder.build();
@@ -236,6 +237,7 @@ public class ArtifactRepo {
     }
 
     public void save(File repoDir) throws IOException {
+
         FileOutputStream output = null;
         try {
             acquireExclusiveLock();

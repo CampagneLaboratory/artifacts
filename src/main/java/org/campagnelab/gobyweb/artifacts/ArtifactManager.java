@@ -59,7 +59,8 @@ public class ArtifactManager {
     }
 
     private static boolean hasError(JSAPResult config) {
-        return !(config.getBoolean("install") || config.getBoolean("remove") || config.getBoolean("get-path"));
+        return !(config.getBoolean("install") || config.getBoolean("remove") || config.getBoolean("get-path") ||
+                config.getBoolean("bash-exports"));
     }
 
     private void process(JSAPResult config, File repoDir) throws IOException {
@@ -69,11 +70,14 @@ public class ArtifactManager {
         File sshRequests = config.getFile("ssh-requests");
         if (sshRequests != null) {
             ArtifactRequestHelper helper = new ArtifactRequestHelper(sshRequests);
+            helper.setRepo(repo);
             if (config.getBoolean("install")) {
 
                 helper.install(repoDir);
             } else if (config.getBoolean("remove")) {
                 helper.remove(repoDir);
+            } else if (config.getBoolean("bash-exports")) {
+                helper.printBashExports(repoDir);
             }
         }
         if (artifacts == null) {
@@ -91,7 +95,7 @@ public class ArtifactManager {
                 String pluginId = tokens[0];
                 String artifactId = tokens[1];
                 String version = tokens[2];
-                String installScript = tokens.length >=4 ? tokens[3]:null;
+                String installScript = tokens.length >= 4 ? tokens[3] : null;
 
                 if (config.getBoolean("install")) {
                     repo.install(pluginId, artifactId, installScript, version);

@@ -19,6 +19,7 @@ public class ArtifactRequestHelper {
     private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactRequestHelper.class);
 
     private final Artifacts.InstallationSet requests;
+    private ArtifactRepo repo;
 
     public ArtifactRequestHelper(File pbRequestFile) throws IOException {
 
@@ -34,15 +35,23 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void install(File repoDir) throws IOException {
-        ArtifactRepo repo = new ArtifactRepo(repoDir);
+        ArtifactRepo repo = getRepo(repoDir);
         repo.load();
-        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            LOG.info("Processing install request: "+request.toString());
 
+        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+            LOG.info("Processing install request: " + request.toString());
+
+            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion());
+            if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+                LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
+                        request.getPluginId(), request.getArtifactId(), request.getVersion()));
+
+                continue;
+            }
             final String scriptInstallPath = request.getScriptInstallPath();
             final String localFilename = FilenameUtils.concat(TEMP_DIR, FilenameUtils.getBaseName(scriptInstallPath));
 
-            String username = request.hasSshWebAppUserName()? request.getSshWebAppUserName():
+            String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                     System.getProperty("user.name");
 
             String server = request.getSshWebAppHost();
@@ -63,7 +72,7 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void remove(File repoDir) throws IOException {
-        ArtifactRepo repo = new ArtifactRepo(repoDir);
+        ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
 
@@ -76,4 +85,29 @@ public class ArtifactRequestHelper {
     private ExecAndRemote executor = new ExecAndRemote();
 
 
+    public void printBashExports(File repoDir) throws IOException {
+        ArtifactRepo repo = getRepo(repoDir);
+        repo.load();
+        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+
+            System.out.printf("export RESOURCES_ARTIFACTS_%s_%s=%s%n", request.getPluginId(),
+                    request.getArtifactId(),
+                    repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion()));
+
+        }
+        System.out.flush();
+    }
+
+    public void setRepo(ArtifactRepo repo) {
+        this.repo = repo;
+    }
+
+    public ArtifactRepo getRepo(File repoDir) {
+        if (repo != null)
+            return repo;
+        else {
+            repo = new ArtifactRepo(repoDir);
+            return repo;
+        }
+    }
 }
