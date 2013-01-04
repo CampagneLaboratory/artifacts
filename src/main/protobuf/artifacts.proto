@@ -77,5 +77,29 @@ message Artifact {
    */
   optional string version=12;
 
+  /*
+   *  Details about host on which this artifact is installed.
+   */
+  optional Host installation_host= 15;
 
+
+}
+
+message Host {
+   /*
+    * Hostname where this artifact is installed.
+    */
+   optional string host_name=1;
+   /*
+    * Platform architecture on which this artifact is installed.
+    */
+   optional string os_architecture=2;
+    /*
+     * Platform architecture on which this artifact is installed.
+     */
+    optional string os_name=3;
+    /*
+     * OS version on which this artifact is installed.
+     */
+    optional string os_version=4;
 }

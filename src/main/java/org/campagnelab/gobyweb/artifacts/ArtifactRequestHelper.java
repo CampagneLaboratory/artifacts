@@ -110,4 +110,8 @@ public class ArtifactRequestHelper {
             return repo;
         }
     }
+
+    public void show() {
+        System.out.println(requests.toString());
+    }
 }

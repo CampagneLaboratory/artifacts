@@ -60,7 +60,7 @@ public class ArtifactManager {
 
     private static boolean hasError(JSAPResult config) {
         return !(config.getBoolean("install") || config.getBoolean("remove") || config.getBoolean("get-path") ||
-                config.getBoolean("bash-exports"));
+                config.getBoolean("bash-exports") || config.getBoolean("show"));
     }
 
     private void process(JSAPResult config, File repoDir) throws IOException {
@@ -78,13 +78,17 @@ public class ArtifactManager {
                 helper.remove(repoDir);
             } else if (config.getBoolean("bash-exports")) {
                 helper.printBashExports(repoDir);
+            } else if (config.getBoolean("show")) {
+                helper.show();
             }
         }
         if (artifacts == null) {
             artifacts = new String[0];
         }
         {
-
+            if (config.getBoolean("show")) {
+                repo.show();
+            }
             for (String a : artifacts) {
                 String tokens[] = a.split(":");
                 if (tokens.length < 3) {

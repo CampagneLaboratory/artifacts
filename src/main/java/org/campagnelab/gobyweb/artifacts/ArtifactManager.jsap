@@ -87,6 +87,12 @@
             <help>Print help message.</help>
         </switch>
 
+        <switch>
+            <id>show</id>
+            <longFlag>show</longFlag>
+            <help>Show the meta data in text format.</help>
+        </switch>
+
         <unflaggedOption>
             <id>artifacts</id>
 

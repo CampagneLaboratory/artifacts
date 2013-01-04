@@ -1,17 +1,14 @@
 package org.campagnelab.gobyweb.artifacts;
 
-import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import static junit.framework.Assert.*;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -29,15 +26,12 @@ public class ConcurrentInstallationTest {
 
         final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
-            assertTrue( dir.listFiles().length<=1);
+            assertTrue(dir.listFiles().length <= 1);
         }
 
 
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
 
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
         repo.save();
         assertNotNull(repo.find("PLUGIN", "RANDOM"));
         assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/").listFiles().length);
@@ -54,13 +48,10 @@ public class ConcurrentInstallationTest {
 
         final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
-            assertTrue( dir.listFiles().length<=1);
+            assertTrue(dir.listFiles().length <= 1);
         }
 
 
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
-        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
         repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
         repo.save();
         assertNotNull(repo.find("PLUGIN", "RANDOM"));

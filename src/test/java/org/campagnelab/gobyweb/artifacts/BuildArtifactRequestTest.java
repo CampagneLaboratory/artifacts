@@ -32,7 +32,7 @@ public class BuildArtifactRequestTest {
 
         assertTrue(new File("REPO/PLUGIN/FILE1/1.0/installed-file-1").exists());
         assertFalse(new File("REPO/PLUGIN/FILE2/1.0/installed-file-2").exists());
-
+        helper.show();
     }
 
     @Test
@@ -53,22 +53,21 @@ public class BuildArtifactRequestTest {
     }
 
     @Test
-       // check that we can execute requests sent from the web server in pb format.
-       public void testBashExport() throws IOException {
-           BuildArtifactRequest request = new BuildArtifactRequest("campagne@localhost");
-           request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
-           request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script1.sh");
-           final File output = new File("test-results/requests/request2.pb");
+    // check that we can execute requests sent from the web server in pb format.
+    public void testBashExport() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest("campagne@localhost");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
+        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script1.sh");
+        final File output = new File("test-results/requests/request2.pb");
 
-           request.save(output);
+        request.save(output);
 
-           ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
-           helper.install(new File("REPO"));
-           helper.printBashExports(new File("REPO"));
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.install(new File("REPO"));
+        helper.printBashExports(new File("REPO"));
 
 
-
-       }
+    }
 
     @Before
     public void cleanRepo() throws IOException {

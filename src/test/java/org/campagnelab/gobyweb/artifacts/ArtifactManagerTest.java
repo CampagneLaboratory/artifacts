@@ -27,6 +27,7 @@ public class ArtifactManagerTest {
         repo.install("PLUGIN", "ARTIFACT");
         assertNotNull(repo.find("PLUGIN", "ARTIFACT"));
         repo.save();
+        repo.show();
     }
 
     @Test

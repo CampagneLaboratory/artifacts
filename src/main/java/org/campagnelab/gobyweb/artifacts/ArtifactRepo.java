@@ -1,5 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import com.google.protobuf.TextFormat;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
 import it.unimi.dsi.lang.MutableString;
@@ -9,6 +10,7 @@ import org.apache.log4j.Logger;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.util.Date;
 
 /**
@@ -93,6 +95,13 @@ public class ArtifactRepo {
             artifactBuilder.setRelativePath(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version));
             artifactBuilder.setVersion(version);
 
+            Artifacts.Host.Builder hostBuilder = Artifacts.Host.newBuilder();
+
+            hostBuilder.setHostName(InetAddress.getLocalHost().getHostName());
+            hostBuilder.setOsArchitecture(System.getProperty("os.arch"));
+            hostBuilder.setOsName(System.getProperty("os.name"));
+            hostBuilder.setOsVersion(System.getProperty("os.version"));
+            artifactBuilder.setInstallationHost(hostBuilder);
             artifact = artifactBuilder.build();
             index.put(makeKey(artifact), artifact);
 
@@ -328,5 +337,13 @@ public class ArtifactRepo {
         } else {
             return FilenameUtils.concat(repoDir.getAbsolutePath(), artifact.getRelativePath());
         }
+    }
+
+    public void show() throws IOException {
+        load();
+        Artifacts.Repository.Builder repoBuilder = Artifacts.Repository.newBuilder();
+        repoBuilder.addAllArtifacts(index.values());
+        Artifacts.Repository repo = repoBuilder.build();
+        TextFormat.print(repo, System.out);
     }
 }
