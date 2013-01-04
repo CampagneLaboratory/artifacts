@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.io.*;
 import java.net.InetAddress;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The artifact repository. Provides methods to install and remove artifacts from the repository, and to
@@ -50,8 +51,8 @@ public class ArtifactRepo {
      * @param pluginId   Plugin Identifier.
      * @param artifactId Artifact identifier.
      */
-    public void install(String pluginId, String artifactId, String pluginScript) throws IOException {
-        install(pluginId, artifactId, pluginScript, "VERSION");
+    public void install(String pluginId, String artifactId, String pluginScript, AttributeValuePair... avp) throws IOException {
+        install(pluginId, artifactId, pluginScript, "VERSION", avp);
     }
 
     /**
@@ -62,9 +63,9 @@ public class ArtifactRepo {
      * @param pluginScript Path to the plugin install.sh script.
      */
 
-    public void install(String pluginId, String artifactId, String pluginScript, String version) throws IOException {
+    public void install(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair... avp) throws IOException {
 
-        Artifacts.Artifact artifact = find(pluginId, artifactId, version);
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         while (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
             try {
                 LOG.info("waiting while other installing.. ");
@@ -75,7 +76,7 @@ public class ArtifactRepo {
 
                 // reload the plugin info from disk:
                 load();
-                artifact = find(pluginId, artifactId, version);
+                artifact = find(pluginId, artifactId, version, avp);
 
             } catch (InterruptedException e) {
                 LOG.warn("Interrupted while waiting for other process to complete installation.");
@@ -92,9 +93,11 @@ public class ArtifactRepo {
             artifactBuilder.setPluginId(pluginId);
             artifactBuilder.setState(Artifacts.InstallationState.INSTALLING);
             artifactBuilder.setInstallationTime(new Date().getTime());
-            artifactBuilder.setRelativePath(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version));
+            artifactBuilder.setRelativePath(appendKeyValuePairs(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version), avp));
             artifactBuilder.setVersion(version);
-
+            for (AttributeValuePair valuePair : avp) {
+                artifactBuilder.addAttributes(Artifacts.AttributeValuePair.newBuilder().setValue(valuePair.value).setAttribute(valuePair.attribute));
+            }
             Artifacts.Host.Builder hostBuilder = Artifacts.Host.newBuilder();
 
             hostBuilder.setHostName(InetAddress.getLocalHost().getHostName());
@@ -108,7 +111,7 @@ public class ArtifactRepo {
             save();
             try {
 
-                runInstallScript(pluginId, artifactId, pluginScript, version);
+                runInstallScript(pluginId, artifactId, pluginScript, version, avp);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
@@ -121,6 +124,7 @@ public class ArtifactRepo {
             save();
         }
     }
+
 
     private void changeState(Artifacts.Artifact artifact, Artifacts.InstallationState installed) throws IOException {
         Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder().setState(Artifacts.InstallationState.INSTALLED);
@@ -135,33 +139,43 @@ public class ArtifactRepo {
      * @param pluginId
      * @param artifactId
      */
-    public void remove(String pluginId, String artifactId, String version) throws IOException {
+    public void remove(String pluginId, String artifactId, String version, AttributeValuePair... avp) throws IOException {
         Artifacts.Artifact artifact = find(pluginId, artifactId, version);
         if (artifact == null) {
             LOG.warn(String.format("Cannot remove artifact %s:%s since it is not present in the repository.",
                     pluginId, artifactId));
             return;
         } else {
-            FileUtils.deleteDirectory(getArtifactDir(pluginId, artifactId, version));
+            FileUtils.deleteDirectory(getArtifactDir(pluginId, artifactId, version, avp));
             LOG.info(String.format("Removing artifact %s:%s.",
                     pluginId, artifactId));
             index.remove(makeKey(artifact));
         }
     }
 
-    private File getArtifactDir(String pluginId, String artifactId, String version) {
-        return new File(FilenameUtils.concat(
-                FilenameUtils.concat(
-                        FilenameUtils.concat(
-                                repoDir.getAbsolutePath(), pluginId), artifactId), version));
+    private String appendKeyValuePairs(String artifactInstallDir, AttributeValuePair[] avp) {
+        String result = artifactInstallDir;
+        for (AttributeValuePair valuePair : avp) {
+            result = FilenameUtils.concat(result, normalize(valuePair.value));
+        }
+        return result;
     }
 
-    private void runInstallScript(String pluginId, String artifactId, String pluginScript, String version)
+    private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+
+        return new File(appendKeyValuePairs(FilenameUtils.concat(
+                FilenameUtils.concat(
+                        FilenameUtils.concat(
+                                repoDir.getAbsolutePath(), pluginId), artifactId), version),
+                avp));
+    }
+
+    private void runInstallScript(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair[] avp)
             throws IOException, InterruptedException {
         if (pluginScript == null) {
             return;
         }
-        String installationPath = mkDirs(repoDir, pluginId, artifactId, version);
+        String installationPath = mkDirs(repoDir, pluginId, artifactId, version, avp);
         pluginScript = new File(pluginScript).getAbsolutePath();
         String wrapperTemplate = "( set -x ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
                 " chmod +x $script ;  . $script ; plugin_install_artifact %s %s ; ls -l )%n";
@@ -192,19 +206,30 @@ public class ArtifactRepo {
         }
     }
 
-    private String mkDirs(File repoDir, String pluginId, String artifactId, String version) {
-        final File dir = getArtifactDir(pluginId, artifactId, version);
+
+    private String mkDirs(File repoDir, String pluginId, String artifactId, String version, AttributeValuePair... avp) {
+        final File dir = getArtifactDir(pluginId, artifactId, version, avp);
         dir.mkdirs();
         return dir.getAbsolutePath();
     }
 
+    public Artifacts.Artifact find(String pluginId, String artifactId, AttributeValuePair[] avp) {
+        return find(pluginId, artifactId, "VERSION", avp);
+    }
+
     public Artifacts.Artifact find(String pluginId, String artifactId) {
-        return find(pluginId, artifactId, "VERSION");
+
+        return find(pluginId, artifactId, "VERSION", new AttributeValuePair[0]);
     }
 
     public Artifacts.Artifact find(String pluginId, String artifactId, String version) {
 
-        return index.get(makeKey(pluginId, artifactId, version));
+        return find(pluginId, artifactId, version, new AttributeValuePair[0]);
+    }
+
+    public Artifacts.Artifact find(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+
+        return index.get(makeKey(pluginId, artifactId, version, avp));
     }
 
     public void load(File repoDir) throws IOException {
@@ -243,18 +268,44 @@ public class ArtifactRepo {
 
     private MutableString makeKey(Artifacts.Artifact artifact) {
 
-        return makeKey(artifact.getPluginId(), artifact.getId(), artifact.getVersion());
+        return makeKey(artifact.getPluginId(), artifact.getId(), artifact.getVersion(), convert(artifact.getAttributesList()));
 
     }
 
-    private MutableString makeKey(String pluginId, String artifactId, String version) {
+    private AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
+
+        AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
+        int index = 0;
+        for (Artifacts.AttributeValuePair a : attributesList) {
+            avp[index++] = new AttributeValuePair(a.getAttribute(), a.getValue());
+        }
+        return avp;
+    }
+
+    private MutableString makeKey(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
         MutableString key = new MutableString(pluginId);
         key.append('$');
         key.append(artifactId);
         key.append('$');
         key.append(version);
+        for (AttributeValuePair valuePair : avp) {
+            key.append('$');
+            key.append(normalize(valuePair.attribute));
+            key.append('=');
+            key.append(normalize(valuePair.value));
+        }
         key.compact();
         return key;
+    }
+
+    /**
+     * Normalize a string to make it usable in directory names.
+     *
+     * @param attribute
+     * @return
+     */
+    private String normalize(String attribute) {
+        return attribute.replaceAll(" ", "_").toUpperCase();
     }
 
     private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
@@ -321,8 +372,8 @@ public class ArtifactRepo {
         load(repoDir);
     }
 
-    public void remove(String plugin, String artifact) throws IOException {
-        remove(plugin, artifact, "VERSION");
+    public void remove(String plugin, String artifact, AttributeValuePair ... avp) throws IOException {
+        remove(plugin, artifact, "VERSION",avp);
     }
 
     public String getInstalledPath(String pluginId, String artifactId) {

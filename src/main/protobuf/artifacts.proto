@@ -44,11 +44,30 @@ message ArtifactDetails {
     /*
      * The hostname for the web app server where the GobyWeb web app is running.
      */
-    optional string ssh_web_app_host= 5;
+    optional string ssh_web_app_host = 5;
     /*
      * The username to use for ssh requests to the web app server where the GobyWeb web app is running.
      */
     optional string ssh_web_app_user_name = 6;
+    /*
+     * Attributes associated with this artifact. Attributes are useful to represent a characteristic of certain types
+       of artifacts. For instance, an artifact that provides a genomic sequence would be expected to have an organism
+       and a reference build attributes such as (organism="homo Sapiens", reference-build="hg19").
+     */
+    repeated AttributeValuePair attributes = 7;
+}
+
+message AttributeValuePair {
+
+    /*
+     * The attribute name.
+     */
+    required string attribute=1;
+
+    /*
+     * The attribute value.
+     */
+    required string value=2;
 }
 
 message Artifact {
@@ -82,6 +101,12 @@ message Artifact {
    */
   optional Host installation_host= 15;
 
+  /*
+   * Attributes associated with this artifact. Attributes are useful to represent a characteristic of certain types
+   * of artifacts. For instance, an artifact that provides a genomic sequence would be expected to have an organism
+   * and a reference build attributes such as (organism="homo Sapiens", reference-build="hg19").
+   */
+   repeated AttributeValuePair attributes = 13;
 
 }
 

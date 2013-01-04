@@ -81,7 +81,6 @@ public class ArtifactManagerTest {
     }
 
 
-
     @Test
     public void testGetPath() throws IOException {
 
@@ -92,6 +91,29 @@ public class ArtifactManagerTest {
         repo.install("PLUGIN", "ARTIFACT");
         assertNotNull(repo.find("PLUGIN", "ARTIFACT"));
         Assert.assertNotNull(repo.getInstalledPath("PLUGIN", "ARTIFACT"));
+
+    }
+
+    @Test
+    public void testInstallWithAttributes() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+        repo.load();
+        AttributeValuePair[] avp = new AttributeValuePair[]{
+                new AttributeValuePair("Organism", "Homo sapiens"),
+                new AttributeValuePair("Reference-Build", "hg19"),
+        };
+        assertNull(repo.find("PLUGIN", "INDEX", avp));
+        assertFalse(new File("REPO/PLUGIN/INDEX/HOMO_SAPIENS/HG19/index-installed").exists());
+
+        repo.install("PLUGIN", "INDEX", "test-data/install-scripts/install-script3.sh", avp);
+        assertNotNull(repo.find("PLUGIN", "INDEX", avp));
+        assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN", "INDEX", avp).getState());
+        repo.save();
+        assertTrue(new File("REPO/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
+
+        repo.remove("PLUGIN", "INDEX",avp);
+        assertFalse(new File("REPO/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
 
     }
 
