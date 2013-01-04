@@ -21,6 +21,7 @@ import java.util.Date;
  */
 public class ArtifactRepo {
     private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactRepo.class);
+    private static final long WAIT_FOR_INSTALLING_DELAY = 30 * 1000; // wait 30 secs.
     File repoDir;
     private String metaDataFilename = "metadata.pb";
 
@@ -62,6 +63,23 @@ public class ArtifactRepo {
     public void install(String pluginId, String artifactId, String pluginScript, String version) throws IOException {
 
         Artifacts.Artifact artifact = find(pluginId, artifactId, version);
+        while (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
+            try {
+                LOG.info("waiting while other installing.. ");
+
+                // wait a bit
+
+                Thread.sleep(WAIT_FOR_INSTALLING_DELAY);
+
+                // reload the plugin info from disk:
+                load();
+                artifact = find(pluginId, artifactId, version);
+
+            } catch (InterruptedException e) {
+                LOG.warn("Interrupted while waiting for other process to complete installation.");
+            }
+        }
+
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
             return;
         }
@@ -72,7 +90,7 @@ public class ArtifactRepo {
             artifactBuilder.setPluginId(pluginId);
             artifactBuilder.setState(Artifacts.InstallationState.INSTALLING);
             artifactBuilder.setInstallationTime(new Date().getTime());
-            artifactBuilder.setRelativePath(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId),version));
+            artifactBuilder.setRelativePath(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version));
             artifactBuilder.setVersion(version);
 
             artifact = artifactBuilder.build();
@@ -187,9 +205,9 @@ public class ArtifactRepo {
             RandomAccessFile file = getLockedRepoFile();
             Artifacts.Repository repo;
             if (file.length() != 0) {
-                LOG.info(String.format("Loading from %s%n", repoDir.getAbsolutePath()));
+                LOG.trace(String.format("Loading from %s%n", repoDir.getAbsolutePath()));
                 repo = Artifacts.Repository.parseDelimitedFrom(new FileInputStream(file.getFD()));
-                LOG.info(String.format("Loaded repo with %d artifacts. %n", repo.getArtifactsCount()));
+                LOG.trace(String.format("Loaded repo with %d artifacts. %n", repo.getArtifactsCount()));
             } else {
                 // creating new repo:
                 repo = Artifacts.Repository.getDefaultInstance();
