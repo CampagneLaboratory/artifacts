@@ -140,7 +140,7 @@ public class ArtifactRepo {
      * @param artifactId
      */
     public void remove(String pluginId, String artifactId, String version, AttributeValuePair... avp) throws IOException {
-        Artifacts.Artifact artifact = find(pluginId, artifactId, version);
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version,avp);
         if (artifact == null) {
             LOG.warn(String.format("Cannot remove artifact %s:%s since it is not present in the repository.",
                     pluginId, artifactId));

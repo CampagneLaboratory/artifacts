@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -17,6 +16,8 @@ import static junit.framework.Assert.assertTrue;
  *         Time: 12:01 PM
  */
 public class BuildArtifactRequestTest {
+
+    private String userName;
 
     @Test
     // check that we can execute requests sent from the web server in pb format.
@@ -38,7 +39,7 @@ public class BuildArtifactRequestTest {
     @Test
     // check that we can execute requests sent from the web server in pb format.
     public void testOneRequestWithUser() throws IOException {
-        BuildArtifactRequest request = new BuildArtifactRequest("campagne@localhost");
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
         request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
         final File output = new File("test-results/requests/request1.pb");
 
@@ -55,7 +56,7 @@ public class BuildArtifactRequestTest {
     @Test
     // check that we can execute requests sent from the web server in pb format.
     public void testBashExport() throws IOException {
-        BuildArtifactRequest request = new BuildArtifactRequest("campagne@localhost");
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
         request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
         request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script1.sh");
         final File output = new File("test-results/requests/request2.pb");
@@ -72,6 +73,10 @@ public class BuildArtifactRequestTest {
     @Before
     public void cleanRepo() throws IOException {
         FileUtils.deleteDirectory(new File("REPO"));
+        new File("test-results/requests").mkdirs();
+    }
 
+    public String getUserName() {
+        return System.getProperty("user.name");
     }
 }

@@ -47,6 +47,7 @@ public class BuildArtifactRequest {
     }
 
     public void save(File output) throws IOException {
+
         final FileOutputStream output1 = new FileOutputStream(output);
         installationSetBuilder.build().writeDelimitedTo(output1);
         output1.close();

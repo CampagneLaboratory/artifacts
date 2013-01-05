@@ -55,8 +55,13 @@ public class ArtifactRequestHelper {
                     System.getProperty("user.name");
 
             String server = request.getSshWebAppHost();
-            executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
-
+            int status=executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
+            if (status!=0) {
+                final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                        server, scriptInstallPath);
+                LOG.error(message);
+                throw new IOException(message);
+            }
             repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion());
 
             // remove the local script from $TEMP_DIR:
