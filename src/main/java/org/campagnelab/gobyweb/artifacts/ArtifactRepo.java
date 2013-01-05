@@ -1,13 +1,13 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import com.google.protobuf.TextFormat;
-import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
-import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.lang.MutableString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
+import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -112,7 +112,9 @@ public class ArtifactRepo {
             try {
 
                 runInstallScript(pluginId, artifactId, pluginScript, version, avp);
+                updateInstalledSize(artifact);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
+
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (Exception e) {
@@ -126,8 +128,17 @@ public class ArtifactRepo {
     }
 
 
-    private void changeState(Artifacts.Artifact artifact, Artifacts.InstallationState installed) throws IOException {
-        Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder().setState(Artifacts.InstallationState.INSTALLED);
+    private void changeState(Artifacts.Artifact artifact, Artifacts.InstallationState newState) throws IOException {
+        Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder().setState(newState);
+        artifact = artifactBuilder.build();
+        index.put(makeKey(artifact), artifact);
+        save();
+    }
+
+    private void updateInstalledSize(Artifacts.Artifact artifact) throws IOException {
+        Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder();
+        final long artifactInstalledSize = new File(FilenameUtils.concat(repoDir.getAbsolutePath(), artifact.getRelativePath())).length();
+        artifactBuilder.setInstalledSize(artifactInstalledSize);
         artifact = artifactBuilder.build();
         index.put(makeKey(artifact), artifact);
         save();
@@ -140,7 +151,7 @@ public class ArtifactRepo {
      * @param artifactId
      */
     public void remove(String pluginId, String artifactId, String version, AttributeValuePair... avp) throws IOException {
-        Artifacts.Artifact artifact = find(pluginId, artifactId, version,avp);
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         if (artifact == null) {
             LOG.warn(String.format("Cannot remove artifact %s:%s since it is not present in the repository.",
                     pluginId, artifactId));
@@ -372,8 +383,8 @@ public class ArtifactRepo {
         load(repoDir);
     }
 
-    public void remove(String plugin, String artifact, AttributeValuePair ... avp) throws IOException {
-        remove(plugin, artifact, "VERSION",avp);
+    public void remove(String plugin, String artifact, AttributeValuePair... avp) throws IOException {
+        remove(plugin, artifact, "VERSION", avp);
     }
 
     public String getInstalledPath(String pluginId, String artifactId) {

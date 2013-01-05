@@ -108,6 +108,12 @@ message Artifact {
    */
    repeated AttributeValuePair attributes = 13;
 
+  /*
+   * Size of the installed artifact, in bytes.  The number of bytes occupied by the artifact in the repository
+   * sub-tree for this specific artifact.
+   */
+  optional int64 installed_size=20;
+
 }
 
 message Host {
