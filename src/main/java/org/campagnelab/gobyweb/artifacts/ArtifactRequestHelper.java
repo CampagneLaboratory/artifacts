@@ -20,6 +20,7 @@ public class ArtifactRequestHelper {
 
     private final Artifacts.InstallationSet requests;
     private ArtifactRepo repo;
+    private long spaceRepoDirQuota;
 
     public ArtifactRequestHelper(File pbRequestFile) throws IOException {
 
@@ -41,7 +42,9 @@ public class ArtifactRequestHelper {
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             LOG.info("Processing install request: " + request.toString());
 
-            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion());
+            final AttributeValuePair[] avp = repo.convert(request.getAttributesList());
+            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                    avp);
             if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
                 LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
                         request.getPluginId(), request.getArtifactId(), request.getVersion()));
@@ -55,15 +58,16 @@ public class ArtifactRequestHelper {
                     System.getProperty("user.name");
 
             String server = request.getSshWebAppHost();
-            int status=executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
-            if (status!=0) {
+            int status = executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
+            if (status != 0) {
                 final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
                         server, scriptInstallPath);
                 LOG.error(message);
                 throw new IOException(message);
             }
-            repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion());
-
+            repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
+            repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                    avp, request.getRetention());
             // remove the local script from $TEMP_DIR:
             new File(localFilename).delete();
         }
@@ -94,17 +98,19 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-
-            System.out.printf("export RESOURCES_ARTIFACTS_%s_%s=%s%n", request.getPluginId(),
-                    request.getArtifactId(),
-                    repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion()));
-
+            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion());
+            if (artifact != null) {
+                System.out.printf("export RESOURCES_ARTIFACTS_%s_%s=%s%n", request.getPluginId(),
+                        request.getArtifactId(),
+                        repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion()));
+            }
         }
         System.out.flush();
     }
 
     public void setRepo(ArtifactRepo repo) {
         this.repo = repo;
+
     }
 
     public ArtifactRepo getRepo(File repoDir) {
@@ -112,11 +118,24 @@ public class ArtifactRequestHelper {
             return repo;
         else {
             repo = new ArtifactRepo(repoDir);
+            repo.setSpaceRepoDirQuota(spaceRepoDirQuota);
             return repo;
         }
     }
 
     public void show() {
         System.out.println(requests.toString());
+    }
+
+    public void setSpaceRepoDirQuota(long spaceRepoDirQuota) {
+        this.spaceRepoDirQuota = spaceRepoDirQuota;
+    }
+
+    public void prune(File repo) throws IOException {
+        getRepo(repo).prune();
+    }
+
+    public void showRepo(File repo) throws IOException {
+        getRepo(repo).show();
     }
 }

@@ -27,7 +27,7 @@ public class BuildArtifactRequest {
             this.webServerUsername = split[0];
             this.webServerHostname = split[1];
         } else {
-            this.webServerUsername=null;
+            this.webServerUsername = null;
             this.webServerHostname = webServerHostname;
 
         }
@@ -35,6 +35,11 @@ public class BuildArtifactRequest {
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, String installScript) {
+        addArtifact(pluginId, artifactId, version, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE);
+    }
+
+    public void addArtifact(String pluginId, String artifactId, String version, String installScript,
+                            Artifacts.RetentionPolicy retention) {
 
         Artifacts.ArtifactDetails.Builder detailsBuilder = Artifacts.ArtifactDetails.newBuilder();
         detailsBuilder.setArtifactId(artifactId);
@@ -42,7 +47,8 @@ public class BuildArtifactRequest {
         detailsBuilder.setVersion(version);
         detailsBuilder.setScriptInstallPath(new File(installScript).getAbsolutePath());
         detailsBuilder.setSshWebAppHost(webServerHostname);
-        if (webServerUsername!=null) detailsBuilder.setSshWebAppUserName(webServerUsername);
+        detailsBuilder.setRetention(retention);
+        if (webServerUsername != null) detailsBuilder.setSshWebAppUserName(webServerUsername);
         installationSetBuilder.addArtifacts(detailsBuilder);
     }
 

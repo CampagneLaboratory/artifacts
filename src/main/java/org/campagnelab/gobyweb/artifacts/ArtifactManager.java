@@ -64,7 +64,8 @@ public class ArtifactManager {
     }
 
     private void process(JSAPResult config, File repoDir) throws IOException {
-
+        long quota=config.getLong("repo-dir-quota");
+        repo.setSpaceRepoDirQuota(quota);
         repo.load(repoDir);
         String[] artifacts = config.getStringArray("artifacts");
         File sshRequests = config.getFile("ssh-requests");

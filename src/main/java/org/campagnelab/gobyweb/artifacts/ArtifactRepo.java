@@ -11,6 +11,8 @@ import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +28,89 @@ public class ArtifactRepo {
     private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactRepo.class);
     private static final long WAIT_FOR_INSTALLING_DELAY = 30 * 1000; // wait 30 secs.
     File repoDir;
+    /**
+     * Sort artifacts by increasing installation date
+     */
+    private static final Comparator<Artifacts.Artifact> SORT_BY_INSTALLED_DATE = new Comparator<Artifacts.Artifact>() {
+        public int compare(Artifacts.Artifact artifact1, Artifacts.Artifact artifact2) {
+            return (int) (artifact1.getInstallationTime() - artifact2.getInstallationTime());
+        }
+    };
+    /**
+     * Percentage that determines when to prune artifacts in the repo. Pruning may occur when free space is less
+     * than PERCENT_SPACE_THRESHOLD % of the available space in the file system that holds the repo.
+     */
+    private static final float PERCENT_SPACE_THRESHOLD = 10.0f;
     private String metaDataFilename = "metadata.pb";
+    /**
+     * The number of bytes still available in the filesystem that holds the repository directory.
+     */
+    private long spaceAvailableInRepoDir;
+    /**
+     * The maximum number of bytes available in the filesystem that holds the repository directory.
+     */
+    private long spaceMaxAvailableInRepoDir;
 
+    public long getSpaceRepoDirQuota() {
+        return spaceRepoDirQuota;
+    }
+
+    public void setSpaceRepoDirQuota(long spaceRepoDirQuota) {
+        this.spaceRepoDirQuota = spaceRepoDirQuota;
+        LOG.info("Quota set to " + spaceRepoDirQuota + " bytes");
+    }
+
+    /**
+     * Check if the repository has grown too large. If it has, prune by removing artifacts that can be removed (see
+     * artifact retention policies), starting oldest first.
+     */
+    public void prune() throws IOException {
+        boolean done = false;
+        while (!done) {
+            spaceMaxAvailableInRepoDir = repoDir.getTotalSpace();
+            spaceAvailableInRepoDir = repoDir.getUsableSpace();
+            long currentUsedRepoSpace = 0;
+            for (Artifacts.Artifact artifact : index.values()) {
+                currentUsedRepoSpace += artifact.getInstalledSize();
+            }
+
+            float freeSpacePercent = 100.0f * spaceAvailableInRepoDir / spaceMaxAvailableInRepoDir;
+            LOG.debug(String.format("Available free space as percentage of total (repo dir filesystem): %f %% %n",
+                    freeSpacePercent));
+            if (currentUsedRepoSpace > spaceRepoDirQuota || freeSpacePercent < PERCENT_SPACE_THRESHOLD) {
+                LOG.warn("Pruning must remove some artifacts because either the quota has been exceeded, or there is not enough available space in the repository.");
+                LOG.warn(String.format("(currentUsedRepoSpace=%d) > (spaceRepoDirQuota=%d) = %b %n", currentUsedRepoSpace,
+                        spaceRepoDirQuota, currentUsedRepoSpace > spaceRepoDirQuota));
+                LOG.warn(String.format("(freeSpacePercent=%f) < (PERCENT_SPACE_THRESHOLD=%f) = %b %n",
+                        freeSpacePercent, PERCENT_SPACE_THRESHOLD, freeSpacePercent < PERCENT_SPACE_THRESHOLD));
+                removeOldestArtifact();
+            } else {
+                done = true;
+            }
+        }
+    }
+
+    private void removeOldestArtifact() throws IOException {
+
+        Artifacts.Artifact[] sortedArtifacts = new Artifacts.Artifact[index.size()];
+        sortedArtifacts = index.values().toArray(sortedArtifacts);
+        Arrays.sort(sortedArtifacts, SORT_BY_INSTALLED_DATE);
+        for (Artifacts.Artifact artifact : sortedArtifacts) {
+            switch (artifact.getRetention()) {
+                case REMOVE_OLDEST:
+                    remove(artifact);
+                    return;
+                default:
+                    // keep other artifacts.
+            }
+        }
+    }
+
+    /**
+     * The repository directory quota. The repository will try not to use more storage than indicated in this
+     * quota, even when the filesystem that contains the repository directory has more available space.
+     */
+    private long spaceRepoDirQuota;
 
     public ArtifactRepo(File repoDir) {
         this.repoDir = repoDir;
@@ -105,6 +188,7 @@ public class ArtifactRepo {
             hostBuilder.setOsName(System.getProperty("os.name"));
             hostBuilder.setOsVersion(System.getProperty("os.version"));
             artifactBuilder.setInstallationHost(hostBuilder);
+            artifactBuilder.setRetention(Artifacts.RetentionPolicy.REMOVE_OLDEST);
             artifact = artifactBuilder.build();
             index.put(makeKey(artifact), artifact);
 
@@ -129,6 +213,7 @@ public class ArtifactRepo {
 
 
     private void changeState(Artifacts.Artifact artifact, Artifacts.InstallationState newState) throws IOException {
+        artifact = index.get(makeKey(artifact));
         Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder().setState(newState);
         artifact = artifactBuilder.build();
         index.put(makeKey(artifact), artifact);
@@ -136,8 +221,10 @@ public class ArtifactRepo {
     }
 
     private void updateInstalledSize(Artifacts.Artifact artifact) throws IOException {
+        artifact = index.get(makeKey(artifact));
         Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder();
-        final long artifactInstalledSize = new File(FilenameUtils.concat(repoDir.getAbsolutePath(), artifact.getRelativePath())).length();
+        final long artifactInstalledSize = FileUtils.sizeOfDirectory(new File(FilenameUtils.concat(repoDir.getAbsolutePath(),
+                artifact.getRelativePath())));
         artifactBuilder.setInstalledSize(artifactInstalledSize);
         artifact = artifactBuilder.build();
         index.put(makeKey(artifact), artifact);
@@ -162,6 +249,7 @@ public class ArtifactRepo {
                     pluginId, artifactId));
             index.remove(makeKey(artifact));
         }
+        save();
     }
 
     private String appendKeyValuePairs(String artifactInstallDir, AttributeValuePair[] avp) {
@@ -183,10 +271,11 @@ public class ArtifactRepo {
 
     private void runInstallScript(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair[] avp)
             throws IOException, InterruptedException {
+
+        String installationPath = mkDirs(repoDir, pluginId, artifactId, version, avp);
         if (pluginScript == null) {
             return;
         }
-        String installationPath = mkDirs(repoDir, pluginId, artifactId, version, avp);
         pluginScript = new File(pluginScript).getAbsolutePath();
         String wrapperTemplate = "( set -x ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
                 " chmod +x $script ;  . $script ; plugin_install_artifact %s %s ; ls -l )%n";
@@ -283,7 +372,7 @@ public class ArtifactRepo {
 
     }
 
-    private AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
+    AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
 
         AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
         int index = 0;
@@ -387,6 +476,11 @@ public class ArtifactRepo {
         remove(plugin, artifact, "VERSION", avp);
     }
 
+    public void remove(Artifacts.Artifact artifact) throws IOException {
+        remove(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
+                convert(artifact.getAttributesList()));
+    }
+
     public String getInstalledPath(String pluginId, String artifactId) {
         return getInstalledPath(pluginId, artifactId, "VERSION");
     }
@@ -407,5 +501,13 @@ public class ArtifactRepo {
         repoBuilder.addAllArtifacts(index.values());
         Artifacts.Repository repo = repoBuilder.build();
         TextFormat.print(repo, System.out);
+    }
+
+    public void setRetention(String pluginId, String artifactId, String version, AttributeValuePair[] avp, Artifacts.RetentionPolicy retention) {
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
+        if (artifact != null) {
+            // update retention and store back:
+            index.put(makeKey(artifact), artifact.toBuilder().setRetention(retention).build());
+        }
     }
 }

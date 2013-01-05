@@ -16,6 +16,14 @@ enum InstallationState {
     FAILED = 3;
 }
 
+enum RetentionPolicy {
+     // keep until remove is requested.
+     KEEP_UNTIL_EXPLICIT_REMOVE = 0;
+
+     // Remove automatically when pruning is needed, starting with the oldest installed artifact.
+     REMOVE_OLDEST = 1;
+}
+
 message InstallationSet {
     /*
      *  List of artifacts to install, remove or act upon.
@@ -23,7 +31,10 @@ message InstallationSet {
     repeated ArtifactDetails artifacts=1;
 }
 
-
+/*
+ * Describes an artifact to install, remove, or otherwise act upon in a request.
+ *
+ */
 message ArtifactDetails {
     /*
      * Plugin identifier.
@@ -55,6 +66,11 @@ message ArtifactDetails {
        and a reference build attributes such as (organism="homo Sapiens", reference-build="hg19").
      */
     repeated AttributeValuePair attributes = 7;
+
+    /*
+     * The retention policy that should be given to the artifact.
+     */
+    required RetentionPolicy retention=8;
 }
 
 message AttributeValuePair {
@@ -113,6 +129,11 @@ message Artifact {
    * sub-tree for this specific artifact.
    */
   optional int64 installed_size=20;
+
+  /*
+   * The retention policy for this artifact.
+   */
+  required RetentionPolicy retention=4;
 
 }
 

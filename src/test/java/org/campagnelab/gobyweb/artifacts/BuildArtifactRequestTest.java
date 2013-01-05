@@ -70,6 +70,28 @@ public class BuildArtifactRequestTest {
 
     }
 
+
+    @Test
+    // check that we can execute requests sent from the web server in pb format.
+    public void testRetentionPolicy() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
+        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
+        final File output = new File("test-results/requests/request4.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        helper.printBashExports(repoDir);
+        helper.showRepo(repoDir);
+        helper.prune(repoDir);
+        helper.printBashExports(repoDir);
+
+    }
+
     @Before
     public void cleanRepo() throws IOException {
         FileUtils.deleteDirectory(new File("REPO"));
