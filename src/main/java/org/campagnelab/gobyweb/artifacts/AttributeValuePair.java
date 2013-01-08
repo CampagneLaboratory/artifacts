@@ -6,11 +6,11 @@ package org.campagnelab.gobyweb.artifacts;
  *         Time: 5:19 PM
  */
 public class AttributeValuePair {
-    String attribute;
+    String name;
     String value;
 
     public AttributeValuePair(String attribute, String value) {
-        this.attribute = attribute;
+        this.name = attribute;
         this.value = value;
     }
 }

@@ -1,12 +1,15 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -67,9 +70,42 @@ public class BuildArtifactRequestTest {
         helper.install(new File("REPO"));
         helper.printBashExports(new File("REPO"));
 
-
     }
 
+
+    @Test
+    // check that we can execute requests sent from the web server in pb format.
+    public void testUndefinedAttributes() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        Artifacts.AttributeValuePair[] attributes = new Artifacts.AttributeValuePair[]{
+                Artifacts.AttributeValuePair.newBuilder().setName("key").setValue("value").build(),
+                Artifacts.AttributeValuePair.newBuilder().setName("undefined-key").build()
+        };
+        request.addArtifact("PLUGIN", "INDEX", "1.0", "test-data/install-scripts/install-script3.sh", attributes);
+        final File output = new File("test-results/requests/request3.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        helper.printBashExports(repoDir);
+        helper.showRepo(repoDir);
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
+        repo.load();
+        List<Artifacts.Artifact> results = repo.findIgnoringAttributes("PLUGIN", "INDEX", "1.0");
+        boolean found = false;
+        for (Artifacts.Artifact index : results) {
+            for (Artifacts.AttributeValuePair attribute : index.getAttributesList()) {
+                if ("undefined-key".equals(attribute.getName())) {
+                    assertEquals("Hello World!", attribute.getValue());
+                    found=true;
+                }
+            }
+        }
+        assertTrue("The undefined value attribute must be recorded in the repository after artifact installation.", found);
+
+    }
 
     @Test
     // check that we can execute requests sent from the web server in pb format.

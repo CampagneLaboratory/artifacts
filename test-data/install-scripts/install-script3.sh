@@ -26,3 +26,16 @@ function plugin_install_artifact {
 
 }
 
+
+function get_attribute_values() {
+
+    id=$1
+    out=$2
+
+    echo get_attribute_values for ID=${id}
+
+cat >${out} << EOT
+undefined-key=Hello World!
+EOT
+    return 0
+}

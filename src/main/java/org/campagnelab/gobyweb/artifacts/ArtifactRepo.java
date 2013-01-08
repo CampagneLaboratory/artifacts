@@ -2,6 +2,7 @@ package org.campagnelab.gobyweb.artifacts;
 
 import com.google.protobuf.TextFormat;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.lang.MutableString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -11,10 +12,7 @@ import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
 
 import java.io.*;
 import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * The artifact repository. Provides methods to install and remove artifacts from the repository, and to
@@ -170,6 +168,12 @@ public class ArtifactRepo {
             return;
         }
         if (artifact == null) {
+            if (hasUndefinedAttributes(avp)) {
+                avp = getAttributeValues(null, artifactId, avp, pluginScript, pluginId);
+                if (avp == null) {
+                    return;
+                }
+            }
             // create the new artifact, register in the index:
             Artifacts.Artifact.Builder artifactBuilder = Artifacts.Artifact.newBuilder();
             artifactBuilder.setId(artifactId);
@@ -179,7 +183,7 @@ public class ArtifactRepo {
             artifactBuilder.setRelativePath(appendKeyValuePairs(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version), avp));
             artifactBuilder.setVersion(version);
             for (AttributeValuePair valuePair : avp) {
-                artifactBuilder.addAttributes(Artifacts.AttributeValuePair.newBuilder().setValue(valuePair.value).setAttribute(valuePair.attribute));
+                artifactBuilder.addAttributes(Artifacts.AttributeValuePair.newBuilder().setValue(valuePair.value).setName(valuePair.name));
             }
             Artifacts.Host.Builder hostBuilder = Artifacts.Host.newBuilder();
 
@@ -209,6 +213,100 @@ public class ArtifactRepo {
 
             save();
         }
+    }
+
+    private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId,
+                                                    AttributeValuePair[] avp, String pluginScript,
+                                                    String pluginId) throws IOException {
+        boolean failed = false;
+        try {
+
+            File attributeFile = runAttributeValuesFunction(pluginId, artifactId, avp, pluginScript);
+            try {
+                if (attributeFile != null) {
+                    // parse properties and value attributes that were not defined:
+                    Properties p = new Properties();
+                    p.load(new FileReader(attributeFile));
+                    for (AttributeValuePair attributeValuePair : avp) {
+                        if (attributeValuePair.value == null) {
+                            final String scriptValue = p.getProperty(attributeValuePair.name);
+                            if (scriptValue == null) {
+                                LOG.error("Could not obtain attribute value from install script for attribute=" + attributeValuePair.name);
+                                failed = true;
+                            }
+                            attributeValuePair.value = scriptValue;
+                        }
+                    }
+                }
+            } finally {
+                if (attributeFile != null) {
+                    attributeFile.delete();
+                }
+            }
+        } catch (RuntimeException e) {
+            failed = true;
+        } catch (Exception e) {
+            failed = true;
+        } catch (Error e) {
+            failed = true;
+        }
+        if (failed) {
+            changeState(artifact, Artifacts.InstallationState.FAILED);
+        }
+        save();
+        return avp;
+    }
+
+    private File runAttributeValuesFunction(String pluginId, String artifactId, AttributeValuePair[] avp, String pluginScript) throws IOException, InterruptedException {
+        pluginScript = new File(pluginScript).getAbsolutePath();
+        String tmpDir = System.getProperty("java.io.tmpdir");
+        final long time = new Date().getTime();
+
+        File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
+        String wrapperTemplate = "( set -x ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; ls -l; cat $DIR/artifact.properties )%n";
+
+        String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
+                pluginId, artifactId,
+                time,
+                pluginScript,
+                artifactId
+        )};
+
+        Runtime rt = Runtime.getRuntime();
+        Process pr = rt.exec(cmds);
+        BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        BufferedReader error = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
+
+        String line = null;
+
+        while ((line = input.readLine()) != null) {
+            System.out.println(line);
+        }
+        while ((line = error.readLine()) != null) {
+            System.err.println(line);
+        }
+        int exitVal = pr.waitFor();
+        LOG.error("Install script get_attribute_values() exited with error code " + exitVal);
+        System.out.println("Install script get_attribute_values() exited with error code " + exitVal);
+        if (exitVal != 0) {
+            throw new IllegalStateException();
+        } else {
+            return result;
+        }
+    }
+
+    /**
+     * Returns true if any of the attributes have underfined value.
+     *
+     * @param avp
+     * @return
+     */
+    private boolean hasUndefinedAttributes(AttributeValuePair[] avp) {
+        for (AttributeValuePair a : avp) {
+            if (a.value == null) return true;
+        }
+        return false;
     }
 
 
@@ -332,6 +430,23 @@ public class ArtifactRepo {
         return index.get(makeKey(pluginId, artifactId, version, avp));
     }
 
+    /**
+     * Find artifacts, ignoring any possible attributes.
+     * @param pluginId
+     * @param artifactId
+     * @param version
+     * @return list of attributes with suitable pluginId, artifactIds and version.
+     */
+    public List<Artifacts.Artifact> findIgnoringAttributes(String pluginId, String artifactId, String version) {
+        List<Artifacts.Artifact> result=new ObjectArrayList<Artifacts.Artifact>();
+        for (MutableString key : index.keySet()) {
+            if (key.startsWith(makeKey(pluginId, artifactId, version).toString())) {
+                result.add( index.get(key));
+            }
+        }
+        return result;
+    }
+
     public void load(File repoDir) throws IOException {
         try {
             acquireExclusiveLock();
@@ -377,12 +492,13 @@ public class ArtifactRepo {
         AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
         int index = 0;
         for (Artifacts.AttributeValuePair a : attributesList) {
-            avp[index++] = new AttributeValuePair(a.getAttribute(), a.getValue());
+            avp[index++] = new AttributeValuePair(a.getName(), a.hasValue() ? a.getValue() : null);
         }
         return avp;
     }
 
-    private MutableString makeKey(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+    private MutableString makeKey(String pluginId, String artifactId, String version,
+                                  AttributeValuePair... avp) {
         MutableString key = new MutableString(pluginId);
         key.append('$');
         key.append(artifactId);
@@ -390,7 +506,7 @@ public class ArtifactRepo {
         key.append(version);
         for (AttributeValuePair valuePair : avp) {
             key.append('$');
-            key.append(normalize(valuePair.attribute));
+            key.append(normalize(valuePair.name));
             key.append('=');
             key.append(normalize(valuePair.value));
         }
@@ -405,7 +521,7 @@ public class ArtifactRepo {
      * @return
      */
     private String normalize(String attribute) {
-        return attribute.replaceAll(" ", "_").toUpperCase();
+        return attribute != null ? attribute.replaceAll(" ", "_").toUpperCase() : null;
     }
 
     private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
@@ -510,4 +626,6 @@ public class ArtifactRepo {
             index.put(makeKey(artifact), artifact.toBuilder().setRetention(retention).build());
         }
     }
+
+
 }
