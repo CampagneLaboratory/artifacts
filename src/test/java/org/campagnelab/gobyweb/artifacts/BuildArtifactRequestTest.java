@@ -72,7 +72,6 @@ public class BuildArtifactRequestTest {
 
     }
 
-
     @Test
     // check that we can execute requests sent from the web server in pb format.
     public void testUndefinedAttributes() throws IOException {
@@ -98,8 +97,9 @@ public class BuildArtifactRequestTest {
         for (Artifacts.Artifact index : results) {
             for (Artifacts.AttributeValuePair attribute : index.getAttributesList()) {
                 if ("undefined-key".equals(attribute.getName())) {
-                    assertEquals("Hello World!", attribute.getValue());
-                    found=true;
+                    // Hello world string must have been normalized when we get it back:
+                    assertEquals("HELLO_WORLD_", attribute.getValue());
+                    found = true;
                 }
             }
         }
@@ -113,6 +113,27 @@ public class BuildArtifactRequestTest {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
         request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
         request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
+        final File output = new File("test-results/requests/request4.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        helper.printBashExports(repoDir);
+        helper.showRepo(repoDir);
+        helper.prune(repoDir);
+        helper.printBashExports(repoDir);
+
+    }
+
+    @Test
+    // check that we can execute requests sent from the web server in pb format.
+    public void testRetentionPolicy2() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script4.sh");
+        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script4.sh");
         final File output = new File("test-results/requests/request4.pb");
 
         request.save(output);

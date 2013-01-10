@@ -1,12 +1,11 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.groovySupport.ExecAndRemote;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Helps execute artifact requests against a repository.
@@ -41,7 +40,7 @@ public class ArtifactRequestHelper {
     public void install(File repoDir) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
-
+        StringWriter currentExports=new StringWriter();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             LOG.info("Processing install request: " + request.toString());
 
@@ -73,6 +72,8 @@ public class ArtifactRequestHelper {
                     avp, request.getRetention());
             // remove the local script from $TEMP_DIR:
             new File(localFilename).delete();
+            printBashExports(repoDir, new PrintWriter(currentExports));
+            repo.setCurrentBashExports(currentExports.toString());
         }
         repo.save();
     }
@@ -98,21 +99,33 @@ public class ArtifactRequestHelper {
 
     /**
      * Print BASH export statements for all artifacts in the request that are INSTALLED in the repository.
+     * This method prints to standard out.
      * @param repoDir Directory where the repository is kept.
      * @throws IOException
      */
     public void printBashExports(File repoDir) throws IOException {
+        printBashExports(repoDir, new PrintWriter(new OutputStreamWriter( System.out)));
+    }
+
+    /**
+     * Print BASH export statements for all artifacts in the request that are INSTALLED in the repository.
+     *
+     * @param repoDir Directory where the repository is kept.
+     * @throws IOException
+     */
+    public void printBashExports(File repoDir, PrintWriter output) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion());
-            if (artifact != null && artifact.getState()== Artifacts.InstallationState.INSTALLED) {
-                System.out.printf("export RESOURCES_ARTIFACTS_%s_%s=%s%n", request.getPluginId(),
+            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                    repo.convert(request.getAttributesList()));
+            if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+                output.printf("export RESOURCES_ARTIFACTS_%s_%s=%s%n", request.getPluginId(),
                         request.getArtifactId(),
                         repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion()));
             }
         }
-        System.out.flush();
+        output.flush();
     }
 
     public void setRepo(ArtifactRepo repo) {
@@ -138,7 +151,6 @@ public class ArtifactRequestHelper {
 
     /**
      * Show the content of the request(s).
-     *
      */
     public void show() {
         System.out.println(requests.toString());

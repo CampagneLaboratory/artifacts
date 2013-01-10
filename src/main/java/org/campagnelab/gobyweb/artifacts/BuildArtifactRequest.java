@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -48,6 +49,12 @@ public class BuildArtifactRequest {
                     attributes);
         }
 
+    public void addArtifactWithList(String pluginId, String artifactId, String version, String installScript,
+                                Artifacts.RetentionPolicy retention ,
+                                List<Artifacts.AttributeValuePair> attributes) {
+        addArtifact(pluginId, artifactId, version, installScript,retention,
+                attributes.toArray(new Artifacts.AttributeValuePair[attributes.size()]));
+    }
     public void addArtifact(String pluginId, String artifactId, String version, String installScript,
                             Artifacts.RetentionPolicy retention , Artifacts.AttributeValuePair ... attributes) {
 
@@ -70,6 +77,15 @@ public class BuildArtifactRequest {
         final FileOutputStream output1 = new FileOutputStream(output);
         installationSetBuilder.build().writeDelimitedTo(output1);
         output1.close();
+    }
+
+
+    /**
+     * Determine if the list of requests is empty.
+     * @return True or False.
+     */
+    public boolean isEmpty() {
+        return this.installationSetBuilder.getArtifactsCount()==0;
     }
 
 }

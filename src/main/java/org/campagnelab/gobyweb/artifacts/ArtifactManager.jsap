@@ -57,16 +57,19 @@
             </help>
         </flaggedOption>
         <flaggedOption>
-                    <id>repo-dir-quota</id>
-                    <stringParser>
-                        <classname>LongStringParser</classname>
-                    </stringParser>
-                    <required>false</required>
-                    <longFlag>repo-dir-quota</longFlag>
-
-                    <help>The repository directory quota. The repository will try not to use more storage than indicated in this quota, even when the filesystem that contains the repository directory has more available space.
-                    </help>
-                </flaggedOption>
+            <id>repo-dir-quota</id>
+            <stringParser>
+                <classname>LongStringParser</classname>
+            </stringParser>
+            <required>false</required>
+            <longFlag>repo-dir-quota</longFlag>
+            <defaults> <!-- default repo storage is 1 TB -->
+                <string>1000000000</string>
+            </defaults>
+            <help>The repository directory quota. The repository will try not to use more storage than indicated in this
+                quota, even when the filesystem that contains the repository directory has more available space.
+            </help>
+        </flaggedOption>
 
         <switch>
             <id>install</id>

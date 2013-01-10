@@ -48,6 +48,7 @@ public class ArtifactRepo {
      * The maximum number of bytes available in the filesystem that holds the repository directory.
      */
     private long spaceMaxAvailableInRepoDir;
+    private MutableString currentBashExports = new MutableString();
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -81,14 +82,24 @@ public class ArtifactRepo {
                         spaceRepoDirQuota, currentUsedRepoSpace > spaceRepoDirQuota));
                 LOG.warn(String.format("(freeSpacePercent=%f) < (PERCENT_SPACE_THRESHOLD=%f) = %b %n",
                         freeSpacePercent, PERCENT_SPACE_THRESHOLD, freeSpacePercent < PERCENT_SPACE_THRESHOLD));
-                removeOldestArtifact();
+                boolean removed = removeOldestArtifact();
+                if (!removed) {
+                    LOG.error("Could not remove any artifact, despite exceed quota. Aborting..");
+                    done = true;
+                }
             } else {
                 done = true;
             }
         }
     }
 
-    private void removeOldestArtifact() throws IOException {
+    /**
+     * Remove the oldest artifact, returns true when an artifact was removed.
+     *
+     * @return
+     * @throws IOException
+     */
+    private boolean removeOldestArtifact() throws IOException {
 
         Artifacts.Artifact[] sortedArtifacts = new Artifacts.Artifact[index.size()];
         sortedArtifacts = index.values().toArray(sortedArtifacts);
@@ -97,11 +108,12 @@ public class ArtifactRepo {
             switch (artifact.getRetention()) {
                 case REMOVE_OLDEST:
                     remove(artifact);
-                    return;
+                    return true;
                 default:
                     // keep other artifacts.
             }
         }
+        return false;
     }
 
     /**
@@ -202,7 +214,7 @@ public class ArtifactRepo {
                 runInstallScript(pluginId, artifactId, pluginScript, version, avp);
                 updateInstalledSize(artifact);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
-
+                updateExportStatements(artifact);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (Exception e) {
@@ -213,6 +225,14 @@ public class ArtifactRepo {
 
             save();
         }
+    }
+
+    private void updateExportStatements(Artifacts.Artifact artifact) {
+        currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s=%s%n",
+                artifact.getPluginId(),
+                artifact.getId(),
+                getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
+                        convert(artifact.getAttributesList()))));
     }
 
     private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId,
@@ -234,7 +254,7 @@ public class ArtifactRepo {
                                 LOG.error("Could not obtain attribute value from install script for attribute=" + attributeValuePair.name);
                                 failed = true;
                             }
-                            attributeValuePair.value = scriptValue;
+                            attributeValuePair.value = normalize(scriptValue);
                         }
                     }
                 }
@@ -263,7 +283,7 @@ public class ArtifactRepo {
         final long time = new Date().getTime();
 
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
-        String wrapperTemplate = "( set -x ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+        String wrapperTemplate = "( set -x ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
                 " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; ls -l; cat $DIR/artifact.properties )%n";
 
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
@@ -375,33 +395,55 @@ public class ArtifactRepo {
             return;
         }
         pluginScript = new File(pluginScript).getAbsolutePath();
-        String wrapperTemplate = "( set -x ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                " chmod +x $script ;  . $script ; plugin_install_artifact %s %s ; ls -l )%n";
+        File tmpExports = File.createTempFile("exports", ".sh");
+        FileUtils.write(tmpExports, currentBashExports != null ? currentBashExports.toString() : "", true);
+
+        String wrapperTemplate = "( set -x ; exports=%s ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                " chmod +x $script ;  . $exports; . $script ; plugin_install_artifact %s %s %s; ls -l )%n";
         String tmpDir = System.getProperty("java.io.tmpdir");
-        String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir, (new Date().getTime()),
+        String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
+                tmpDir, (new Date().getTime()),
                 pluginScript,
                 artifactId,
-                installationPath)};
+                installationPath, formatForCommandLine(avp))};
 
         Runtime rt = Runtime.getRuntime();
         Process pr = rt.exec(cmds);
         BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
         BufferedReader error = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 
-        String line = null;
+        String errorLine = null;
+        String stdoutLine = null;
 
-        while ((line = input.readLine()) != null) {
-            System.out.println(line);
+
+        while ((errorLine = error.readLine()) != null || ((stdoutLine = input.readLine()) != null)) {
+            if (stdoutLine != null) {
+                System.out.println(stdoutLine);
+                stdoutLine=null;
+            }
+            if (errorLine != null) {
+                System.err.println(errorLine);
+                errorLine=null;
+            }
         }
-        while ((line = error.readLine()) != null) {
-            System.err.println(line);
-        }
+
         int exitVal = pr.waitFor();
         LOG.error("Install script exited with error code " + exitVal);
         System.out.println("Install script exited with error code " + exitVal);
+        tmpExports.delete();
         if (exitVal != 0) {
             throw new IllegalStateException();
         }
+    }
+
+    private MutableString formatForCommandLine(AttributeValuePair[] avp) {
+        MutableString buffer = new MutableString();
+        for (AttributeValuePair valuePair : avp) {
+            buffer.append("\"");
+            buffer.append(normalize(valuePair.value));
+            buffer.append("\" ");
+        }
+        return buffer;
     }
 
 
@@ -432,16 +474,17 @@ public class ArtifactRepo {
 
     /**
      * Find artifacts, ignoring any possible attributes.
+     *
      * @param pluginId
      * @param artifactId
      * @param version
      * @return list of attributes with suitable pluginId, artifactIds and version.
      */
     public List<Artifacts.Artifact> findIgnoringAttributes(String pluginId, String artifactId, String version) {
-        List<Artifacts.Artifact> result=new ObjectArrayList<Artifacts.Artifact>();
+        List<Artifacts.Artifact> result = new ObjectArrayList<Artifacts.Artifact>();
         for (MutableString key : index.keySet()) {
             if (key.startsWith(makeKey(pluginId, artifactId, version).toString())) {
-                result.add( index.get(key));
+                result.add(index.get(key));
             }
         }
         return result;
@@ -483,7 +526,8 @@ public class ArtifactRepo {
 
     private MutableString makeKey(Artifacts.Artifact artifact) {
 
-        return makeKey(artifact.getPluginId(), artifact.getId(), artifact.getVersion(), convert(artifact.getAttributesList()));
+        return makeKey(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
+                convert(artifact.getAttributesList()));
 
     }
 
@@ -504,11 +548,13 @@ public class ArtifactRepo {
         key.append(artifactId);
         key.append('$');
         key.append(version);
-        for (AttributeValuePair valuePair : avp) {
-            key.append('$');
-            key.append(normalize(valuePair.name));
-            key.append('=');
-            key.append(normalize(valuePair.value));
+        if (avp != null) {
+            for (AttributeValuePair valuePair : avp) {
+                key.append('$');
+                key.append(normalize(valuePair.name));
+                key.append('=');
+                key.append(normalize(valuePair.value));
+            }
         }
         key.compact();
         return key;
@@ -521,7 +567,15 @@ public class ArtifactRepo {
      * @return
      */
     private String normalize(String attribute) {
-        return attribute != null ? attribute.replaceAll(" ", "_").toUpperCase() : null;
+        if (attribute == null) {
+            return null;
+        }
+        String replacements[] = {"!", "\\$", " "};
+        for (String rep : replacements) {
+            attribute = attribute.replaceAll(rep, "_");
+
+        }
+        return attribute.toUpperCase();
     }
 
     private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
@@ -601,10 +655,10 @@ public class ArtifactRepo {
         return getInstalledPath(pluginId, artifactId, "VERSION");
     }
 
-    public String getInstalledPath(String pluginId, String artifactId, String version) {
+    public String getInstalledPath(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
         Artifacts.Artifact artifact = find(pluginId, artifactId, version);
         if (artifact == null) {
-            System.err.printf("Artifact %s:%s:%s could not be found. %n ", pluginId, artifactId, version);
+            System.err.printf("Artifact %s:%s:%s could not be found. %n ", pluginId, artifactId, version, avp);
             return null;
         } else {
             return FilenameUtils.concat(repoDir.getAbsolutePath(), artifact.getRelativePath());
@@ -627,5 +681,13 @@ public class ArtifactRepo {
         }
     }
 
+    /**
+     * Set export variable BASH statements as a string.
+     *
+     * @param currentBashExports
+     */
+    public void setCurrentBashExports(String currentBashExports) {
+        this.currentBashExports = new MutableString(currentBashExports);
+    }
 
 }

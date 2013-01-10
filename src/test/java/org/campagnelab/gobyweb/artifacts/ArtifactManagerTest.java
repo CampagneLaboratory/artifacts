@@ -55,6 +55,24 @@ public class ArtifactManagerTest {
         repo.save();
     }
 
+
+    @Test
+    // test that artifacts install scripts have access to install path export statements of artifacts installed before
+    // them:
+       public void testInstallChained() throws IOException {
+           ArtifactManager manager = new ArtifactManager("REPO");
+           final ArtifactRepo repo = manager.getRepo();
+           repo.load();
+           assertNull(repo.find("PLUGIN", "ARTIFACT"));
+           repo.install("PLUGIN1", "A", "test-data/install-scripts/install-script5.sh");
+           repo.install("PLUGIN2", "B","test-data/install-scripts/install-script6.sh");
+           assertNotNull(repo.find("PLUGIN1", "A"));
+           assertNotNull(repo.find("PLUGIN2", "B"));
+           assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN1", "A").getState());
+           assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN2", "B").getState());
+           repo.save();
+       }
+
     @Test
     public void testInstallScript1() throws IOException {
         ArtifactManager manager = new ArtifactManager("REPO");
