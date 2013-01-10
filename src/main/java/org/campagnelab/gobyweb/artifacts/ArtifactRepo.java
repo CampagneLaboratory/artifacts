@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
+import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -271,7 +272,9 @@ public class ArtifactRepo {
             failed = true;
         }
         if (failed) {
-            changeState(artifact, Artifacts.InstallationState.FAILED);
+            if (artifact!=null) {
+                changeState(artifact, Artifacts.InstallationState.FAILED);
+            }
         }
         save();
         return avp;
@@ -295,17 +298,9 @@ public class ArtifactRepo {
 
         Runtime rt = Runtime.getRuntime();
         Process pr = rt.exec(cmds);
-        BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-        BufferedReader error = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
+        new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
+        new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
-        String line = null;
-
-        while ((line = input.readLine()) != null) {
-            System.out.println(line);
-        }
-        while ((line = error.readLine()) != null) {
-            System.err.println(line);
-        }
         int exitVal = pr.waitFor();
         LOG.error("Install script get_attribute_values() exited with error code " + exitVal);
         System.out.println("Install script get_attribute_values() exited with error code " + exitVal);
@@ -409,23 +404,9 @@ public class ArtifactRepo {
 
         Runtime rt = Runtime.getRuntime();
         Process pr = rt.exec(cmds);
-        BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-        BufferedReader error = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 
-        String errorLine = null;
-        String stdoutLine = null;
-
-
-        while ((errorLine = error.readLine()) != null || ((stdoutLine = input.readLine()) != null)) {
-            if (stdoutLine != null) {
-                System.out.println(stdoutLine);
-                stdoutLine=null;
-            }
-            if (errorLine != null) {
-                System.err.println(errorLine);
-                errorLine=null;
-            }
-        }
+        new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
+        new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
         int exitVal = pr.waitFor();
         LOG.error("Install script exited with error code " + exitVal);
@@ -532,7 +513,7 @@ public class ArtifactRepo {
     }
 
     AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
-
+         if (attributesList==null) return new AttributeValuePair[0];
         AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
         int index = 0;
         for (Artifacts.AttributeValuePair a : attributesList) {
@@ -656,7 +637,7 @@ public class ArtifactRepo {
     }
 
     public String getInstalledPath(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
-        Artifacts.Artifact artifact = find(pluginId, artifactId, version);
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version,avp);
         if (artifact == null) {
             System.err.printf("Artifact %s:%s:%s could not be found. %n ", pluginId, artifactId, version, avp);
             return null;

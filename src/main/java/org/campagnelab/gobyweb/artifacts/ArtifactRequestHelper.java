@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.campagnelab.groovySupport.ExecAndRemote;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * Helps execute artifact requests against a repository.
@@ -40,7 +41,7 @@ public class ArtifactRequestHelper {
     public void install(File repoDir) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
-        StringWriter currentExports=new StringWriter();
+        StringWriter currentExports = new StringWriter();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             LOG.info("Processing install request: " + request.toString());
 
@@ -100,11 +101,12 @@ public class ArtifactRequestHelper {
     /**
      * Print BASH export statements for all artifacts in the request that are INSTALLED in the repository.
      * This method prints to standard out.
+     *
      * @param repoDir Directory where the repository is kept.
      * @throws IOException
      */
     public void printBashExports(File repoDir) throws IOException {
-        printBashExports(repoDir, new PrintWriter(new OutputStreamWriter( System.out)));
+        printBashExports(repoDir, new PrintWriter(new OutputStreamWriter(System.out)));
     }
 
     /**
@@ -117,15 +119,32 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
-                    repo.convert(request.getAttributesList()));
-            if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
-                output.printf("export RESOURCES_ARTIFACTS_%s_%s=%s%n", request.getPluginId(),
-                        request.getArtifactId(),
-                        repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion()));
+            List<Artifacts.Artifact> artifacts = repo.findIgnoringAttributes(request.getPluginId(), request.getArtifactId(), request.getVersion()
+            );
+            for (Artifacts.Artifact artifact : artifacts) {
+                //repo.convert(request.getAttributesList()
+                if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+
+                    output.printf("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n", request.getPluginId(),
+                            request.getArtifactId(), listAttributeValues(artifact.getAttributesList()),
+                            repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                                    repo.convert(artifact.getAttributesList())));
+                }
             }
         }
         output.flush();
+    }
+
+    private String listAttributeValues(List<Artifacts.AttributeValuePair> attributesList) {
+        StringBuffer sb = new StringBuffer();
+        for (Artifacts.AttributeValuePair valuePairs : attributesList) {
+            sb.append(valuePairs.getValue());
+            sb.append("_");
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.toString();
     }
 
     public void setRepo(ArtifactRepo repo) {
