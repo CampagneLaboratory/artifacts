@@ -55,7 +55,7 @@ public class ArtifactManager {
         File repoDir = config.getFile("repository");
         ArtifactManager processor = new ArtifactManager(repoDir);
         processor.process(config, repoDir);
-
+        System.exit(0);
     }
 
     private static boolean hasError(JSAPResult config) {
@@ -114,7 +114,7 @@ public class ArtifactManager {
             }
             repo.save(repoDir);
         }
-        System.exit(0);
+
     }
 
 

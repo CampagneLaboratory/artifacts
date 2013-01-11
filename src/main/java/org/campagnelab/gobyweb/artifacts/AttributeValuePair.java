@@ -13,4 +13,8 @@ public class AttributeValuePair {
         this.name = attribute;
         this.value = value;
     }
+
+    public AttributeValuePair(String attribute) {
+        this.name=attribute;
+    }
 }

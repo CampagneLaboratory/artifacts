@@ -177,7 +177,7 @@ public class ArtifactRepo {
             }
         }
         if (hasUndefinedAttributes(avp)) {
-            avp = getAttributeValues(null, artifactId, avp, pluginScript, pluginId);
+            avp = getAttributeValues(null, artifactId, version, avp, pluginScript, pluginId);
             if (avp == null) {
                 return;
             }
@@ -240,13 +240,13 @@ public class ArtifactRepo {
                         convert(artifact.getAttributesList()))));
     }
 
-    private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId,
+    private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId,   String version,
                                                     AttributeValuePair[] avp, String pluginScript,
                                                     String pluginId) throws IOException {
         boolean failed = false;
         try {
 
-            File attributeFile = runAttributeValuesFunction(pluginId, artifactId, avp, pluginScript);
+            File attributeFile = runAttributeValuesFunction(pluginId, artifactId, version, avp, pluginScript);
             try {
                 if (attributeFile != null) {
                     // parse properties and value attributes that were not defined:
@@ -284,7 +284,7 @@ public class ArtifactRepo {
         return avp;
     }
 
-    private File runAttributeValuesFunction(String pluginId, String artifactId, AttributeValuePair[] avp, String pluginScript) throws IOException, InterruptedException {
+    private File runAttributeValuesFunction(String pluginId, String artifactId, String version, AttributeValuePair[] avp, String pluginScript) throws IOException, InterruptedException {
         pluginScript = new File(pluginScript).getAbsolutePath();
         String tmpDir = System.getProperty("java.io.tmpdir");
         final long time = new Date().getTime();
@@ -455,7 +455,7 @@ public class ArtifactRepo {
         return find(pluginId, artifactId, version, new AttributeValuePair[0]);
     }
 
-    public Artifacts.Artifact find(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+    public Artifacts.Artifact find(String pluginId, String artifactId, String version, AttributeValuePair ... avp) {
 
         return index.get(makeKey(pluginId, artifactId, version, avp));
     }

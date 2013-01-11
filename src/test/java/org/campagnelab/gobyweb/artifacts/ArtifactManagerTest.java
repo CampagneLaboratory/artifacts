@@ -59,19 +59,19 @@ public class ArtifactManagerTest {
     @Test
     // test that artifacts install scripts have access to install path export statements of artifacts installed before
     // them:
-       public void testInstallChained() throws IOException {
-           ArtifactManager manager = new ArtifactManager("REPO");
-           final ArtifactRepo repo = manager.getRepo();
-           repo.load();
-           assertNull(repo.find("PLUGIN", "ARTIFACT"));
-           repo.install("PLUGIN1", "A", "test-data/install-scripts/install-script5.sh");
-           repo.install("PLUGIN2", "B","test-data/install-scripts/install-script6.sh");
-           assertNotNull(repo.find("PLUGIN1", "A"));
-           assertNotNull(repo.find("PLUGIN2", "B"));
-           assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN1", "A").getState());
-           assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN2", "B").getState());
-           repo.save();
-       }
+    public void testInstallChained() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+        repo.load();
+        assertNull(repo.find("PLUGIN", "ARTIFACT"));
+        repo.install("PLUGIN1", "A", "test-data/install-scripts/install-script5.sh");
+        repo.install("PLUGIN2", "B", "test-data/install-scripts/install-script6.sh");
+        assertNotNull(repo.find("PLUGIN1", "A"));
+        assertNotNull(repo.find("PLUGIN2", "B"));
+        assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN1", "A").getState());
+        assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN2", "B").getState());
+        repo.save();
+    }
 
     @Test
     public void testInstallScript1() throws IOException {
@@ -130,8 +130,34 @@ public class ArtifactManagerTest {
         repo.save();
         assertTrue(new File("REPO/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
 
-        repo.remove("PLUGIN", "INDEX",avp);
+        repo.remove("PLUGIN", "INDEX", avp);
         assertFalse(new File("REPO/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
+
+    }
+
+    @Test
+    public void testNoDoubleInstallationsWithAttributes() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+
+        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        if (dir.exists()) {
+            assertTrue(dir.listFiles().length <= 1);
+        }
+        final AttributeValuePair[] attributeValuePairs = {new AttributeValuePair("attribute-A"),
+                new AttributeValuePair("attribute-B")};
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script8.sh", "VERSION", attributeValuePairs);
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script8.sh", "VERSION", attributeValuePairs);
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script8.sh", "VERSION", attributeValuePairs);
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script8.sh", "VERSION", attributeValuePairs);
+
+        repo.save();
+        final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
+                new AttributeValuePair("attribute-A", "VA"),
+                new AttributeValuePair("attribute-B", "VB"));
+        assertNotNull(artifact );
+        assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
+        assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }
 
