@@ -60,11 +60,11 @@ public class ArtifactManager {
 
     private static boolean hasError(JSAPResult config) {
         return !(config.getBoolean("install") || config.getBoolean("remove") || config.getBoolean("get-path") ||
-                config.getBoolean("bash-exports") || config.getBoolean("show"));
+                config.getBoolean("bash-exports") || config.getBoolean("show") || config.getBoolean("show-repo"));
     }
 
     private void process(JSAPResult config, File repoDir) throws IOException {
-        long quota=config.getLong("repo-dir-quota");
+        long quota = config.getLong("repo-dir-quota");
         repo.setSpaceRepoDirQuota(quota);
         repo.load(repoDir);
         String[] artifacts = config.getStringArray("artifacts");
@@ -81,6 +81,8 @@ public class ArtifactManager {
                 helper.printBashExports(repoDir);
             } else if (config.getBoolean("show")) {
                 helper.show();
+            } else if (config.getBoolean("show-repo")) {
+                helper.showRepo(repoDir);
             }
         }
         if (artifacts == null) {

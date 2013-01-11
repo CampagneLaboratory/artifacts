@@ -171,11 +171,13 @@ public class BuildArtifactRequestTest {
         final File repoDir = new File("REPO");
         helper.install(repoDir);
         final StringWriter result = new StringWriter();
+
         helper.printBashExports(repoDir,new PrintWriter(result));
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1=")>=0);
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2=")>=0);
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=")>=0);
 
+        helper.showRepo(repoDir);
 
 
     }

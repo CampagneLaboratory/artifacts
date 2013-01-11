@@ -176,17 +176,17 @@ public class ArtifactRepo {
                 LOG.warn("Interrupted while waiting for other process to complete installation.");
             }
         }
-
+        if (hasUndefinedAttributes(avp)) {
+            avp = getAttributeValues(null, artifactId, avp, pluginScript, pluginId);
+            if (avp == null) {
+                return;
+            }
+        }
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
             return;
         }
         if (artifact == null) {
-            if (hasUndefinedAttributes(avp)) {
-                avp = getAttributeValues(null, artifactId, avp, pluginScript, pluginId);
-                if (avp == null) {
-                    return;
-                }
-            }
+
             // create the new artifact, register in the index:
             Artifacts.Artifact.Builder artifactBuilder = Artifacts.Artifact.newBuilder();
             artifactBuilder.setId(artifactId);
@@ -197,7 +197,7 @@ public class ArtifactRepo {
             artifactBuilder.setVersion(version);
             for (AttributeValuePair valuePair : avp) {
                 final Artifacts.AttributeValuePair.Builder avpBuilder = Artifacts.AttributeValuePair.newBuilder().setName(valuePair.name);
-                if (valuePair.value!=null) {
+                if (valuePair.value != null) {
                     avpBuilder.setValue(valuePair.value);
                 }
                 artifactBuilder.addAttributes(avpBuilder.build());

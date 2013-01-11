@@ -104,7 +104,13 @@
         <switch>
             <id>show</id>
             <longFlag>show</longFlag>
-            <help>Show the meta data in text format.</help>
+            <help>Show the requests meta data in text format.</help>
+        </switch>
+
+        <switch>
+            <id>show-repo</id>
+            <longFlag>show-repo</longFlag>
+            <help>Show the repository meta data in text format.</help>
         </switch>
 
         <unflaggedOption>
