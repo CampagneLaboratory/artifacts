@@ -114,6 +114,7 @@ public class ArtifactManager {
             }
             repo.save(repoDir);
         }
+        System.exit(0);
     }
 
 
