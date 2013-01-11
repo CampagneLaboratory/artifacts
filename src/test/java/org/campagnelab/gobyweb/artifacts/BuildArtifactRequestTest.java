@@ -1,5 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import groovy.io.GroovyPrintWriter;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -7,6 +8,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -150,26 +153,32 @@ public class BuildArtifactRequestTest {
     }
 
     @Test
-        // check that we can execute requests sent from the web server in pb format.
-        public void testBashExportForRequests() throws IOException {
-            BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+    // check that we can execute requests sent from the web server in pb format.
+    public void testBashExportForRequests() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
-               Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
+        Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
 
-            request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script7.sh",avp1,avp2);
-            request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script7.sh",avp2);
-            final File output = new File("test-results/requests/request4.pb");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script7.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script7.sh", avp2);
+        request.addArtifact("PLUGIN", "NO-ATTRIBUTE", "1.0", "test-data/install-scripts/install-script7.sh");
+        final File output = new File("test-results/requests/request4.pb");
 
-            request.save(output);
+        request.save(output);
 
-            ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
-            helper.setSpaceRepoDirQuota(1000);
-            final File repoDir = new File("REPO");
-            helper.install(repoDir);
-            helper.printBashExports(repoDir);
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        final StringWriter result = new StringWriter();
+        helper.printBashExports(repoDir,new PrintWriter(result));
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1=")>=0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2=")>=0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=")>=0);
 
 
-        }
+
+    }
 
     @Before
     public void cleanRepo() throws IOException {

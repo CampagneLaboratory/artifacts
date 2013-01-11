@@ -28,6 +28,7 @@ public class SyncPipe implements Runnable {
             for (int length = 0; (length = istrm_.read(buffer)) != -1; ) {
                 ostrm_.write(buffer, 0, length);
             }
+            ostrm_.flush();
         } catch (Exception e) {
             logger.error(e);
         }

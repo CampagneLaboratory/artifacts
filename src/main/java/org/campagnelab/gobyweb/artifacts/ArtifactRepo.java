@@ -196,7 +196,11 @@ public class ArtifactRepo {
             artifactBuilder.setRelativePath(appendKeyValuePairs(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version), avp));
             artifactBuilder.setVersion(version);
             for (AttributeValuePair valuePair : avp) {
-                artifactBuilder.addAttributes(Artifacts.AttributeValuePair.newBuilder().setValue(valuePair.value).setName(valuePair.name));
+                final Artifacts.AttributeValuePair.Builder avpBuilder = Artifacts.AttributeValuePair.newBuilder().setName(valuePair.name);
+                if (valuePair.value!=null) {
+                    avpBuilder.setValue(valuePair.value);
+                }
+                artifactBuilder.addAttributes(avpBuilder.build());
             }
             Artifacts.Host.Builder hostBuilder = Artifacts.Host.newBuilder();
 
@@ -272,7 +276,7 @@ public class ArtifactRepo {
             failed = true;
         }
         if (failed) {
-            if (artifact!=null) {
+            if (artifact != null) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             }
         }
@@ -366,9 +370,12 @@ public class ArtifactRepo {
     }
 
     private String appendKeyValuePairs(String artifactInstallDir, AttributeValuePair[] avp) {
+        if (avp == null) return artifactInstallDir;
         String result = artifactInstallDir;
         for (AttributeValuePair valuePair : avp) {
-            result = FilenameUtils.concat(result, normalize(valuePair.value));
+            if (valuePair.value != null) {
+                result = FilenameUtils.concat(result, normalize(valuePair.value));
+            }
         }
         return result;
     }
@@ -513,7 +520,7 @@ public class ArtifactRepo {
     }
 
     AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
-         if (attributesList==null) return new AttributeValuePair[0];
+        if (attributesList == null) return new AttributeValuePair[0];
         AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
         int index = 0;
         for (Artifacts.AttributeValuePair a : attributesList) {
@@ -637,7 +644,7 @@ public class ArtifactRepo {
     }
 
     public String getInstalledPath(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
-        Artifacts.Artifact artifact = find(pluginId, artifactId, version,avp);
+        Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         if (artifact == null) {
             System.err.printf("Artifact %s:%s:%s could not be found. %n ", pluginId, artifactId, version, avp);
             return null;

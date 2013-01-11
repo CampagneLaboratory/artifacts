@@ -125,7 +125,7 @@ public class ArtifactRequestHelper {
                 //repo.convert(request.getAttributesList()
                 if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
 
-                    output.printf("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n", request.getPluginId(),
+                    output.printf("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", request.getPluginId(),
                             request.getArtifactId(), listAttributeValues(artifact.getAttributesList()),
                             repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                                     repo.convert(artifact.getAttributesList())));
@@ -137,12 +137,13 @@ public class ArtifactRequestHelper {
 
     private String listAttributeValues(List<Artifacts.AttributeValuePair> attributesList) {
         StringBuffer sb = new StringBuffer();
+
         for (Artifacts.AttributeValuePair valuePairs : attributesList) {
-            sb.append(valuePairs.getValue());
-            sb.append("_");
-        }
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1);
+            if (valuePairs.getValue().length()>0) {
+
+                sb.append("_");
+                sb.append(valuePairs.getValue());
+            }
         }
         return sb.toString();
     }
