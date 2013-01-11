@@ -40,9 +40,10 @@ public class ArtifactRequestHelper {
      */
     public void install(File repoDir) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
-        repo.load();
+
         StringWriter currentExports = new StringWriter();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+            repo.load();
             LOG.info("Processing install request: " + request.toString());
 
             final AttributeValuePair[] avp = repo.convert(request.getAttributesList());
@@ -75,12 +76,15 @@ public class ArtifactRequestHelper {
             new File(localFilename).delete();
             printBashExports(repoDir, new PrintWriter(currentExports));
             repo.setCurrentBashExports(currentExports.toString());
+            repo.save();
         }
         repo.save();
     }
 
     /**
-     * Remove artifacts described in a request.
+     * Remove artifacts described in a request. Please note that this method removes artifacts irrespective of
+     * attributes, because requests typically do not specify attribute values and since we currently do not store
+     * the artifact install script, we cannot query the script for attribute values.
      *
      * @param repoDir Repository directory.
      * @throws IOException
@@ -89,11 +93,18 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+            List<Artifacts.Artifact> artifacts = repo.findIgnoringAttributes(request.getPluginId(), request.getArtifactId(), request.getVersion()
+            );
+            for (Artifacts.Artifact artifact : artifacts) {
+                //repo.convert(request.getAttributesList()
+                if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
 
-            repo.remove(request.getPluginId(), request.getArtifactId(), request.getVersion());
-
+                    repo.remove(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                            repo.convert(artifact.getAttributesList()));
+                }
+                repo.save();
+            }
         }
-        repo.save();
     }
 
     private ExecAndRemote executor = new ExecAndRemote();
@@ -105,6 +116,7 @@ public class ArtifactRequestHelper {
      * @param repoDir Directory where the repository is kept.
      * @throws IOException
      */
+
     public void printBashExports(File repoDir) throws IOException {
         printBashExports(repoDir, new PrintWriter(new OutputStreamWriter(System.out)));
     }
@@ -139,7 +151,7 @@ public class ArtifactRequestHelper {
         StringBuffer sb = new StringBuffer();
 
         for (Artifacts.AttributeValuePair valuePairs : attributesList) {
-            if (valuePairs.getValue().length()>0) {
+            if (valuePairs.getValue().length() > 0) {
 
                 sb.append("_");
                 sb.append(valuePairs.getValue());
@@ -167,6 +179,7 @@ public class ArtifactRequestHelper {
             repo.setSpaceRepoDirQuota(spaceRepoDirQuota);
             return repo;
         }
+
     }
 
     /**

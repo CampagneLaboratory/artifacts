@@ -15,6 +15,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Fabien Campagne
@@ -172,13 +173,47 @@ public class BuildArtifactRequestTest {
         helper.install(repoDir);
         final StringWriter result = new StringWriter();
 
-        helper.printBashExports(repoDir,new PrintWriter(result));
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1=")>=0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2=")>=0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=")>=0);
+        helper.printBashExports(repoDir, new PrintWriter(result));
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1=") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2=") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
 
         helper.showRepo(repoDir);
 
+
+    }
+
+    @Test
+    public void testNoDoubleInstallationsWithAttributes() throws IOException {
+        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        if (dir.exists()) {
+            assertTrue(dir.listFiles().length <= 1);
+        }
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
+        Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
+
+        request.addArtifact("PLUGIN", "RANDOM", "VERSION", "test-data/install-scripts/install-script8.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "RANDOM", "VERSION", "test-data/install-scripts/install-script8.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "RANDOM", "VERSION", "test-data/install-scripts/install-script8.sh", avp1, avp2);
+
+
+        final File output = new File("test-results/requests/request4.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000000000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        ArtifactRepo repo=new ArtifactRepo(repoDir);
+        repo.load();
+        final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
+                new AttributeValuePair("attribute-A", "VA"),
+                new AttributeValuePair("attribute-B", "VB"));
+        assertNotNull(artifact);
+        assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
+        assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }
 

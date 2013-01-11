@@ -161,6 +161,9 @@ public class ArtifactManagerTest {
 
     }
 
+
+
+
     @Before
     public void cleanRepo() throws IOException {
         FileUtils.deleteDirectory(new File("REPO"));

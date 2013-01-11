@@ -17,4 +17,9 @@ public class AttributeValuePair {
     public AttributeValuePair(String attribute) {
         this.name=attribute;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s=%s",name, value!=null?value : "<undefined>");
+    }
 }

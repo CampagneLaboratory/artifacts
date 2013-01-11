@@ -158,7 +158,13 @@ public class ArtifactRepo {
      */
 
     public void install(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair... avp) throws IOException {
-
+        // get attributes before anything else:
+        if (hasUndefinedAttributes(avp)) {
+            avp = getAttributeValues(null, artifactId, version, avp, pluginScript, pluginId);
+            if (avp == null) {
+                return;
+            }
+        }
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         while (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
             try {
@@ -176,16 +182,14 @@ public class ArtifactRepo {
                 LOG.warn("Interrupted while waiting for other process to complete installation.");
             }
         }
-        if (hasUndefinedAttributes(avp)) {
-            avp = getAttributeValues(null, artifactId, version, avp, pluginScript, pluginId);
-            if (avp == null) {
-                return;
-            }
-        }
+
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+            LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
             return;
         }
         if (artifact == null) {
+
+            LOG.info(String.format("Artifact %s was not found, proceeding to install..", toText(pluginId, artifactId, version, avp)));
 
             // create the new artifact, register in the index:
             Artifacts.Artifact.Builder artifactBuilder = Artifacts.Artifact.newBuilder();
@@ -232,6 +236,20 @@ public class ArtifactRepo {
         }
     }
 
+    private String toText(Artifacts.Artifact artifact) {
+        if (artifact != null) {
+            return toText(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
+                    convert(artifact.getAttributesList()));
+        }
+        {
+            return "null";
+        }
+    }
+
+    private String toText(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+        return String.format("%s:%s:%s(%s)", pluginId, artifactId, version, ObjectArrayList.wrap(avp).toString());
+    }
+
     private void updateExportStatements(Artifacts.Artifact artifact) {
         currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s=%s%n",
                 artifact.getPluginId(),
@@ -240,7 +258,7 @@ public class ArtifactRepo {
                         convert(artifact.getAttributesList()))));
     }
 
-    private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId,   String version,
+    private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId, String version,
                                                     AttributeValuePair[] avp, String pluginScript,
                                                     String pluginId) throws IOException {
         boolean failed = false;
@@ -291,7 +309,7 @@ public class ArtifactRepo {
 
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
         String wrapperTemplate = "( set -x ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
-                " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; ls -l; cat $DIR/artifact.properties )%n";
+                " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties )%n";
 
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
                 pluginId, artifactId,
@@ -306,7 +324,7 @@ public class ArtifactRepo {
         new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
         int exitVal = pr.waitFor();
-        LOG.error("Install script get_attribute_values() exited with error code " + exitVal);
+        LOG.info("Install script get_attribute_values() exited with error code " + exitVal);
         System.out.println("Install script get_attribute_values() exited with error code " + exitVal);
         if (exitVal != 0) {
             throw new IllegalStateException();
@@ -355,6 +373,7 @@ public class ArtifactRepo {
      * @param artifactId
      */
     public void remove(String pluginId, String artifactId, String version, AttributeValuePair... avp) throws IOException {
+
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         if (artifact == null) {
             LOG.warn(String.format("Cannot remove artifact %s:%s since it is not present in the repository.",
@@ -416,7 +435,7 @@ public class ArtifactRepo {
         new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
         int exitVal = pr.waitFor();
-        LOG.error("Install script exited with error code " + exitVal);
+        LOG.info("Install script exited with error code " + exitVal);
         System.out.println("Install script exited with error code " + exitVal);
         tmpExports.delete();
         if (exitVal != 0) {
@@ -455,7 +474,7 @@ public class ArtifactRepo {
         return find(pluginId, artifactId, version, new AttributeValuePair[0]);
     }
 
-    public Artifacts.Artifact find(String pluginId, String artifactId, String version, AttributeValuePair ... avp) {
+    public Artifacts.Artifact find(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
 
         return index.get(makeKey(pluginId, artifactId, version, avp));
     }
@@ -578,7 +597,7 @@ public class ArtifactRepo {
         try {
             acquireExclusiveLock();
             RandomAccessFile file = getLockedRepoFile();
-            LOG.info(String.format("Saving to %s %n", repoDir.getAbsolutePath()));
+            LOG.debug(String.format("Saving to %s %n", repoDir.getAbsolutePath()));
             output = new FileOutputStream(file.getFD());
             // recreate the ProtoBuf repo from the index:
             Artifacts.Repository.Builder repoBuilder = Artifacts.Repository.newBuilder();
@@ -586,7 +605,7 @@ public class ArtifactRepo {
             Artifacts.Repository repo = repoBuilder.build();
 
             repo.writeDelimitedTo(output);
-            LOG.info(String.format("Wrote repo with %d artifacts.%n", repo.getArtifactsCount()));
+            LOG.debug(String.format("Wrote repo with %d artifacts.%n", repo.getArtifactsCount()));
 
         } finally {
             releaseLock();
