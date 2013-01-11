@@ -56,27 +56,31 @@ public class ArtifactRequestHelper {
                 continue;
             }
             final String scriptInstallPath = request.getScriptInstallPath();
-            final String localFilename = FilenameUtils.concat(TEMP_DIR, FilenameUtils.getBaseName(scriptInstallPath));
+            final File tempInstallFile = File.createTempFile(request.getPluginId(), FilenameUtils.getBaseName(scriptInstallPath));
 
-            String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
-                    System.getProperty("user.name");
+            try {
+                final String localFilename = tempInstallFile.getAbsolutePath();
+                String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
+                        System.getProperty("user.name");
 
-            String server = request.getSshWebAppHost();
-            int status = executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
-            if (status != 0) {
-                final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                        server, scriptInstallPath);
-                LOG.error(message);
-                throw new IOException(message);
+                String server = request.getSshWebAppHost();
+                int status = executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
+                if (status != 0) {
+                    final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                            server, scriptInstallPath);
+                    LOG.error(message);
+                    throw new IOException(message);
+                }
+                repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
+                repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                        avp, request.getRetention());
+
+                printBashExports(repoDir, new PrintWriter(currentExports));
+                repo.setCurrentBashExports(currentExports.toString());
+                repo.save();
+            } finally {
+                tempInstallFile.delete();
             }
-            repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
-            repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
-                    avp, request.getRetention());
-            // remove the local script from $TEMP_DIR:
-            new File(localFilename).delete();
-            printBashExports(repoDir, new PrintWriter(currentExports));
-            repo.setCurrentBashExports(currentExports.toString());
-            repo.save();
         }
         repo.save();
     }
