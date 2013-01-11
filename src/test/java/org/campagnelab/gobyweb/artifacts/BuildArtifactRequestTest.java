@@ -174,9 +174,13 @@ public class BuildArtifactRequestTest {
         final StringWriter result = new StringWriter();
 
         helper.printBashExports(repoDir, new PrintWriter(result));
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1=") >= 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2=") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_VA_VB=") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_VB=") >= 0);
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_A=VA") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_B=VB") >= 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_A=VA") < 0);
+        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_B=VB") >= 0);
 
         helper.showRepo(repoDir);
 

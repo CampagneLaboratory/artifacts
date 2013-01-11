@@ -223,7 +223,7 @@ public class ArtifactRepo {
                 runInstallScript(pluginId, artifactId, pluginScript, version, avp);
                 updateInstalledSize(artifact);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
-                updateExportStatements(artifact);
+                updateExportStatements(artifact, avp);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (Exception e) {
@@ -250,12 +250,23 @@ public class ArtifactRepo {
         return String.format("%s:%s:%s(%s)", pluginId, artifactId, version, ObjectArrayList.wrap(avp).toString());
     }
 
-    private void updateExportStatements(Artifacts.Artifact artifact) {
+    private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp) {
         currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s=%s%n",
                 artifact.getPluginId(),
                 artifact.getId(),
                 getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
                         convert(artifact.getAttributesList()))));
+        // also write each attribute value:
+        for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
+            if (attribute.getValue() != null) {
+                currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n",
+                        artifact.getPluginId(),
+                        artifact.getId(),
+                        normalize(attribute.getName()),
+                        attribute.getValue()));
+
+            }
+        }
     }
 
     private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId, String version,
@@ -294,6 +305,7 @@ public class ArtifactRepo {
             failed = true;
         }
         if (failed) {
+            LOG.error("Unable to retrieve attributes for plugin "+toText(artifact));
             if (artifact != null) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             }
@@ -573,11 +585,11 @@ public class ArtifactRepo {
      * @param attribute
      * @return
      */
-    private String normalize(String attribute) {
+    String normalize(String attribute) {
         if (attribute == null) {
             return null;
         }
-        String replacements[] = {"!", "\\$", " "};
+        String replacements[] = {"!", "\\$", " ", "-"};
         for (String rep : replacements) {
             attribute = attribute.replaceAll(rep, "_");
 

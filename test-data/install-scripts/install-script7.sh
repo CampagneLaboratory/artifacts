@@ -40,12 +40,18 @@ function get_attribute_values() {
      out=$2
      case ${id} in
          'FILE1' )
-         'FILE2' )
+
              echo get_attribute_values for ID=${id}
 
              echo "attribute-A=VA" >>${out}
              echo "attribute-B=VB" >>${out}
          ;;
+         'FILE2' )
+              echo get_attribute_values for ID=${id}
+
+              echo "attribute-A=VA" >>${out}
+              echo "attribute-B=VB" >>${out}
+          ;;
 
         'NO-ATTRIBUTE' )
          ;;

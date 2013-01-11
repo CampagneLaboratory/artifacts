@@ -145,6 +145,16 @@ public class ArtifactRequestHelper {
                             request.getArtifactId(), listAttributeValues(artifact.getAttributesList()),
                             repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                                     repo.convert(artifact.getAttributesList())));
+                    // also write each attribute value:
+                    for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
+                        if (attribute.getValue() != null) {
+                            output.printf("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n",
+                                    artifact.getPluginId(),
+                                    artifact.getId(),
+                                    repo.normalize(attribute.getName()),
+                                    attribute.getValue());
+                        }
+                    }
                 }
             }
         }
