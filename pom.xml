@@ -4,7 +4,7 @@
 
     <groupId>org.campagnelab.gobyweb</groupId>
     <artifactId>artifacts</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.16-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>artifacts</name>
@@ -78,6 +78,26 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <property name="compile_classpath" refid="maven.compile.classpath"/>
+                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
+                                <property name="test_classpath" refid="maven.test.classpath"/>
+                                <property name="plugin_classpath" refid="maven.plugin.classpath"/>
+
+                                <echo message="compile classpath: ${compile_classpath}"/>
+                                <echo message="runtime classpath: ${runtime_classpath}"/>
+                                <echo message="test classpath:    ${test_classpath}"/>
+                                <echo message="plugin classpath:  ${plugin_classpath}"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -132,8 +152,6 @@
                 </executions>
             </plugin>
         </plugins>
-
-
     </build>
 
     <dependencies>
@@ -152,7 +170,6 @@
             <artifactId>xstream</artifactId>
             <version>1.2.2</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -167,7 +184,7 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>1.2.16</version>
         </dependency>
         <dependency>
             <groupId>it.unimi.dsi</groupId>
@@ -178,18 +195,6 @@
             <groupId>it.unimi.dsi</groupId>
             <artifactId>dsiutils</artifactId>
             <version>2.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.campagnelab.gobyweb</groupId>
-            <artifactId>icb-groovy-support</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-
-        <dependency>
-            <!-- Needed to use Groovy classes from icb-groovy-support.. -->
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>1.7.6</version>
         </dependency>
 
     </dependencies>

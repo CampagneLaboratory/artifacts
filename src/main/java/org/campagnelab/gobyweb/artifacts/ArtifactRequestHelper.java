@@ -1,9 +1,8 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.campagnelab.groovySupport.ExecAndRemote;
+import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
 import java.util.List;
@@ -64,7 +63,8 @@ public class ArtifactRequestHelper {
                         System.getProperty("user.name");
 
                 String server = request.getSshWebAppHost();
-                int status = executor.scp(String.format("%s@%s:%s", username, server, scriptInstallPath), localFilename);
+
+                int status = scp(username, server, scriptInstallPath, localFilename);
                 if (status != 0) {
                     final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
                             server, scriptInstallPath);
@@ -78,11 +78,30 @@ public class ArtifactRequestHelper {
                 printBashExports(repoDir, new PrintWriter(currentExports));
                 repo.setCurrentBashExports(currentExports.toString());
                 repo.save();
+            } catch (InterruptedException e) {
+                LOG.error("An error occurred when transferring install script.", e);
             } finally {
                 tempInstallFile.delete();
             }
         }
         repo.save();
+    }
+
+    private int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
+        return exec(String.format("scp -o StrictHostKeyChecking=no %s@%s:%s %s", username, remoteHost, remotePath, localFilename));
+    }
+
+    private int exec(String command) throws IOException, InterruptedException {
+        Runtime rt = Runtime.getRuntime();
+        String[] commands = command.split(" ");
+        Process pr = rt.exec(commands);
+        LOG.trace("executing command: "+command);
+        new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
+        new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
+
+        int exitVal = pr.waitFor();
+        LOG.info("Install script exited with error code " + exitVal);
+        return exitVal;
     }
 
     /**
@@ -111,7 +130,6 @@ public class ArtifactRequestHelper {
         }
     }
 
-    private ExecAndRemote executor = new ExecAndRemote();
 
     /**
      * Print BASH export statements for all artifacts in the request that are INSTALLED in the repository.

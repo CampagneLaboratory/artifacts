@@ -1,7 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
-import groovy.io.GroovyPrintWriter;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,9 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
 /**
