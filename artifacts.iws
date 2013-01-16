@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="Fix a bug where artifacts with attributes could be installed twice.&#10;Fix remove so that all artifacts with attributes are removed for set of requests.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iml" afterPath="$PROJECT_DIR$/artifacts.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.ipr" afterPath="$PROJECT_DIR$/artifacts.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
@@ -16,17 +14,17 @@
     <file path="/LockMultiServerThread.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355684754751" ignored="false" />
     <file path="/ExclusiveLock.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355684699134" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/2.4.1/protobuf-java-2.4.1.jar!/META-INF/maven/com.google.protobuf/protobuf-java/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355682965269" ignored="false" />
-    <file path="/fragment.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358103082163" ignored="false" />
+    <file path="/fragment.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373548978" ignored="false" />
     <file path="/artifacts.proto" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357672528472" ignored="false" />
     <file path="/ArtifactRepo.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357935704884" ignored="false" />
     <file path="/ArtifactInstaller.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355678337102" ignored="false" />
     <file path="/ArtifactManager.jsap" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357864303650" ignored="false" />
     <file path="$PROJECT_DIR$/../JSAP-2.1/META-INF/application.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355674643137" ignored="false" />
     <file path="/ArtifactManager.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357865622405" ignored="false" />
-    <file path="/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358100502967" ignored="false" />
+    <file path="/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292021059" ignored="false" />
     <file path="/log4j.properties" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356648242872" ignored="false" />
     <file path="/ArtifactManagerTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357928820964" ignored="false" />
-    <file path="/Dummy.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358103082163" ignored="false" />
+    <file path="/Dummy.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374264495" ignored="false" />
     <file path="/install-script1.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355876855805" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/controllers/SampleController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/services/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
@@ -36,18 +34,18 @@
     <file path="$PROJECT_DIR$/../gobyweb2/gobyweb_home/conf/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/gobyweb_home/conf/OrganismConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/services/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/STAR_2.2.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357928708126" ignored="false" />
-    <file path="/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357928708126" ignored="false" />
-    <file path="/*.regexp" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091417423" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358092685016" ignored="false" />
-    <file path="/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358054714635" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/STAR_2.2.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358285801772" ignored="false" />
+    <file path="/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358285801772" ignored="false" />
+    <file path="/*.regexp" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292505186" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358291909843" ignored="false" />
+    <file path="/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358290940153" ignored="false" />
     <file path="/BuilArtifactRequest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355931908805" ignored="false" />
     <file path="/BuildArtifactRequest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357772482598" ignored="false" />
     <file path="/BuildArtifactRequestTst.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355937309664" ignored="false" />
-    <file path="/ArtifactRequestHelper.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358099139696" ignored="false" />
+    <file path="/ArtifactRequestHelper.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358370106205" ignored="false" />
     <file path="/BuildArtifactRequestTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357929285750" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/build.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358097812584" ignored="false" />
-    <file path="/build.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358097751907" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/build.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358368087974" ignored="false" />
+    <file path="/build.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358368087171" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355945170746" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/src/org/campagnelab/groovySupport/ExecAndRemote.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357850746728" ignored="false" />
     <file path="/ExecAndRemote.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357850746728" ignored="false" />
@@ -60,33 +58,33 @@
     <file path="$PROJECT_DIR$/../1.9/grails-app/services/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961312082" ignored="false" />
     <file path="$PROJECT_DIR$/../1.9/grails-app/services/SampleService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961681875" ignored="false" />
     <file path="/SampleService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961679515" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/grid-templates/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357938616769" ignored="false" />
-    <file path="/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357938292583" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/grid-templates/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284463840" ignored="false" />
+    <file path="/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284377839" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/scripts/_Events.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356050339423" ignored="false" />
     <file path="/_Events.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356050337556" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/libify-dependencies.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356024686887" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/application.properties" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356050272593" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/copyJarsFromIvy.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358055187229" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/copyJarsFromIvy.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358272582546" ignored="false" />
     <file path="/copyJarsFromIvy.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358055187229" ignored="false" />
     <file path="$PROJECT_DIR$/../campagnelab/artifacts/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356035790867" ignored="false" />
     <file path="$PROJECT_DIR$/../campagnelab/artifacts/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356036035776" ignored="false" />
-    <file path="/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358102018970" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GOBYWEB_SERVER_SIDE/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356038553347" ignored="false" />
+    <file path="/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373924540" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GOBYWEB_SERVER_SIDE/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284241921" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/plugins/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053557900" ignored="false" />
-    <file path="/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357767625811" ignored="false" />
+    <file path="/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358370729531" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/AlignJobService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="/AlignJobService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357760843334" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/DataSource.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356044325681" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/PluginsService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091221752" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/PluginsService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374287637" ignored="false" />
     <file path="/PluginsService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356047103875" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/catalina.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357762979315" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/grailsframework.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357762979315" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/gobyweb.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357769278888" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/catalina.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292443940" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/grailsframework.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292443940" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/gobyweb.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292443940" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/hibernate.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357690840836" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/plugins/xml/Artifact.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053557901" ignored="false" />
     <file path="/Artifact.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357667098611" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/aligners/STAR22_GOBY/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357937846211" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/aligners/STAR22_GOBY/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358280307102" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/PathService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356642243167" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/WebAppConfig.groovy-template" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357759363450" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/Gobyweb-grailsPlugins.iml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357936348846" ignored="false" />
@@ -96,18 +94,18 @@
     <file path="/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356112081207" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/AlignJobController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="/AlignJobController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357759129726" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/STAR_2.2.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358016305358" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/plugins.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357769278888" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/STAR_2.2.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358279163373" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/logs/plugins.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292631231" ignored="false" />
     <file path="/plugins.out" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356639898790" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/ClusterNodeConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356642266265" ignored="false" />
     <file path="/ClusterNodeConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356642222366" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/AlignJob.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/AlignJob.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358286088821" ignored="false" />
     <file path="/PathService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356642243168" ignored="false" />
     <file path="$PROJECT_DIR$/../git/goby/Goby.iml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356710343059" ignored="false" />
     <file path="$PROJECT_DIR$/../git/goby/CHANGES.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356970555899" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/security/NgUser.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356713677207" ignored="false" />
     <file path="/NgUser.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356713665724" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/aligners/STAR22_GOBY/script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357864885252" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/aligners/STAR22_GOBY/script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358280227662" ignored="false" />
     <file path="/script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357864885252" ignored="false" />
     <file path="$PROJECT_DIR$/../git/goby/src/edu/cornell/med/icb/goby/alignments/AlignmentReaderImpl.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356969845594" ignored="false" />
     <file path="$PROJECT_DIR$/../git/goby/src/edu/cornell/med/icb/goby/modes/TrimMode.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356969640891" ignored="false" />
@@ -129,23 +127,23 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/plugins/xml/Attribute.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053557900" ignored="false" />
     <file path="/Attribute.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357666142457" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/test/unit/org/campagnelab/gobyweb/plugins/PluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357666815451" ignored="false" />
-    <file path="/PluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358103491180" ignored="false" />
+    <file path="/PluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358370802593" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/schemas/plugins.xsd" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357937883219" ignored="false" />
     <file path="/plugins.xsd" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357666991247" ignored="false" />
     <file path="/install-script3.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357673117052" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/DiffExpService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="/DiffExpService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357680906360" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/OrganismConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358016305359" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/OrganismConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358280431906" ignored="false" />
     <file path="/OrganismConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357758277423" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GENOMES_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357858789864" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357858579733" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358016305358" ignored="false" />
     <file path="/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357753824937" ignored="false" />
     <file path="/Dummy.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357754655796" ignored="false" />
-    <file path="/AlignJob.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357760420325" ignored="false" />
+    <file path="/AlignJob.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358286026969" ignored="false" />
     <file path="/install-script5.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357774166885" ignored="false" />
     <file path="/install-script6.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357775118862" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/src/org/campagnelab/groovySupport/StreamGobbler.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357851841897" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/src/org/campagnelab/groovySupport/StreamGobbler.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284788464" ignored="false" />
     <file path="/StreamGobbler.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357851841412" ignored="false" />
     <file path="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/util.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357852008292" ignored="false" />
     <file path="/SyncPipe.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357861159572" ignored="false" />
@@ -172,7 +170,7 @@
     <file path="$PROJECT_DIR$/../plugins/src/main/plugins/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358052916946" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins/src/main/plugins/xml/AlignerConfig.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358052917821" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/xml/WriteTemplates.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501672" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/DiffExp.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/DiffExp.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358286186296" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/test/unit/org/campagnelab/gobyweb/oldplugins/PluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501672" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/DiffExpController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/MultiDownloadService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
@@ -241,6 +239,32 @@
     <file path="$PROJECT_DIR$/../plugins/test-data/plugin-root-1/plugins/resources/SAMTOOLS_0.1.14/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358102263060" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins/test-data/plugin-root-1/plugins/resources/STAR_2.2.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358102293502" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins/test-data/plugin-root-1/plugins/analyses/CONTAMINANT_EXTRACT/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358103305702" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/FAI_INDEXED_GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358279059308" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/FAI_INDEXED_GENOMES_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358279078468" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_ANNOTATIONS_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358283006676" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_ANNOTATIONS_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284669656" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GROOVY_2.0.6/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282863215" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GROOVY_2.0.6/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282704496" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GROOVY_2.0.6/groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282670798" ignored="false" />
+    <file path="/groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282665254" ignored="false" />
+    <file path="$USER_HOME$/.m2/settings.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358285072339" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/src/main/groovy/org/campagnelab/gobyweb/plugins/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358371133268" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358371388306" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/src/main/groovy/org/campagnelab/gobyweb/plugins/xml/PluginConfig.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358291147919" ignored="false" />
+    <file path="/PluginConfig.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358288091588" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-1/plugins/aligners/GSNAP_GOBY/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358288144141" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-1/plugins/aligners/GSNAP_WITH_GOBY/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358288822900" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/src/test/java/org/campagnelab/gobyweb/plugins/PluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373456719" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/src/test/java/org/campagnelab/gobyweb/plugins/InvalidPluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358370770376" ignored="false" />
+    <file path="/InvalidPluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358291803787" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-2/plugins/resources/NIL_ID/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358291720678" ignored="false" />
+    <file path="$PROJECT_DIR$/../git/goby/src/edu/cornell/med/icb/goby/modes/SimulateReadsMode.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373110415" ignored="false" />
+    <file path="/SimulateReadsMode.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358371978335" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-3/plugins/resources/STAR_2.2.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373408111" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/src/test/java/org/campagnelab/gobyweb/plugins/ResourceDependencyTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374189401" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-3/plugins/resources/SAMTOOLS_0.1.18/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373905728" ignored="false" />
+    <file path="/ResourceDependencyTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374162051" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-3/plugins/resources/GSNAP_GOBY_2011.07.08/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373929960" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -382,7 +406,7 @@
       <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="0" selection-start="7621" selection-end="7621" vertical-scroll-proportion="3.8372092">
+            <state line="13" column="26" selection-start="511" selection-end="511" vertical-scroll-proportion="0.41401273">
               <folding />
             </state>
           </provider>
@@ -490,9 +514,10 @@
     <option name="warnings" value="true" />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="35" />
     <option name="y" value="22" />
-    <option name="width" value="1440" />
-    <option name="height" value="874" />
+    <option name="width" value="1652" />
+    <option name="height" value="863" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -520,8 +545,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -694,18 +717,20 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="164" />
-    <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="165" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="75" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="OverrideImplement.combined" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="176" />
-    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="OverrideImplement.combined" value="false" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
@@ -724,19 +749,19 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="839" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1369,10 +1394,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="874" extended-state="0" />
+    <frame x="35" y="22" width="1652" height="863" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24955752" sideWeight="0.67342585" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1382,21 +1408,20 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32303733" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.67650837" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3577586" sideWeight="0.6769627" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35723191" sideWeight="0.6762402" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24856322" sideWeight="0.6769627" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32294264" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24812968" sideWeight="0.6762402" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3237598" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.6723769" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32561132" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32303733" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1547,13 +1572,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="11" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="149" column="0" selection-start="6084" selection-end="6084" vertical-scroll-proportion="0.0">
@@ -1582,9 +1600,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="11" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="0" selection-start="7621" selection-end="7621" vertical-scroll-proportion="3.8372092">
+        <state line="13" column="26" selection-start="511" selection-end="511" vertical-scroll-proportion="0.41401273">
           <folding />
         </state>
       </provider>

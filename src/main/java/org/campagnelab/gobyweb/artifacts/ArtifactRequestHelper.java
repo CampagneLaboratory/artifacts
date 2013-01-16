@@ -215,10 +215,22 @@ public class ArtifactRequestHelper {
     }
 
     /**
+     * Return the installation requests.
+     * @return
+     */
+    public  Artifacts.InstallationSet getRequests(){
+        return requests;
+    }
+    /**
      * Show the content of the request(s).
      */
     public void show() {
         System.out.println(requests.toString());
+    }
+
+    @Override
+    public String toString() {
+        return requests.toString();
     }
 
     public void setSpaceRepoDirQuota(long spaceRepoDirQuota) {
