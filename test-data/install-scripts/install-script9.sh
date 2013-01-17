@@ -31,9 +31,9 @@ function get_attribute_values() {
          'RANDOM' )
 
              echo "get_attribute_values for ID=${id}"
-
-             echo "attribute-A=VA" >>${out}
-             echo "attribute-B=VB" >>${out}
+             LANG=C # Required to run the next line on MacOS:
+             RANDOM_VALUE=`cat /dev/random|tr -cd AB|head -c 1`
+             echo "attribute-A=${RANDOM_VALUE}" >>${out}
          ;;
 
      esac

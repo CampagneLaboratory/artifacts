@@ -197,8 +197,10 @@ public class ArtifactRepo {
             artifactBuilder.setPluginId(pluginId);
             artifactBuilder.setState(Artifacts.InstallationState.INSTALLING);
             artifactBuilder.setInstallationTime(new Date().getTime());
-            artifactBuilder.setRelativePath(appendKeyValuePairs(FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version), avp));
+            final String installScriptDir = FilenameUtils.concat(FilenameUtils.concat(pluginId, artifactId), version);
+            artifactBuilder.setRelativePath(appendKeyValuePairs(installScriptDir, avp));
             artifactBuilder.setVersion(version);
+
             for (AttributeValuePair valuePair : avp) {
                 final Artifacts.AttributeValuePair.Builder avpBuilder = Artifacts.AttributeValuePair.newBuilder().setName(valuePair.name);
                 if (valuePair.value != null) {
@@ -222,6 +224,8 @@ public class ArtifactRepo {
 
                 runInstallScript(pluginId, artifactId, pluginScript, version, avp);
                 updateInstalledSize(artifact);
+
+                updateInstallScriptLocation(artifact, pluginScript);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
                 updateExportStatements(artifact, avp);
             } catch (RuntimeException e) {
@@ -234,6 +238,51 @@ public class ArtifactRepo {
 
             save();
         }
+    }
+
+    private boolean updateInstallScriptLocation(Artifacts.Artifact artifact, String pluginScript) {
+
+        if (pluginScript == null) {
+            //success
+            return true;
+        }
+        artifact = index.get(makeKey(artifact));
+        Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder();
+
+        String pluginId = artifact.getPluginId();
+        String artifactId = artifact.getId();
+        String version = artifact.getVersion();
+        final String installScriptDir = FilenameUtils.concat(pluginId, version);
+        boolean failed = false;
+        final File installScriptFinalLocation = new File(FilenameUtils.concat(installScriptDir, "install.sh"));
+        final File installInRepoAbsolute = getCachedScriptLocation(installScriptFinalLocation);
+
+        try {
+
+            installInRepoAbsolute.getParentFile().mkdirs();
+            FileUtils.copyFile(new File(pluginScript),
+                    installInRepoAbsolute);
+            LOG.info("LOCAL_COPY: Copied install script to " + installInRepoAbsolute);
+            artifact = artifactBuilder.setInstallScriptRelativePath(installScriptFinalLocation.getPath()).build();
+            index.put(makeKey(artifact), artifact);
+            save();
+        } catch (IOException e) {
+            LOG.error("LOCAL_COPY: Failed to cache install script " + installInRepoAbsolute);
+
+            failed = true;
+        }
+        return !failed;
+
+    }
+
+    private File getCachedScriptLocation(String installScriptFinalLocation) {
+        return getCachedScriptLocation(new File(installScriptFinalLocation));
+    }
+
+    private File getCachedScriptLocation(File installScriptFinalLocation) {
+        return new File(FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(),
+                "scripts"),
+                installScriptFinalLocation.getPath()));
     }
 
     private String toText(Artifacts.Artifact artifact) {
@@ -269,43 +318,64 @@ public class ArtifactRepo {
         }
     }
 
-    private AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact, String artifactId, String version,
-                                                    AttributeValuePair[] avp, String pluginScript,
-                                                    String pluginId) throws IOException {
-        boolean failed = false;
-        try {
+    protected Properties readAttributeValues(Artifacts.Artifact artifact,  AttributeValuePair[] avpEnvironment) throws IOException {
+        assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
+        String installScript = getCachedScriptLocation(artifact.getInstallScriptRelativePath()).getAbsolutePath();
+        return readAttributeValues(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
+                avpEnvironment, installScript);
 
-            File attributeFile = runAttributeValuesFunction(pluginId, artifactId, version, avp, pluginScript);
-            try {
-                if (attributeFile != null) {
-                    // parse properties and value attributes that were not defined:
-                    Properties p = new Properties();
-                    p.load(new FileReader(attributeFile));
-                    for (AttributeValuePair attributeValuePair : avp) {
-                        if (attributeValuePair.value == null) {
-                            final String scriptValue = p.getProperty(attributeValuePair.name);
-                            if (scriptValue == null) {
-                                LOG.error("Could not obtain attribute value from install script for attribute=" + attributeValuePair.name);
-                                failed = true;
-                            }
-                            attributeValuePair.value = normalize(scriptValue);
+    }
+
+    private Properties readAttributeValues(String pluginId, String artifactId, String version, AttributeValuePair[] avp, String pluginInstallScript) {
+        File attributeFile = null;
+        try {
+            attributeFile = runAttributeValuesFunction(pluginId, artifactId, version, avp, pluginInstallScript);
+            if (attributeFile != null) {
+                // parse properties and value attributes that were not defined:
+                Properties p = new Properties();
+                p.load(new FileReader(attributeFile));
+                for (AttributeValuePair attributeValuePair : avp) {
+                    if (attributeValuePair.value == null) {
+                        final String scriptValue = p.getProperty(attributeValuePair.name);
+                        if (scriptValue == null) {
+                            LOG.error("Could not obtain attribute value from install script for attribute=" + attributeValuePair.name);
+                            return null;
                         }
+                        attributeValuePair.value = normalize(scriptValue);
                     }
                 }
-            } finally {
-                if (attributeFile != null) {
-                    attributeFile.delete();
-                }
+                return p;
             }
+        } catch (InterruptedException e) {
+            return null;
         } catch (RuntimeException e) {
-            failed = true;
+            return null;
         } catch (Exception e) {
-            failed = true;
+            return null;
         } catch (Error e) {
+            return null;
+        } finally {
+            if (attributeFile != null) {
+                attributeFile.delete();
+            }
+        }
+        return null;
+    }
+
+    protected AttributeValuePair[] getAttributeValues(Artifacts.Artifact artifact,
+                                                      String artifactId, String version,
+                                                      AttributeValuePair[] avp, String pluginScript,
+                                                      String pluginId) throws IOException {
+        boolean failed = false;
+        if (pluginScript == null) {
+            return new AttributeValuePair[0];
+        }
+        Properties p = readAttributeValues(pluginId, artifactId, version, avp, pluginScript);
+        if (p == null) {
             failed = true;
         }
         if (failed) {
-            LOG.error("Unable to retrieve attributes for plugin "+toText(artifact));
+            LOG.error("Unable to retrieve attributes for plugin " + toText(artifact));
             if (artifact != null) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             }
@@ -318,7 +388,7 @@ public class ArtifactRepo {
         pluginScript = new File(pluginScript).getAbsolutePath();
         String tmpDir = System.getProperty("java.io.tmpdir");
         final long time = new Date().getTime();
-
+        LOG.info("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
         String wrapperTemplate = "( set -x ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
                 " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties )%n";
@@ -370,12 +440,16 @@ public class ArtifactRepo {
     private void updateInstalledSize(Artifacts.Artifact artifact) throws IOException {
         artifact = index.get(makeKey(artifact));
         Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder();
-        final long artifactInstalledSize = FileUtils.sizeOfDirectory(new File(FilenameUtils.concat(repoDir.getAbsolutePath(),
-                artifact.getRelativePath())));
+        final long artifactInstalledSize = FileUtils.sizeOfDirectory(new File(getPluginInstallDir(artifact)));
         artifactBuilder.setInstalledSize(artifactInstalledSize);
         artifact = artifactBuilder.build();
         index.put(makeKey(artifact), artifact);
         save();
+    }
+
+    private String getPluginInstallDir(Artifacts.Artifact artifact) {
+        return FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(),"artifacts"),
+                artifact.getRelativePath());
     }
 
     /**
@@ -415,8 +489,9 @@ public class ArtifactRepo {
 
         return new File(appendKeyValuePairs(FilenameUtils.concat(
                 FilenameUtils.concat(
-                        FilenameUtils.concat(
-                                repoDir.getAbsolutePath(), pluginId), artifactId), version),
+                        FilenameUtils.concat(   FilenameUtils.concat(
+                                repoDir.getAbsolutePath(),"artifacts"),
+                                pluginId), artifactId), version),
                 avp));
     }
 
@@ -680,7 +755,7 @@ public class ArtifactRepo {
             System.err.printf("Artifact %s:%s:%s could not be found. %n ", pluginId, artifactId, version, avp);
             return null;
         } else {
-            return FilenameUtils.concat(repoDir.getAbsolutePath(), artifact.getRelativePath());
+            return getPluginInstallDir(artifact);
         }
     }
 
@@ -708,5 +783,6 @@ public class ArtifactRepo {
     public void setCurrentBashExports(String currentBashExports) {
         this.currentBashExports = new MutableString(currentBashExports);
     }
+
 
 }

@@ -22,7 +22,7 @@ function plugin_install_artifact {
                  return 0
                  ;;
 
-            *)  echo "Resource artifact id not recognized: "${id}
+            *)  echo "Resource artifact id not recognized: ${id}"
                 return 99
                 ;;
 
@@ -41,13 +41,13 @@ function get_attribute_values() {
      case ${id} in
          'FILE1' )
 
-             echo get_attribute_values for ID=${id}
+             echo "get_attribute_values for ID=${id}"
 
              echo "attribute-A=VA" >>${out}
              echo "attribute-B=VB" >>${out}
          ;;
          'FILE2' )
-              echo get_attribute_values for ID=${id}
+              echo "get_attribute_values for ID=${id}"
 
               echo "attribute-A=VA" >>${out}
               echo "attribute-B=VB" >>${out}

@@ -35,8 +35,8 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.install(new File("REPO"));
 
-        assertTrue(new File("REPO/PLUGIN/FILE1/1.0/installed-file-1").exists());
-        assertFalse(new File("REPO/PLUGIN/FILE2/1.0/installed-file-2").exists());
+        assertTrue(new File("REPO/artifacts/PLUGIN/FILE1/1.0/installed-file-1").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE2/1.0/installed-file-2").exists());
         helper.show();
     }
 
@@ -52,8 +52,8 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.install(new File("REPO"));
 
-        assertTrue(new File("REPO/PLUGIN/FILE1/1.0/installed-file-1").exists());
-        assertFalse(new File("REPO/PLUGIN/FILE2/1.0/installed-file-2").exists());
+        assertTrue(new File("REPO/artifacts/PLUGIN/FILE1/1.0/installed-file-1").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE2/1.0/installed-file-2").exists());
 
     }
 
@@ -171,6 +171,7 @@ public class BuildArtifactRequestTest {
         final StringWriter result = new StringWriter();
 
         helper.printBashExports(repoDir, new PrintWriter(result));
+        System.out.println(result.getBuffer());
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_VA_VB=") >= 0);
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_VB=") >= 0);
         assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
@@ -186,7 +187,7 @@ public class BuildArtifactRequestTest {
 
     @Test
     public void testNoDoubleInstallationsWithAttributes() throws IOException {
-        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
             assertTrue(dir.listFiles().length <= 1);
         }
@@ -213,7 +214,7 @@ public class BuildArtifactRequestTest {
                 new AttributeValuePair("attribute-A", "VA"),
                 new AttributeValuePair("attribute-B", "VB"));
         assertNotNull(artifact);
-        assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }

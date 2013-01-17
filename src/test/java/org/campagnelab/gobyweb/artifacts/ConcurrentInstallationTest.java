@@ -34,7 +34,7 @@ public class ConcurrentInstallationTest {
 
         repo.save();
         assertNotNull(repo.find("PLUGIN", "RANDOM"));
-        assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN", "RANDOM").getState());
 
 
@@ -46,7 +46,7 @@ public class ConcurrentInstallationTest {
         final ArtifactRepo repo = manager.getRepo();
         repo.load();
 
-        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
             assertTrue(dir.listFiles().length <= 1);
         }
@@ -55,7 +55,7 @@ public class ConcurrentInstallationTest {
         repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script2.sh");
         repo.save();
         assertNotNull(repo.find("PLUGIN", "RANDOM"));
-        assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN", "RANDOM").getState());
 
 

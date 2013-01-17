@@ -135,6 +135,10 @@ message Artifact {
    */
   required RetentionPolicy retention=4;
 
+  /*
+   * The relative path to a copy of the install script within the local repository.
+   */
+  optional string install_script_relative_path = 21;
 }
 
 message Host {

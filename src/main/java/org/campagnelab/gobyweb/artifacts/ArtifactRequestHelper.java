@@ -5,7 +5,9 @@ import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Helps execute artifact requests against a repository.
@@ -55,7 +57,8 @@ public class ArtifactRequestHelper {
                 continue;
             }
             final String scriptInstallPath = request.getScriptInstallPath();
-            final File tempInstallFile = File.createTempFile(request.getPluginId(), FilenameUtils.getBaseName(scriptInstallPath));
+            final File tempInstallFile = File.createTempFile(request.getPluginId(),
+                    FilenameUtils.getBaseName(scriptInstallPath));
 
             try {
                 final String localFilename = tempInstallFile.getAbsolutePath();
@@ -95,7 +98,7 @@ public class ArtifactRequestHelper {
         Runtime rt = Runtime.getRuntime();
         String[] commands = command.split(" ");
         Process pr = rt.exec(commands);
-        LOG.trace("executing command: "+command);
+        LOG.trace("executing command: " + command);
         new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
         new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
@@ -153,24 +156,48 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            List<Artifacts.Artifact> artifacts = repo.findIgnoringAttributes(request.getPluginId(), request.getArtifactId(), request.getVersion()
+            List<Artifacts.Artifact> artifacts = repo.findIgnoringAttributes(request.getPluginId(),
+                    request.getArtifactId(), request.getVersion()
             );
             for (Artifacts.Artifact artifact : artifacts) {
                 //repo.convert(request.getAttributesList()
                 if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+                    List<Artifacts.AttributeValuePair> list = artifact.getAttributesList();
+                    boolean attributesInRepoMatchEnvironment = true;
+                    if (!list.isEmpty()) {
+                        // we must verify that the artifact attributes recorded in the repo match those
+                        // needed in the specific runtime environment we are in.
+                        AttributeValuePair[] avpEnvironment = repo.convert(artifact.getAttributesList());
+                        AttributeValuePair[] avpRepo = repo.convert(artifact.getAttributesList());
+                        for (AttributeValuePair attributeValuePair : avpEnvironment) {
+                            // we null the value to collect it from the script/environment:
+                            attributeValuePair.value = null;
+                        }
+                        Properties properties = repo.readAttributeValues(artifact, avpEnvironment);
+                        if (properties == null) {
+                            // we could not obtain avpEnvironment
+                            continue;
+                        }
+                        attributesInRepoMatchEnvironment = Arrays.equals(avpEnvironment, avpRepo);
+                    }
 
-                    output.printf("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", request.getPluginId(),
-                            request.getArtifactId(), listAttributeValues(artifact.getAttributesList()),
-                            repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion(),
-                                    repo.convert(artifact.getAttributesList())));
-                    // also write each attribute value:
-                    for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
-                        if (attribute.getValue() != null) {
-                            output.printf("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n",
-                                    artifact.getPluginId(),
-                                    artifact.getId(),
-                                    repo.normalize(attribute.getName()),
-                                    attribute.getValue());
+                    if (attributesInRepoMatchEnvironment) {
+
+                        // only write exports when the attribute values obtained from the runtime env match those in the repo:
+                        final AttributeValuePair[] avpPluginInRepo = repo.convert(artifact.getAttributesList());
+                        output.printf("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", request.getPluginId(),
+                                request.getArtifactId(), listAttributeValues(artifact.getAttributesList()),
+                                repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                                        avpPluginInRepo));
+                        // also write each attribute value:
+                        for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
+                            if (attribute.getValue() != null) {
+                                output.printf("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n",
+                                        artifact.getPluginId(),
+                                        artifact.getId(),
+                                        repo.normalize(attribute.getName()),
+                                        attribute.getValue());
+                            }
                         }
                     }
                 }
@@ -216,11 +243,13 @@ public class ArtifactRequestHelper {
 
     /**
      * Return the installation requests.
+     *
      * @return
      */
-    public  Artifacts.InstallationSet getRequests(){
+    public Artifacts.InstallationSet getRequests() {
         return requests;
     }
+
     /**
      * Show the content of the request(s).
      */

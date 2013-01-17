@@ -79,22 +79,22 @@ public class ArtifactManagerTest {
         final ArtifactRepo repo = manager.getRepo();
         repo.load();
         assertNull(repo.find("PLUGIN", "FILE1"));
-        assertFalse(new File("REPO/PLUGIN/FILE1/installed-file-1").exists());
-        assertFalse(new File("REPO/PLUGIN/FILE1/installed-file-2").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE1/installed-file-1").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE1/installed-file-2").exists());
 
         repo.install("PLUGIN", "FILE1", "test-data/install-scripts/install-script1.sh");
         assertNotNull(repo.find("PLUGIN", "FILE1"));
         assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN", "FILE1").getState());
         repo.save();
-        assertTrue(new File("REPO/PLUGIN/FILE1/VERSION/installed-file-1").exists());
-        assertFalse(new File("REPO/PLUGIN/FILE1/VERSION/installed-file-2").exists());
+        assertTrue(new File("REPO/artifacts/PLUGIN/FILE1/VERSION/installed-file-1").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE1/VERSION/installed-file-2").exists());
 
         repo.install("PLUGIN", "FILE2", "test-data/install-scripts/install-script1.sh");
-        assertTrue(new File("REPO/PLUGIN/FILE2/VERSION/installed-file-2").exists());
+        assertTrue(new File("REPO/artifacts/PLUGIN/FILE2/VERSION/installed-file-2").exists());
         repo.remove("PLUGIN", "FILE1");
-        assertFalse(new File("REPO/PLUGIN/FILE1/VERSION/installed-file-1").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE1/VERSION/installed-file-1").exists());
         repo.remove("PLUGIN", "FILE2");
-        assertFalse(new File("REPO/PLUGIN/FILE2/VERSION/installed-file-2").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE2/VERSION/installed-file-2").exists());
 
     }
 
@@ -122,16 +122,16 @@ public class ArtifactManagerTest {
                 new AttributeValuePair("Reference-Build", "hg19"),
         };
         assertNull(repo.find("PLUGIN", "INDEX", avp));
-        assertFalse(new File("REPO/PLUGIN/INDEX/HOMO_SAPIENS/HG19/index-installed").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/INDEX/HOMO_SAPIENS/HG19/index-installed").exists());
 
         repo.install("PLUGIN", "INDEX", "test-data/install-scripts/install-script3.sh", avp);
         assertNotNull(repo.find("PLUGIN", "INDEX", avp));
         assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN", "INDEX", avp).getState());
         repo.save();
-        assertTrue(new File("REPO/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
+        assertTrue(new File("REPO/artifacts/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
 
         repo.remove("PLUGIN", "INDEX", avp);
-        assertFalse(new File("REPO/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/INDEX/VERSION/HOMO_SAPIENS/HG19/index-installed").exists());
 
     }
 
@@ -156,7 +156,30 @@ public class ArtifactManagerTest {
                 new AttributeValuePair("attribute-A", "VA"),
                 new AttributeValuePair("attribute-B", "VB"));
         assertNotNull(artifact );
-        assertEquals(1, new File("REPO/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
+        assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
+
+    }
+ @Test
+    public void testMultipleInstallationsWithChangingAttributes() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+
+        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        if (dir.exists()) {
+            assertTrue(dir.listFiles().length <= 1);
+        }
+        final AttributeValuePair[] attributeValuePairs = {new AttributeValuePair("attribute-A")};
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+
+        repo.save();
+        final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
+                new AttributeValuePair("attribute-A", "A"));
+        assertNotNull(artifact );
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/A").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }

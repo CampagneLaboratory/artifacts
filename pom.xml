@@ -15,14 +15,14 @@
 
     <distributionManagement>
         <repository>
-            <id>toulouse.med.cornell.edu</id>
-            <name>toulouse.med.cornell.edu-releases</name>
-            <url>http://toulouse.med.cornell.edu:8010/artifactory/CampagneLab</url>
+            <id>repository.campagnelab.org</id>
+            <name>repository.campagnelab.org</name>
+            <url>http://repository.campagnelab.org/artifactory/CampagneLab/</url>
         </repository>
         <snapshotRepository>
-            <id>toulouse-SNAPSHOT.med.cornell.edu</id>
-            <name>toulouse.med.cornell.edu-snapshots</name>
-            <url>http://toulouse.med.cornell.edu:8010/artifactory/CampagneLab-SNAPSHOT</url>
+            <id>repository-SNAPSHOT.campagnelab.org</id>
+            <name>repository.campagnelab.org-SNAPSHOT</name>
+            <url>http://repository.campagnelab.org/artifactory/CampagneLab-SNAPSHOT/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>
