@@ -29,11 +29,20 @@ function get_attribute_values() {
      out=$2
      case ${id} in
          'RANDOM' )
-
              echo "get_attribute_values for ID=${id}"
-             LANG=C # Required to run the next line on MacOS:
-             RANDOM_VALUE=`cat /dev/random|tr -cd AB|head -c 1`
-             echo "attribute-A=${RANDOM_VALUE}" >>${out}
+
+             if [ -e ${TMPDIR}/FLAG ]; then
+
+                echo "attribute-A=A" >>${out}
+                rm ${TMPDIR}/FLAG
+
+             else
+
+                echo "attribute-A=B" >>${out}
+                touch ${TMPDIR}/FLAG
+
+             fi
+
          ;;
 
      esac

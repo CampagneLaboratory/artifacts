@@ -43,6 +43,7 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
 
         StringWriter currentExports = new StringWriter();
+        LOG.info("Preparing to install from request: "+getPluginNames(requests));
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             repo.load();
             LOG.info("Processing install request: " + request.toString());
@@ -78,9 +79,20 @@ public class ArtifactRequestHelper {
                 repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                         avp, request.getRetention());
 
-                printBashExports(repoDir, new PrintWriter(currentExports));
-                repo.setCurrentBashExports(currentExports.toString());
+               // printBashExports(repoDir, new PrintWriter(currentExports));
+                //repo.setCurrentBashExports(currentExports.toString());
                 repo.save();
+
+                final String text = repo.toText(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
+
+                Artifacts.Artifact installedArtifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
+                if (installedArtifact.getState() != Artifacts.InstallationState.INSTALLED) {
+                    LOG.error("Early stop: unable to install previous artifact: " +
+                            text);
+                    return;
+                } else {
+                    LOG.info("Artifact successfully installed: " + text);
+                }
             } catch (InterruptedException e) {
                 LOG.error("An error occurred when transferring install script.", e);
             } finally {
@@ -88,6 +100,16 @@ public class ArtifactRequestHelper {
             }
         }
         repo.save();
+    }
+
+    private String getPluginNames(Artifacts.InstallationSet requests) {
+        StringBuffer sb=new StringBuffer();
+        for (Artifacts.ArtifactDetails request: requests.getArtifactsList()) {
+            sb.append(repo.toText(request.getPluginId(), request.getPluginId(),
+                    request.getVersion(), repo.convert(request.getAttributesList())));
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 
     private int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
@@ -153,6 +175,7 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void printBashExports(File repoDir, PrintWriter output) throws IOException {
+        LOG.debug("printBashExports");
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {

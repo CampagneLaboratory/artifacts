@@ -155,12 +155,13 @@ public class ArtifactManagerTest {
         final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
                 new AttributeValuePair("attribute-A", "VA"),
                 new AttributeValuePair("attribute-B", "VB"));
-        assertNotNull(artifact );
+        assertNotNull(artifact);
         assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }
- @Test
+
+    @Test
     public void testMultipleInstallationsWithChangingAttributes() throws IOException {
         ArtifactManager manager = new ArtifactManager("REPO");
         final ArtifactRepo repo = manager.getRepo();
@@ -171,20 +172,28 @@ public class ArtifactManagerTest {
         }
         final AttributeValuePair[] attributeValuePairs = {new AttributeValuePair("attribute-A")};
         repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+        clearValues(attributeValuePairs);
         repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+        clearValues(attributeValuePairs);
         repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
+        clearValues(attributeValuePairs);
         repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION", attributeValuePairs);
 
         repo.save();
         final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
                 new AttributeValuePair("attribute-A", "A"));
-        assertNotNull(artifact );
+        assertNotNull(artifact);
         assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/A").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/B").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }
 
-
+    private void clearValues(AttributeValuePair[] attributeValuePairs) {
+            for (AttributeValuePair valuePair: attributeValuePairs) {
+                valuePair.value=null;
+            }
+    }
 
 
     @Before

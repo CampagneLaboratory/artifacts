@@ -161,9 +161,6 @@ public class ArtifactRepo {
         // get attributes before anything else:
         if (hasUndefinedAttributes(avp)) {
             avp = getAttributeValues(null, artifactId, version, avp, pluginScript, pluginId);
-            if (avp == null) {
-                return;
-            }
         }
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         while (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
@@ -235,7 +232,7 @@ public class ArtifactRepo {
             } catch (Error e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             }
-
+            LOG.debug("Exiting ArtifactRepo.install");
             save();
         }
     }
@@ -285,7 +282,7 @@ public class ArtifactRepo {
                 installScriptFinalLocation.getPath()));
     }
 
-    private String toText(Artifacts.Artifact artifact) {
+    protected String toText(Artifacts.Artifact artifact) {
         if (artifact != null) {
             return toText(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
                     convert(artifact.getAttributesList()));
@@ -295,7 +292,7 @@ public class ArtifactRepo {
         }
     }
 
-    private String toText(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+    protected String toText(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
         return String.format("%s:%s:%s(%s)", pluginId, artifactId, version, ObjectArrayList.wrap(avp).toString());
     }
 
@@ -319,6 +316,8 @@ public class ArtifactRepo {
     }
 
     protected Properties readAttributeValues(Artifacts.Artifact artifact,  AttributeValuePair[] avpEnvironment) throws IOException {
+        LOG.debug("readAttributeValues(artifact, avpEnvironment)");
+
         assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
         String installScript = getCachedScriptLocation(artifact.getInstallScriptRelativePath()).getAbsolutePath();
         return readAttributeValues(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
@@ -344,6 +343,8 @@ public class ArtifactRepo {
                         attributeValuePair.value = normalize(scriptValue);
                     }
                 }
+                LOG.debug("readAttributeValues() returned: "+ObjectArrayList.wrap(avp).toString());
+
                 return p;
             }
         } catch (InterruptedException e) {
@@ -366,6 +367,7 @@ public class ArtifactRepo {
                                                       String artifactId, String version,
                                                       AttributeValuePair[] avp, String pluginScript,
                                                       String pluginId) throws IOException {
+        LOG.debug("getAttributeValues(artifact, artifactId,version, avp, pluginScript, pluginId)");
         boolean failed = false;
         if (pluginScript == null) {
             return new AttributeValuePair[0];
@@ -407,10 +409,10 @@ public class ArtifactRepo {
 
         int exitVal = pr.waitFor();
         LOG.info("Install script get_attribute_values() exited with error code " + exitVal);
-        System.out.println("Install script get_attribute_values() exited with error code " + exitVal);
         if (exitVal != 0) {
             throw new IllegalStateException();
         } else {
+
             return result;
         }
     }
@@ -507,7 +509,7 @@ public class ArtifactRepo {
         FileUtils.write(tmpExports, currentBashExports != null ? currentBashExports.toString() : "", true);
 
         String wrapperTemplate = "( set -x ; exports=%s ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                " chmod +x $script ;  . $exports; . $script ; plugin_install_artifact %s %s %s; ls -l )%n";
+                " chmod +x $script ;  . $exports; . $script ; plugin_install_artifact %s %s %s; ls -l ; rm -fr ${DIR})%n";
         String tmpDir = System.getProperty("java.io.tmpdir");
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                 tmpDir, (new Date().getTime()),

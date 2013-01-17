@@ -11,6 +11,16 @@
             <help>The architecture on which the artifacts are being installed.</help>
         </flaggedOption>
         <flaggedOption>
+            <id>output</id>
+            <stringParser>
+                <classname>StringStringParser</classname>
+            </stringParser>
+            <required>false</required>
+            <shortFlag>o</shortFlag>
+
+            <help>The output filename to use when writing BASH export statements.</help>
+        </flaggedOption>
+        <flaggedOption>
             <id>repository</id>
             <stringParser>
                 <classname>FileStringParser</classname>

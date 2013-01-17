@@ -4,8 +4,7 @@ import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPResult;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Main class of the GobyWeb artifact manager.
@@ -78,7 +77,11 @@ public class ArtifactManager {
             } else if (config.getBoolean("remove")) {
                 helper.remove(repoDir);
             } else if (config.getBoolean("bash-exports")) {
-                helper.printBashExports(repoDir);
+                String output=config.getString("output");
+                if (output==null) {
+                    output="./exports.sh";
+                }
+                helper.printBashExports(repoDir, new PrintWriter(new FileWriter(output)));
             } else if (config.getBoolean("show")) {
                 helper.show();
             } else if (config.getBoolean("show-repo")) {
