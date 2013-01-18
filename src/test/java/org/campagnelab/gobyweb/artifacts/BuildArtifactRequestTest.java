@@ -168,19 +168,20 @@ public class BuildArtifactRequestTest {
         helper.setSpaceRepoDirQuota(1000);
         final File repoDir = new File("REPO");
         helper.install(repoDir);
-        final StringWriter result = new StringWriter();
+        final StringWriter resultRequest = new StringWriter();
 
-        helper.printBashExports(repoDir, new PrintWriter(result));
-        System.out.println(result.getBuffer());
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_VA_VB=") >= 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_VB=") >= 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_A=VA") >= 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_B=VB") >= 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_A=VA") < 0);
-        assertTrue(result.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_B=VB") >= 0);
+        helper.printBashExports(repoDir, new PrintWriter(resultRequest));
+        System.out.println(resultRequest.getBuffer());
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_VA_VB=") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_VB=") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_A=VA") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_B=VB") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_A=VA") < 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_B=VB") >= 0);
 
         helper.showRepo(repoDir);
+
 
 
     }

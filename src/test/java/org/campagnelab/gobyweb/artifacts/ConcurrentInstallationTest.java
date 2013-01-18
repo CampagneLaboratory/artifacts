@@ -24,7 +24,7 @@ public class ConcurrentInstallationTest {
         final ArtifactRepo repo = manager.getRepo();
         repo.load();
 
-        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
             assertTrue(dir.listFiles().length <= 1);
         }

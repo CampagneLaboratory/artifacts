@@ -209,7 +209,7 @@ public class ArtifactRequestHelper {
                         // only write exports when the attribute values obtained from the runtime env match those in the repo:
                         final AttributeValuePair[] avpPluginInRepo = repo.convert(artifact.getAttributesList());
                         output.printf("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", request.getPluginId(),
-                                request.getArtifactId(), listAttributeValues(artifact.getAttributesList()),
+                                request.getArtifactId(), repo.listAttributeValues(artifact.getAttributesList()),
                                 repo.getInstalledPath(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                                         avpPluginInRepo));
                         // also write each attribute value:
@@ -227,19 +227,6 @@ public class ArtifactRequestHelper {
             }
         }
         output.flush();
-    }
-
-    private String listAttributeValues(List<Artifacts.AttributeValuePair> attributesList) {
-        StringBuffer sb = new StringBuffer();
-
-        for (Artifacts.AttributeValuePair valuePairs : attributesList) {
-            if (valuePairs.getValue().length() > 0) {
-
-                sb.append("_");
-                sb.append(valuePairs.getValue());
-            }
-        }
-        return sb.toString();
     }
 
     public void setRepo(ArtifactRepo repo) {

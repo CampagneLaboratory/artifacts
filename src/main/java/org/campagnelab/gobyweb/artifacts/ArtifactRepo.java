@@ -184,10 +184,10 @@ public class ArtifactRepo {
             LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
             return;
         }
-        if (artifact!=null) {
-            LOG.warn(String.format("Found artifact in state %s, removing and starting over.. ",artifact.getState()));
+        if (artifact != null) {
+            LOG.warn(String.format("Found artifact in state %s, removing and starting over.. ", artifact.getState()));
             remove(artifact);
-            artifact=null;
+            artifact = null;
         }
         if (artifact == null) {
 
@@ -301,6 +301,7 @@ public class ArtifactRepo {
         return String.format("%s:%s:%s(%s)", pluginId, artifactId, version, ObjectArrayList.wrap(avp).toString());
     }
 
+    /*
     private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp) {
         currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s=%s%n",
                 artifact.getPluginId(),
@@ -318,9 +319,61 @@ public class ArtifactRepo {
 
             }
         }
+    } */
+    private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp) throws IOException {
+        LOG.debug("printBashExports");
+
+
+        //repo.convert(request.getAttributesList()
+        if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+            List<Artifacts.AttributeValuePair> list = artifact.getAttributesList();
+            boolean attributesInRepoMatchEnvironment = true;
+            if (!list.isEmpty()) {
+                // we must verify that the artifact attributes recorded in the repo match those
+                // needed in the specific runtime environment we are in.
+                AttributeValuePair[] avpEnvironment = convert(artifact.getAttributesList());
+                AttributeValuePair[] avpRepo = convert(artifact.getAttributesList());
+                for (AttributeValuePair attributeValuePair : avpEnvironment) {
+                    // we null the value to collect it from the script/environment:
+                    attributeValuePair.value = null;
+                }
+                Properties properties = readAttributeValues(artifact, avpEnvironment);
+                if (properties == null) {
+                    // we could not obtain avpEnvironment
+                    return;
+                }
+                attributesInRepoMatchEnvironment = Arrays.equals(avpEnvironment, avpRepo);
+            }
+
+            if (attributesInRepoMatchEnvironment) {
+
+                // only write exports when the attribute values obtained from the runtime env match those in the repo:
+                final AttributeValuePair[] avpPluginInRepo = convert(artifact.getAttributesList());
+                final String exportLine1 = String.format("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", artifact.getPluginId(),
+                        artifact.getId(), listAttributeValues(artifact.getAttributesList()),
+                        getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
+                                avpPluginInRepo));
+                currentBashExports.append(exportLine1);
+                LOG.debug(exportLine1);
+                // also write each attribute value:
+                for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
+                    if (attribute.getValue() != null) {
+                        final String exportLine2 = String.format("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n",
+                                artifact.getPluginId(),
+                                artifact.getId(),
+                                normalize(attribute.getName()),
+                                attribute.getValue());
+                        currentBashExports.append(exportLine2);
+                        LOG.debug(exportLine2);
+                    }
+                }
+            }
+        }
+
+
     }
 
-    protected Properties readAttributeValues(Artifacts.Artifact artifact,  AttributeValuePair[] avpEnvironment) throws IOException {
+    protected Properties readAttributeValues(Artifacts.Artifact artifact, AttributeValuePair[] avpEnvironment) throws IOException {
         LOG.debug("readAttributeValues(artifact, avpEnvironment)");
 
         assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
@@ -348,7 +401,7 @@ public class ArtifactRepo {
                         attributeValuePair.value = normalize(scriptValue);
                     }
                 }
-                LOG.debug("readAttributeValues() returned: "+ObjectArrayList.wrap(avp).toString());
+                LOG.debug("readAttributeValues() returned: " + ObjectArrayList.wrap(avp).toString());
 
                 return p;
             }
@@ -455,7 +508,7 @@ public class ArtifactRepo {
     }
 
     private String getPluginInstallDir(Artifacts.Artifact artifact) {
-        return FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(),"artifacts"),
+        return FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(), "artifacts"),
                 artifact.getRelativePath());
     }
 
@@ -496,8 +549,8 @@ public class ArtifactRepo {
 
         return new File(appendKeyValuePairs(FilenameUtils.concat(
                 FilenameUtils.concat(
-                        FilenameUtils.concat(   FilenameUtils.concat(
-                                repoDir.getAbsolutePath(),"artifacts"),
+                        FilenameUtils.concat(FilenameUtils.concat(
+                                repoDir.getAbsolutePath(), "artifacts"),
                                 pluginId), artifactId), version),
                 avp));
     }
@@ -607,6 +660,12 @@ public class ArtifactRepo {
 
             }
             scan(repo);
+            // pre-set export statements with exports for all pre-installed tools:
+            for (Artifacts.Artifact installedArtifact: this.index.values()) {
+                if (installedArtifact.getState()== Artifacts.InstallationState.INSTALLED)
+
+                updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()));
+            }
         } finally {
             releaseLock();
         }
@@ -791,5 +850,18 @@ public class ArtifactRepo {
         this.currentBashExports = new MutableString(currentBashExports);
     }
 
+
+    static protected String listAttributeValues(List<Artifacts.AttributeValuePair> attributesList) {
+        StringBuffer sb = new StringBuffer();
+
+        for (Artifacts.AttributeValuePair valuePairs : attributesList) {
+            if (valuePairs.getValue().length() > 0) {
+
+                sb.append("_");
+                sb.append(valuePairs.getValue());
+            }
+        }
+        return sb.toString();
+    }
 
 }
