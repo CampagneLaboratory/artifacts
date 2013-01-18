@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="Store a local copy of the installation script for each plugin.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
+    <list default="true" readonly="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test-data/install-scripts/install-script10.sh" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-data/install-scripts/install-script9.sh" afterPath="$PROJECT_DIR$/test-data/install-scripts/install-script9.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/log4j.properties" afterPath="$PROJECT_DIR$/src/test/resources/log4j.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/protobuf/artifacts.proto" afterPath="$PROJECT_DIR$/src/main/protobuf/artifacts.proto" />
     </list>
     <ignored path="artifacts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,15 +19,15 @@
     <file path="$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/2.4.1/protobuf-java-2.4.1.jar!/META-INF/maven/com.google.protobuf/protobuf-java/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355682965269" ignored="false" />
     <file path="/fragment.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358460142694" ignored="false" />
     <file path="/artifacts.proto" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358378504913" ignored="false" />
-    <file path="/ArtifactRepo.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358457986156" ignored="false" />
+    <file path="/ArtifactRepo.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468605108" ignored="false" />
     <file path="/ArtifactInstaller.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355678337102" ignored="false" />
-    <file path="/ArtifactManager.jsap" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358459385800" ignored="false" />
+    <file path="/ArtifactManager.jsap" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358465096530" ignored="false" />
     <file path="$PROJECT_DIR$/../JSAP-2.1/META-INF/application.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355674643137" ignored="false" />
     <file path="/ArtifactManager.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358459339671" ignored="false" />
-    <file path="/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358292021059" ignored="false" />
+    <file path="/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358463982997" ignored="false" />
     <file path="/log4j.properties" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358457860790" ignored="false" />
-    <file path="/ArtifactManagerTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358454419217" ignored="false" />
-    <file path="/Dummy.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358460142694" ignored="false" />
+    <file path="/ArtifactManagerTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468511377" ignored="false" />
+    <file path="/Dummy.txt" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464459348" ignored="false" />
     <file path="/install-script1.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355876855805" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/controllers/SampleController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/services/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
@@ -39,11 +37,11 @@
     <file path="$PROJECT_DIR$/../gobyweb2/gobyweb_home/conf/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/gobyweb_home/conf/OrganismConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2/grails-app/services/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355869426920" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/STAR_2.2.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358285801772" ignored="false" />
-    <file path="/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358285801772" ignored="false" />
-    <file path="/*.regexp" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358457425785" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358443411744" ignored="false" />
-    <file path="/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358290940153" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/STAR_2.2.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468657005" ignored="false" />
+    <file path="/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468664055" ignored="false" />
+    <file path="/*.regexp" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358465730191" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358466522318" ignored="false" />
+    <file path="/BuildConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358463447953" ignored="false" />
     <file path="/BuilArtifactRequest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355931908805" ignored="false" />
     <file path="/BuildArtifactRequest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357772482598" ignored="false" />
     <file path="/BuildArtifactRequestTst.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355937309664" ignored="false" />
@@ -55,7 +53,7 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/src/org/campagnelab/groovySupport/ExecAndRemote.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357850746728" ignored="false" />
     <file path="/ExecAndRemote.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357850746728" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/icb-groovy-support/src/org/campagnelab/groovySupport/sample/SampleDetailsUtil.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356050433444" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356021659732" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
     <file path="/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355960823099" ignored="false" />
     <file path="/a.dummy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357927183707" ignored="false" />
     <file path="/SampleDetailsUtil.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961771985" ignored="false" />
@@ -63,8 +61,8 @@
     <file path="$PROJECT_DIR$/../1.9/grails-app/services/SampleNonTxnService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961312082" ignored="false" />
     <file path="$PROJECT_DIR$/../1.9/grails-app/services/SampleService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961681875" ignored="false" />
     <file path="/SampleService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1355961679515" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/grid-templates/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358459464707" ignored="false" />
-    <file path="/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358459465048" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/grid-templates/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358467576696" ignored="false" />
+    <file path="/oge_job_script.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358467573882" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/scripts/_Events.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356050339423" ignored="false" />
     <file path="/_Events.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356050337556" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/libify-dependencies.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356024686887" ignored="false" />
@@ -77,9 +75,9 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GOBYWEB_SERVER_SIDE/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284241921" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/plugins/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053557900" ignored="false" />
     <file path="/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358370729531" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/AlignJobService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
-    <file path="/AlignJobService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357760843334" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374945424" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/AlignJobService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="/AlignJobService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358462803802" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/ClusterSubmissionService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/DataSource.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356044325681" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/PluginsService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374767043" ignored="false" />
     <file path="/PluginsService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374652825" ignored="false" />
@@ -90,7 +88,7 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/plugins/xml/Artifact.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053557901" ignored="false" />
     <file path="/Artifact.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357667098611" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/aligners/STAR22_GOBY/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358280307102" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/PathService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1356642243167" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/PathService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/WebAppConfig.groovy-template" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357759363450" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/Gobyweb-grailsPlugins.iml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357936348846" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/WebAppConfig-development.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357759370886" ignored="false" />
@@ -142,8 +140,8 @@
     <file path="/OrganismConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357758277423" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GENOMES_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357858789864" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357858579733" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358456068558" ignored="false" />
-    <file path="/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358456065712" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358466654907" ignored="false" />
+    <file path="/LoggersConfig.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358460588387" ignored="false" />
     <file path="/Dummy.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357754655796" ignored="false" />
     <file path="/AlignJob.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358286026969" ignored="false" />
     <file path="/install-script5.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1357774166885" ignored="false" />
@@ -177,7 +175,7 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/xml/WriteTemplates.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501672" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/DiffExp.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358286186296" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/test/unit/org/campagnelab/gobyweb/oldplugins/PluginsTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501672" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/DiffExpController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/DiffExpController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/MultiDownloadService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/OptionError.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501672" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/OptionErrors.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501672" ignored="false" />
@@ -202,7 +200,7 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/xml/Script.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501673" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/taglib/NgaTagLib.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/xml/Attribute.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053529240" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/Attributes.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/domain/edu/cornell/med/icb/nga/datamodel/Attributes.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/oldplugins/xml/ValidationRule.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053501673" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/views/diffExp/show.gsp" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358091428801" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/src/java/org/campagnelab/gobyweb/plugins/OptionError.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358053557900" ignored="false" />
@@ -244,8 +242,8 @@
     <file path="$PROJECT_DIR$/../plugins/test-data/plugin-root-1/plugins/resources/SAMTOOLS_0.1.14/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358102263060" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins/test-data/plugin-root-1/plugins/resources/STAR_2.2.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358102293502" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins/test-data/plugin-root-1/plugins/analyses/CONTAMINANT_EXTRACT/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358103305702" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/FAI_INDEXED_GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358459185592" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/FAI_INDEXED_GENOMES_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358279078468" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/FAI_INDEXED_GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468676869" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/FAI_INDEXED_GENOMES_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358466252807" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_ANNOTATIONS_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358445540063" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_ANNOTATIONS_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358284669656" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GROOVY_2.0.6/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282863215" ignored="false" />
@@ -253,7 +251,7 @@
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GROOVY_2.0.6/groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282670798" ignored="false" />
     <file path="/groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358282665254" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins-1/trunk/src/main/groovy/org/campagnelab/gobyweb/plugins/Plugins.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358371133268" ignored="false" />
-    <file path="$PROJECT_DIR$/../plugins-1/trunk/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358443246948" ignored="false" />
+    <file path="$PROJECT_DIR$/../plugins-1/trunk/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358466406384" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins-1/trunk/src/main/groovy/org/campagnelab/gobyweb/plugins/xml/PluginConfig.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358291147919" ignored="false" />
     <file path="/PluginConfig.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358288091588" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-1/plugins/aligners/GSNAP_GOBY/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358288144141" ignored="false" />
@@ -270,11 +268,19 @@
     <file path="/ResourceDependencyTest.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358374162051" ignored="false" />
     <file path="$PROJECT_DIR$/../plugins-1/trunk/test-data/plugin-root-3/plugins/resources/GSNAP_GOBY_2011.07.08/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358373929960" ignored="false" />
     <file path="/log4j.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358439921256" ignored="false" />
-    <file path="$PROJECT_DIR$/../ovl-3/trunk/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358443306325" ignored="false" />
+    <file path="$PROJECT_DIR$/../ovl-3/trunk/pom.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358460518647" ignored="false" />
     <file path="/install-script9.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358454686952" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_GENOMES_1.0/config.xml" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358445529161" ignored="false" />
-    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358455203533" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/ENSEMBL_GENOMES_1.0/install.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464168837" ignored="false" />
     <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/gobyweb_home/conf/plugins/resources/GOBYWEB_SERVER_SIDE/log4j.properties" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358456315007" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/conf/BootStrap.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/NgUserService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/RegisterController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/SampleController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/services/org/campagnelab/gobyweb/services/StatisticsCalculatorService.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="$PROJECT_DIR$/../gobyweb2-plugin-install/grails-app/controllers/LogoutController.groovy" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358464353045" ignored="false" />
+    <file path="/install-script10.sh" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468539958" ignored="false" />
+    <file path="$PROJECT_DIR$/target/generated-sources/org/campagnelab/gobyweb/artifacts/Artifacts.java" changelist="cdc8c494-1ba2-4398-a251-49d01e3ce560" time="1358468781858" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -358,6 +364,34 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" line="203" class="org.campagnelab.gobyweb.artifacts.ArtifactManagerTest" package="org.campagnelab.gobyweb.artifacts">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" line="204" class="org.campagnelab.gobyweb.artifacts.ArtifactManagerTest" package="org.campagnelab.gobyweb.artifacts">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
@@ -371,7 +405,7 @@
       <file leaf-file-name="ArtifactRepo.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="524" column="140" selection-start="23201" selection-end="23201" vertical-scroll-proportion="-9.56">
+            <state line="189" column="26" selection-start="8045" selection-end="8045" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#1254#1274#0" expanded="true" />
               </folding>
@@ -379,10 +413,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="log4j.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+      <file leaf-file-name="install-script9.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="22" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0">
+            <state line="41" column="0" selection-start="755" selection-end="755" vertical-scroll-proportion="-15.88">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install-script10.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script10.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="22" selection-start="429" selection-end="429" vertical-scroll-proportion="-8.48">
               <folding />
             </state>
           </provider>
@@ -397,64 +440,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtifactManagerTest.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ArtifactManagerTest.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="180" column="43" selection-start="8085" selection-end="8085" vertical-scroll-proportion="0.0">
+            <state line="212" column="44" selection-start="9572" selection-end="9572" vertical-scroll-proportion="0.44855306">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="install-script9.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
+      <file leaf-file-name="MADTCAC.submit.o217373" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MADTCAC.submit.o217373">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="755" selection-end="755" vertical-scroll-proportion="-21.6">
+            <state line="48" column="20" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtifactRequestHelper.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="install-script6.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script6.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="90" selection-start="116" selection-end="116" vertical-scroll-proportion="-3.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArtifactRequestHelper.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="191" column="53" selection-start="8758" selection-end="8758" vertical-scroll-proportion="0.71100163">
+            <state line="77" column="25" selection-start="3241" selection-end="3241" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="log4j.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/log4j.properties">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="0" selection-start="336" selection-end="511" vertical-scroll-proportion="0.0">
+            <state line="197" column="21" selection-start="7755" selection-end="7755" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtifactManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
+      <file leaf-file-name="artifacts.proto" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="31" selection-start="3059" selection-end="3059" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ArtifactManager.jsap" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="80" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="install-script8.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script8.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="53" selection-start="563" selection-end="563" vertical-scroll-proportion="0.0">
+            <state line="92" column="32" selection-start="2288" selection-end="2288" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -470,22 +504,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test-data/install-scripts/install-script7.sh" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java" />
         <option value="$PROJECT_DIR$/test-data/install-scripts/install-script8.sh" />
         <option value="$PROJECT_DIR$/test-data/install-scripts/install-script3.sh" />
         <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ConcurrentInstallationTest.java" />
         <option value="$USER_HOME$/.m2/settings.xml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/test-data/install-scripts/install-script9.sh" />
-        <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
         <option value="$PROJECT_DIR$/src/test/resources/log4j.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap" />
+        <option value="$PROJECT_DIR$/src/main/protobuf/artifacts.proto" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
+        <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
+        <option value="$PROJECT_DIR$/test-data/install-scripts/install-script10.sh" />
+        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
       </list>
     </option>
   </component>
@@ -603,6 +637,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="test-data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test-data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="install-scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -632,6 +698,32 @@
               <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -651,25 +743,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="artifacts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="artifacts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
+              <option name="myItemId" value="protobuf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -696,20 +770,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="artifacts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="artifacts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="artifacts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REPO" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -777,7 +837,7 @@
       <recent name="org.campagnelab.gobyweb" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.org.campagnelab.gobyweb.artifacts in artifacts">
+  <component name="RunManager" selected="JUnit.ArtifactManagerTest.testFailThenInstall">
     <configuration default="false" name="org.campagnelab.gobyweb.artifacts in artifacts" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" runner="idea">
         <pattern>
@@ -871,6 +931,40 @@
       <envs />
       <patterns />
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ArtifactManagerTest.testFailThenInstall" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.campagnelab.gobyweb.artifacts.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="artifacts" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.campagnelab.gobyweb.artifacts" />
+      <option name="MAIN_CLASS_NAME" value="org.campagnelab.gobyweb.artifacts.ArtifactManagerTest" />
+      <option name="METHOD_NAME" value="testFailThenInstall" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -1121,7 +1215,7 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="8">
+    <list size="9">
       <item index="0" class="java.lang.String" itemvalue="Application.add " />
       <item index="1" class="java.lang.String" itemvalue="Application.remove " />
       <item index="2" class="java.lang.String" itemvalue="Application.get-path" />
@@ -1130,12 +1224,14 @@
       <item index="5" class="java.lang.String" itemvalue="JUnit.org.campagnelab.gobyweb.artifacts in artifacts" />
       <item index="6" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testBashExportForRequests" />
       <item index="7" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testFailThenInstall" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.org.campagnelab.gobyweb.artifacts in artifacts" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testBashExportForRequests" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testFailThenInstall" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.org.campagnelab.gobyweb.artifacts in artifacts" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testBashExportForRequests" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1284,7 +1380,11 @@
       <created>1358451909100</created>
       <updated>1358451909100</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="More logging.">
+      <created>1358460219125</created>
+      <updated>1358460219125</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1314,23 +1414,23 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32457027" sideWeight="0.47875524" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32457027" sideWeight="0.47396767" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24955752" sideWeight="0.67342585" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5460061" sideWeight="0.99940157" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5460061" sideWeight="0.9108318" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32355917" sideWeight="0.29982045" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32355917" sideWeight="0.3237582" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3215369" sideWeight="0.45960504" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3215369" sideWeight="0.4308797" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24895272" sideWeight="0.67745197" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11909036" sideWeight="0.67644083" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24895272" sideWeight="0.67644083" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32355917" sideWeight="0.69599044" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32355917" sideWeight="0.6720527" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.6723769" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1378,7 +1478,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Store a local copy of the installation script for each plugin." />
+    <option name="LAST_COMMIT_MESSAGE" value="More logging." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1415,6 +1515,7 @@
     <MESSAGE value="Fix a bug where artifacts with attributes could be installed twice.&#10;Fix remove so that all artifacts with attributes are removed for set of requests." />
     <MESSAGE value="Add a method to get requests from the helper." />
     <MESSAGE value="Store a local copy of the installation script for each plugin." />
+    <MESSAGE value="More logging." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1428,23 +1529,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script3.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="44" selection-start="577" selection-end="577" vertical-scroll-proportion="-20.4" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script2.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script1.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="53" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ConcurrentInstallationTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="47" selection-start="726" selection-end="726" vertical-scroll-proportion="0.0">
@@ -1459,30 +1543,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="34" selection-start="436" selection-end="436" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script8.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="53" selection-start="563" selection-end="563" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="755" selection-end="755" vertical-scroll-proportion="-21.6">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="43" selection-start="8085" selection-end="8085" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1494,9 +1557,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="22" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0">
+        <state line="2" column="0" selection-start="24" selection-end="24" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="85" column="70" selection-start="3201" selection-end="3201" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="32" selection-start="2288" selection-end="2288" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MADTCAC.submit.o217373">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="20" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="25" selection-start="3241" selection-end="3241" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="197" column="21" selection-start="7755" selection-end="7755" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script6.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="90" selection-start="116" selection-end="116" vertical-scroll-proportion="-3.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="755" selection-end="755" vertical-scroll-proportion="-15.88">
           <folding />
         </state>
       </provider>
@@ -1508,32 +1620,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script10.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="22" selection-start="429" selection-end="429" vertical-scroll-proportion="-8.48">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="524" column="140" selection-start="23201" selection-end="23201" vertical-scroll-proportion="-9.56">
+        <state line="189" column="26" selection-start="8045" selection-end="8045" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#1254#1274#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="80" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="31" selection-start="3059" selection-end="3059" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="53" selection-start="8758" selection-end="8758" vertical-scroll-proportion="0.71100163">
+        <state line="212" column="44" selection-start="9572" selection-end="9572" vertical-scroll-proportion="0.44855306">
           <folding />
         </state>
       </provider>

@@ -166,7 +166,7 @@ public class ArtifactManagerTest {
         ArtifactManager manager = new ArtifactManager("REPO");
         final ArtifactRepo repo = manager.getRepo();
 
-        final File dir = new File("REPO/PLUGIN/RANDOM/VERSION");
+        final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
             assertTrue(dir.listFiles().length <= 1);
         }
@@ -189,6 +189,30 @@ public class ArtifactManagerTest {
 
     }
 
+
+    @Test
+    // test that install can install after a prior run failed.
+        public void testFailThenInstall() throws IOException {
+            ArtifactManager manager = new ArtifactManager("REPO");
+            final ArtifactRepo repo = manager.getRepo();
+
+            final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
+            if (dir.exists()) {
+                assertTrue(dir.listFiles().length <= 1);
+            }
+
+            repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script10.sh", "VERSION");
+            repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION");
+
+
+            repo.save();
+            final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION");
+            assertNotNull(artifact);
+            assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION").listFiles().length);
+            assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
+
+        }
+
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
             for (AttributeValuePair valuePair: attributeValuePairs) {
                 valuePair.value=null;
@@ -199,7 +223,7 @@ public class ArtifactManagerTest {
     @Before
     public void cleanRepo() throws IOException {
         FileUtils.deleteDirectory(new File("REPO"));
-
+        FileUtils.deleteQuietly(new File(System.getenv("TMPDIR")+"/FLAG"));
     }
 
 }

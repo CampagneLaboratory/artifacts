@@ -184,6 +184,11 @@ public class ArtifactRepo {
             LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
             return;
         }
+        if (artifact!=null) {
+            LOG.warn(String.format("Found artifact in state %s, removing and starting over.. ",artifact.getState()));
+            remove(artifact);
+            artifact=null;
+        }
         if (artifact == null) {
 
             LOG.info(String.format("Artifact %s was not found, proceeding to install..", toText(pluginId, artifactId, version, avp)));
@@ -392,8 +397,8 @@ public class ArtifactRepo {
         final long time = new Date().getTime();
         LOG.info("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
-        String wrapperTemplate = "( set -x ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
-                " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties )%n";
+        String wrapperTemplate = "( set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
+                " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties; set -xv )%n";
 
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
                 pluginId, artifactId,
@@ -408,7 +413,7 @@ public class ArtifactRepo {
         new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
         int exitVal = pr.waitFor();
-        LOG.info("Install script get_attribute_values() exited with error code " + exitVal);
+        LOG.debug("Install script get_attribute_values() exited with error code " + exitVal);
         if (exitVal != 0) {
             throw new IllegalStateException();
         } else {

@@ -1,15 +1,6 @@
 <jsap>
     <parameters>
-        <flaggedOption>
-            <id>architecture</id>
-            <stringParser>
-                <classname>StringStringParser</classname>
-            </stringParser>
-            <required>false</required>
-            <shortFlag>a</shortFlag>
 
-            <help>The architecture on which the artifacts are being installed.</help>
-        </flaggedOption>
         <flaggedOption>
             <id>output</id>
             <stringParser>
@@ -17,7 +8,7 @@
             </stringParser>
             <required>false</required>
             <shortFlag>o</shortFlag>
-
+            <longFlag>output</longFlag>
             <help>The output filename to use when writing BASH export statements.</help>
         </flaggedOption>
         <flaggedOption>

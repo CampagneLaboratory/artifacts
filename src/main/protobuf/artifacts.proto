@@ -88,6 +88,10 @@ message AttributeValuePair {
 
 message Artifact {
   /*
+   * ID of the plugin that installed this artifact.
+   */
+  optional string plugin_id = 5;
+  /*
    * Artifact ID.
    */
   required string id = 1;
@@ -103,10 +107,7 @@ message Artifact {
    * Relative path of the directory in which the artifact was installed.
    */
   optional string relativePath=3;
-  /*
-   * ID of the plugin that installed this artifact.
-   */
-  optional string plugin_id = 5;
+
   /*
    * Version of the artifact.
    */
