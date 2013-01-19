@@ -50,6 +50,7 @@ public class ArtifactRepo {
      */
     private long spaceMaxAvailableInRepoDir;
     private MutableString currentBashExports = new MutableString();
+    private MutableString preInstalledPluginExports=new MutableString();
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -229,7 +230,7 @@ public class ArtifactRepo {
 
                 updateInstallScriptLocation(artifact, pluginScript);
                 changeState(artifact, Artifacts.InstallationState.INSTALLED);
-                updateExportStatements(artifact, avp);
+                updateExportStatements(artifact, avp, currentBashExports);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (Exception e) {
@@ -301,26 +302,9 @@ public class ArtifactRepo {
         return String.format("%s:%s:%s(%s)", pluginId, artifactId, version, ObjectArrayList.wrap(avp).toString());
     }
 
-    /*
-    private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp) {
-        currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s=%s%n",
-                artifact.getPluginId(),
-                artifact.getId(),
-                getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
-                        convert(artifact.getAttributesList()))));
-        // also write each attribute value:
-        for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
-            if (attribute.getValue() != null) {
-                currentBashExports.append(String.format("export RESOURCES_ARTIFACTS_%s_%s_%s=%s%n",
-                        artifact.getPluginId(),
-                        artifact.getId(),
-                        normalize(attribute.getName()),
-                        attribute.getValue()));
 
-            }
-        }
-    } */
-    private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp) throws IOException {
+    private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp,
+                                        MutableString destination) throws IOException {
         LOG.debug("printBashExports");
 
 
@@ -353,7 +337,7 @@ public class ArtifactRepo {
                         artifact.getId(), listAttributeValues(artifact.getAttributesList()),
                         getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
                                 avpPluginInRepo));
-                currentBashExports.append(exportLine1);
+                destination.append(exportLine1);
                 LOG.debug(exportLine1);
                 // also write each attribute value:
                 for (Artifacts.AttributeValuePair attribute : artifact.getAttributesList()) {
@@ -363,7 +347,7 @@ public class ArtifactRepo {
                                 artifact.getId(),
                                 normalize(attribute.getName()),
                                 attribute.getValue());
-                        currentBashExports.append(exportLine2);
+                        destination.append(exportLine2);
                         LOG.debug(exportLine2);
                     }
                 }
@@ -564,10 +548,11 @@ public class ArtifactRepo {
         }
         pluginScript = new File(pluginScript).getAbsolutePath();
         File tmpExports = File.createTempFile("exports", ".sh");
-        FileUtils.write(tmpExports, currentBashExports != null ? currentBashExports.toString() : "", true);
+                                                MutableString exportString=add(preInstalledPluginExports, currentBashExports);
+        FileUtils.write(tmpExports, exportString != null ? exportString.toString() : "", true);
 
-        String wrapperTemplate = "( set -x ; exports=%s ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                " chmod +x $script ;  . $exports; . $script ; plugin_install_artifact %s %s %s; ls -l ; rm -fr ${DIR})%n";
+        String wrapperTemplate = "( set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                " chmod +x $script ;  . $exports; echo HELLO; . $script ; plugin_install_artifact %s %s %s; ls -l ; rm -fr ${DIR})%n";
         String tmpDir = System.getProperty("java.io.tmpdir");
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                 tmpDir, (new Date().getTime()),
@@ -588,6 +573,13 @@ public class ArtifactRepo {
         if (exitVal != 0) {
             throw new IllegalStateException();
         }
+    }
+
+    private MutableString add(MutableString preInstalledPluginExports, MutableString currentBashExports) {
+        MutableString result=new MutableString();
+        result.append(preInstalledPluginExports);
+        result.append(currentBashExports);
+        return result;
     }
 
     private MutableString formatForCommandLine(AttributeValuePair[] avp) {
@@ -660,11 +652,13 @@ public class ArtifactRepo {
 
             }
             scan(repo);
+            preInstalledPluginExports.setLength(0);
             // pre-set export statements with exports for all pre-installed tools:
             for (Artifacts.Artifact installedArtifact: this.index.values()) {
                 if (installedArtifact.getState()== Artifacts.InstallationState.INSTALLED)
 
-                updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()));
+                updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
+                        preInstalledPluginExports);
             }
         } finally {
             releaseLock();
@@ -847,7 +841,11 @@ public class ArtifactRepo {
      * @param currentBashExports
      */
     public void setCurrentBashExports(String currentBashExports) {
-        this.currentBashExports = new MutableString(currentBashExports);
+
+        this.currentBashExports.setLength(0);
+        this.currentBashExports.append(preInstalledPluginExports);
+        this.currentBashExports.append(currentBashExports);
+
     }
 
 
