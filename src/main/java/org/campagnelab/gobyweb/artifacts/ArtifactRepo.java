@@ -50,7 +50,7 @@ public class ArtifactRepo {
      */
     private long spaceMaxAvailableInRepoDir;
     private MutableString currentBashExports = new MutableString();
-    private MutableString preInstalledPluginExports=new MutableString();
+    private MutableString preInstalledPluginExports = new MutableString();
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -159,6 +159,10 @@ public class ArtifactRepo {
      */
 
     public void install(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair... avp) throws IOException {
+
+        if (pluginScript!=null && !new File(pluginScript).exists()) {
+            throw new IOException("Install script not found: " + pluginScript);
+        }
         // get attributes before anything else:
         if (hasUndefinedAttributes(avp)) {
             avp = getAttributeValues(null, artifactId, version, avp, pluginScript, pluginId);
@@ -229,7 +233,7 @@ public class ArtifactRepo {
                 updateInstalledSize(artifact);
 
                 updateInstallScriptLocation(artifact, pluginScript);
-                changeState(artifact, Artifacts.InstallationState.INSTALLED);
+                artifact=changeState(artifact, Artifacts.InstallationState.INSTALLED);
                 updateExportStatements(artifact, avp, currentBashExports);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
@@ -434,7 +438,7 @@ public class ArtifactRepo {
         final long time = new Date().getTime();
         LOG.info("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
-        String wrapperTemplate = "( set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
+        String wrapperTemplate = "( set -e ; set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
                 " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties; set -xv )%n";
 
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
@@ -473,12 +477,13 @@ public class ArtifactRepo {
     }
 
 
-    private void changeState(Artifacts.Artifact artifact, Artifacts.InstallationState newState) throws IOException {
+    private Artifacts.Artifact changeState(Artifacts.Artifact artifact, Artifacts.InstallationState newState) throws IOException {
         artifact = index.get(makeKey(artifact));
         Artifacts.Artifact.Builder artifactBuilder = artifact.toBuilder().setState(newState);
         artifact = artifactBuilder.build();
         index.put(makeKey(artifact), artifact);
         save();
+        return artifact;
     }
 
     private void updateInstalledSize(Artifacts.Artifact artifact) throws IOException {
@@ -548,11 +553,18 @@ public class ArtifactRepo {
         }
         pluginScript = new File(pluginScript).getAbsolutePath();
         File tmpExports = File.createTempFile("exports", ".sh");
-                                                MutableString exportString=add(preInstalledPluginExports, currentBashExports);
+        MutableString exportString = add(preInstalledPluginExports, currentBashExports);
         FileUtils.write(tmpExports, exportString != null ? exportString.toString() : "", true);
 
-        String wrapperTemplate = "( set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                " chmod +x $script ;  . $exports; echo HELLO; . $script ; plugin_install_artifact %s %s %s; ls -l ; rm -fr ${DIR})%n";
+        String wrapperTemplate =
+                " dieIfError() {\n" +
+                " S=$?; \n" +
+                " if [ ! \"$S\" = \"0\" ]; then \n" +
+                "    exit $S; \n" +
+                " fi \n" +
+                "} \n" +
+                "(  set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                " chmod +x $script ;  . $exports; echo HELLO; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
         String tmpDir = System.getProperty("java.io.tmpdir");
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                 tmpDir, (new Date().getTime()),
@@ -576,7 +588,7 @@ public class ArtifactRepo {
     }
 
     private MutableString add(MutableString preInstalledPluginExports, MutableString currentBashExports) {
-        MutableString result=new MutableString();
+        MutableString result = new MutableString();
         result.append(preInstalledPluginExports);
         result.append(currentBashExports);
         return result;
@@ -654,11 +666,11 @@ public class ArtifactRepo {
             scan(repo);
             preInstalledPluginExports.setLength(0);
             // pre-set export statements with exports for all pre-installed tools:
-            for (Artifacts.Artifact installedArtifact: this.index.values()) {
-                if (installedArtifact.getState()== Artifacts.InstallationState.INSTALLED)
+            for (Artifacts.Artifact installedArtifact : this.index.values()) {
+                if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED)
 
-                updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
-                        preInstalledPluginExports);
+                    updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
+                            preInstalledPluginExports);
             }
         } finally {
             releaseLock();
@@ -862,4 +874,20 @@ public class ArtifactRepo {
         return sb.toString();
     }
 
+    /**
+     * Determine if a plugin was installed.
+     *
+     * @param pluginId   PluginId
+     * @param artifactId artifactId
+     * @param version    version
+     * @param avp        Attribute value pairs.
+     * @return
+     */
+    public boolean isInstalled(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
+        Artifacts.Artifact found = find(pluginId, artifactId, version, avp);
+        if (found == null) {
+            return false;
+        }
+        return found.getState() == Artifacts.InstallationState.INSTALLED;
+    }
 }

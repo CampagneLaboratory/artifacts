@@ -11,12 +11,15 @@ import java.io.IOException;
 
 import static junit.framework.Assert.*;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.
  */
 public class ArtifactManagerTest {
 
+
+    private File repoDir = new File("REPO");
 
     @Test
     public void testInstall() throws IOException {
@@ -192,38 +195,74 @@ public class ArtifactManagerTest {
 
     @Test
     // test that install can install after a prior run failed.
-        public void testFailThenInstall() throws IOException {
-            ArtifactManager manager = new ArtifactManager("REPO");
-            final ArtifactRepo repo = manager.getRepo();
+    public void testFailThenInstall() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
 
-            final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
-            if (dir.exists()) {
-                assertTrue(dir.listFiles().length <= 1);
-            }
-
-            repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script10.sh", "VERSION");
-            repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION");
-
-
-            repo.save();
-            final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION");
-            assertNotNull(artifact);
-            assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION").listFiles().length);
-            assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
-
+        final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
+        if (dir.exists()) {
+            assertTrue(dir.listFiles().length <= 1);
         }
 
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script10.sh", "VERSION");
+        repo.install("PLUGIN", "RANDOM", "test-data/install-scripts/install-script9.sh", "VERSION");
+
+
+        repo.save();
+        final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION");
+        assertNotNull(artifact);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION").listFiles().length);
+        assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
+
+    }
+
+    @Test
+    public void testMissingInstallScript() throws IOException {
+        boolean success = false;
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
+        try {
+            repo.install("A", "ARTIFACT", "test-data/install-scripts/MISSING-SCRIPT", "VERSION");
+        } catch (IOException e) {
+            success = true;
+        }
+        assertTrue(success);
+        assertFalse(repo.isInstalled("A", "ARTIFACT", "VERSION", null));
+    }
+
+    @Test
+    //  command not found error in an install script is an installation failure, not a success.
+    public void testCommandNotFoundInScript() throws IOException {
+
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
+
+        repo.install("PLUGIN", "ARTIFACT", "test-data/install-scripts/install-script-COMMAND_NOT_FOUND.sh", "VERSION");
+
+        assertFalse(repo.isInstalled("A", "ARTIFACT", "VERSION", null));
+    }
+
+    @Test
+    public void testPartialInstalls() throws IOException {
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
+
+        repo.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION");
+        repo.save();
+        repo = new ArtifactRepo(repoDir);
+        repo.load();
+        repo.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
+        assertTrue(repo.isInstalled("B", "ARTIFACT", "VERSION", null));
+    }
+
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
-            for (AttributeValuePair valuePair: attributeValuePairs) {
-                valuePair.value=null;
-            }
+        for (AttributeValuePair valuePair : attributeValuePairs) {
+            valuePair.value = null;
+        }
     }
 
 
     @Before
     public void cleanRepo() throws IOException {
-        FileUtils.deleteDirectory(new File("REPO"));
-        FileUtils.deleteQuietly(new File(System.getenv("TMPDIR")+"/FLAG"));
+        FileUtils.deleteDirectory(repoDir);
+        FileUtils.deleteQuietly(new File(System.getenv("TMPDIR") + "/FLAG"));
     }
 
 }

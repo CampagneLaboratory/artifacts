@@ -174,7 +174,7 @@ public class BuildArtifactRequestTest {
         System.out.println(resultRequest.getBuffer());
         assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_VA_VB=") >= 0);
         assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_VB=") >= 0);
-        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
+//        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
         assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_A=VA") >= 0);
         assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_B=VB") >= 0);
         assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_A=VA") < 0);
