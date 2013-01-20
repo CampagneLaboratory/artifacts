@@ -52,13 +52,20 @@ public class ArtifactRequestHelper {
             Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                     avp);
             if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
-                LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
-                        request.getPluginId(), request.getArtifactId(), request.getVersion()));
+                if (artifact.hasInstallScriptRelativePath()) {
+                    String path = repo.getInstalledPath(artifact.getPluginId(), artifact.getPluginId(), artifact.getVersion(), avp);
+                    if (new File(path).exists()) {
+                        // the cached installed script exist. This artifact is fully installed. Otherwise, somebody may
+                        // have removed the install script cache to cause a refetch from the remote location.
+                        LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
+                                request.getPluginId(), request.getArtifactId(), request.getVersion()));
 
-                continue;
+                        continue;
+                    }
+                }
             }
             final String scriptInstallPath = request.getScriptInstallPath();
-            final File tempInstallFile = File.createTempFile("install-script-"+request.getPluginId(),
+            final File tempInstallFile = File.createTempFile("install-script-" + request.getPluginId(),
                     FilenameUtils.getBaseName(scriptInstallPath));
 
             try {
