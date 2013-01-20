@@ -69,7 +69,9 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
      * Release the lock, call after the lock was granted to release.
      */
     public void release() throws IOException {
+       if (lock.isValid()) {
         lock.release();
+       }
     }
 
     /**
