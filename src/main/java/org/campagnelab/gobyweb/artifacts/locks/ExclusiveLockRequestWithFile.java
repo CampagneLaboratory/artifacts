@@ -42,14 +42,14 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
 
     public void query() {
 
-       synchronized (this) {
-        try {
-            granted = (lock = lockFile.getChannel().tryLock()) != null;
-        } catch (IOException e) {
-            LOG.error("Could not acquire lock on " + filename, e);
-            granted = false;
+        synchronized (this) {
+            try {
+                granted = (lock = lockFile.getChannel().tryLock()) != null;
+            } catch (IOException e) {
+                LOG.error("Could not acquire lock on " + filename, e);
+                granted = false;
+            }
         }
-       }
 
     }
 
@@ -61,25 +61,27 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
     }
 
     public void waitAndLock() throws IOException {
-       synchronized (this) {
-        lock = lockFile.getChannel().lock();
-        granted = lock!=null;
-       }
+
+        synchronized (this) {
+
+            lock = lockFile.getChannel().lock();
+            granted = lock != null;
+        }
     }
 
     /**
      * Release the lock, call after the lock was granted to release.
      */
     public void release() throws IOException {
-       synchronized (this) {
-        if (lock !=null && lock.isValid()) {
-            try {
-                lock.release();
-            } catch (IOException e) {
-                LOG.warn("Caught IO exception when trying to release file lock. Ignoring.", e);
+        synchronized (this) {
+            if (lock != null && lock.isValid()) {
+                try {
+                    lock.release();
+                } catch (IOException e) {
+                    LOG.warn("Caught IO exception when trying to release file lock. Ignoring.", e);
+                }
             }
         }
-       }
     }
 
     /**

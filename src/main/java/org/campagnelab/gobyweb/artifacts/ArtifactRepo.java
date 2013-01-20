@@ -648,7 +648,7 @@ public class ArtifactRepo {
         return result;
     }
 
-    public void load(File repoDir) throws IOException {
+    public synchronized  void load(File repoDir) throws IOException {
         try {
             acquireExclusiveLock();
 
@@ -750,7 +750,7 @@ public class ArtifactRepo {
         save(repoDir);
     }
 
-    public void save(File repoDir) throws IOException {
+    public synchronized  void save(File repoDir) throws IOException {
 
         FileOutputStream output = null;
         try {
@@ -776,10 +776,8 @@ public class ArtifactRepo {
 
     private ExclusiveLockRequest request;
 
-    public void acquireExclusiveLock() throws IOException {
-        if (request!=null && request.granted()) {
-            return;
-        }
+    public synchronized void acquireExclusiveLock() throws IOException {
+        LOG.info("acquireExclusiveLock()");
         request = new ExclusiveLockRequestWithFile(metaDataFilename, repoDir);
         boolean done = false;
         do {
@@ -803,6 +801,7 @@ public class ArtifactRepo {
     }
 
     public void releaseLock() throws IOException {
+        LOG.info("releaseLock()");
         request.release();
         request=null;
     }
