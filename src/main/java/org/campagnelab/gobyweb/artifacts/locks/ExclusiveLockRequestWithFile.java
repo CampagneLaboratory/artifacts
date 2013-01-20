@@ -63,7 +63,7 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
     public void waitAndLock() throws IOException {
        synchronized (this) {
         lock = lockFile.getChannel().lock();
-        granted = true;
+        granted = lock!=null;
        }
     }
 
@@ -72,7 +72,7 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
      */
     public void release() throws IOException {
        synchronized (this) {
-        if (lock.isValid()) {
+        if (lock !=null && lock.isValid()) {
             try {
                 lock.release();
             } catch (IOException e) {
