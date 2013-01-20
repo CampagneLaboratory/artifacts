@@ -160,7 +160,7 @@ public class ArtifactRepo {
 
     public void install(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair... avp) throws IOException {
 
-        if (pluginScript!=null && !new File(pluginScript).exists()) {
+        if (pluginScript != null && !new File(pluginScript).exists()) {
             throw new IOException("Install script not found: " + pluginScript);
         }
         // get attributes before anything else:
@@ -233,7 +233,7 @@ public class ArtifactRepo {
                 updateInstalledSize(artifact);
 
                 updateInstallScriptLocation(artifact, pluginScript);
-                artifact=changeState(artifact, Artifacts.InstallationState.INSTALLED);
+                artifact = changeState(artifact, Artifacts.InstallationState.INSTALLED);
                 updateExportStatements(artifact, avp, currentBashExports);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
@@ -558,13 +558,13 @@ public class ArtifactRepo {
 
         String wrapperTemplate =
                 " dieIfError() {\n" +
-                " S=$?; \n" +
-                " if [ ! \"$S\" = \"0\" ]; then \n" +
-                "    exit $S; \n" +
-                " fi \n" +
-                "} \n" +
-                "(  set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
+                        " S=$?; \n" +
+                        " if [ ! \"$S\" = \"0\" ]; then \n" +
+                        "    exit $S; \n" +
+                        " fi \n" +
+                        "} \n" +
+                        "(  set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                        " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
         String tmpDir = System.getProperty("java.io.tmpdir");
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                 tmpDir, (new Date().getTime()),
@@ -648,7 +648,8 @@ public class ArtifactRepo {
         return result;
     }
 
-    public synchronized  void load(File repoDir) throws IOException {
+    public synchronized void load(File repoDir) throws IOException {
+        FileInputStream input = null;
         try {
             acquireExclusiveLock();
 
@@ -656,7 +657,8 @@ public class ArtifactRepo {
             Artifacts.Repository repo;
             if (file.length() != 0) {
                 LOG.trace(String.format("Loading from %s%n", repoDir.getAbsolutePath()));
-                repo = Artifacts.Repository.parseDelimitedFrom(new FileInputStream(file.getFD()));
+                input = new FileInputStream(file.getFD());
+                repo = Artifacts.Repository.parseDelimitedFrom(input);
                 LOG.trace(String.format("Loaded repo with %d artifacts. %n", repo.getArtifactsCount()));
             } else {
                 // creating new repo:
@@ -672,8 +674,12 @@ public class ArtifactRepo {
                     updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
                             preInstalledPluginExports);
             }
+
         } finally {
             releaseLock();
+            if (input != null) {
+                input.close();
+            }
         }
     }
 
@@ -697,7 +703,7 @@ public class ArtifactRepo {
 
     }
 
-   static public AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
+    static public AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
         if (attributesList == null) return new AttributeValuePair[0];
         AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
         int index = 0;
@@ -750,7 +756,7 @@ public class ArtifactRepo {
         save(repoDir);
     }
 
-    public synchronized  void save(File repoDir) throws IOException {
+    public synchronized void save(File repoDir) throws IOException {
 
         FileOutputStream output = null;
         try {
@@ -803,7 +809,7 @@ public class ArtifactRepo {
     public void releaseLock() throws IOException {
         LOG.info("releaseLock()");
         request.release();
-        request=null;
+        request = null;
     }
 
     public void load() throws IOException {
