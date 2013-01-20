@@ -74,11 +74,15 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
      */
     public void release() throws IOException {
         synchronized (this) {
+            boolean success = false;
             if (lock != null && lock.isValid()) {
-                try {
-                    lock.release();
-                } catch (IOException e) {
-                    LOG.warn("Caught IO exception when trying to release file lock. Ignoring.", e);
+                while (!success) {
+                    try {
+                        lock.release();
+                        success = true;
+                    } catch (IOException e) {
+                        LOG.warn("Caught IO exception when trying to release file lock. Ignoring.", e);
+                    }
                 }
             }
         }
