@@ -564,7 +564,7 @@ public class ArtifactRepo {
                 " fi \n" +
                 "} \n" +
                 "(  set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                " chmod +x $script ;  . $exports; echo HELLO; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
+                " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
         String tmpDir = System.getProperty("java.io.tmpdir");
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                 tmpDir, (new Date().getTime()),

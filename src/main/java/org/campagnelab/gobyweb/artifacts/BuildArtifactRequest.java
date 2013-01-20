@@ -1,5 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import com.google.protobuf.TextFormat;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.log4j.Logger;
 
@@ -71,6 +72,10 @@ public class BuildArtifactRequest {
         installationSetBuilder.addArtifacts(detailsBuilder);
     }
 
+    @Override
+    public String toString() {
+        return TextFormat.printToString(installationSetBuilder.build());
+    }
 
     public void save(File output) throws IOException {
 
