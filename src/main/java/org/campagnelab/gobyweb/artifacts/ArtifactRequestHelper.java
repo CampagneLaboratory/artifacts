@@ -53,7 +53,7 @@ public class ArtifactRequestHelper {
                     avp);
             if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
                 if (artifact.hasInstallScriptRelativePath()) {
-                    String path = repo.getInstalledPath(artifact.getPluginId(), artifact.getPluginId(), artifact.getVersion(), avp);
+                    String path = repo.getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(), avp);
                     if (new File(path).exists()) {
                         // the cached installed script exist. This artifact is fully installed. Otherwise, somebody may
                         // have removed the install script cache to cause a refetch from the remote location.
