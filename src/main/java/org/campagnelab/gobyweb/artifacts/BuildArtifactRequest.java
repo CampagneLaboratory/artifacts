@@ -41,23 +41,28 @@ public class BuildArtifactRequest {
 
     public void addArtifact(String pluginId, String artifactId, String version, String installScript) {
         addArtifact(pluginId, artifactId, version, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE
-                );
+        );
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, String installScript,
-                             Artifacts.AttributeValuePair ... attributes) {
-            addArtifact(pluginId, artifactId, version, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE,
-                    attributes);
-        }
+                            Artifacts.AttributeValuePair... attributes) {
+        addArtifact(pluginId, artifactId, version, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE,
+                attributes);
+    }
 
     public void addArtifactWithList(String pluginId, String artifactId, String version, String installScript,
-                                Artifacts.RetentionPolicy retention ,
-                                List<Artifacts.AttributeValuePair> attributes) {
-        addArtifact(pluginId, artifactId, version, installScript,retention,
+                                    Artifacts.RetentionPolicy retention,
+                                    List<Artifacts.AttributeValuePair> attributes) {
+        addArtifact(pluginId, artifactId, version, installScript, retention,
                 attributes.toArray(new Artifacts.AttributeValuePair[attributes.size()]));
     }
+
+    public void install(String pluginId, String artifactId, String pluginScript, String version, Artifacts.AttributeValuePair... avp) {
+        addArtifact(pluginId, artifactId, version, pluginScript , Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
+    }
+
     public void addArtifact(String pluginId, String artifactId, String version, String installScript,
-                            Artifacts.RetentionPolicy retention , Artifacts.AttributeValuePair ... attributes) {
+                            Artifacts.RetentionPolicy retention, Artifacts.AttributeValuePair... attributes) {
 
         Artifacts.ArtifactDetails.Builder detailsBuilder = Artifacts.ArtifactDetails.newBuilder();
         detailsBuilder.setArtifactId(artifactId);
@@ -87,10 +92,11 @@ public class BuildArtifactRequest {
 
     /**
      * Determine if the list of requests is empty.
+     *
      * @return True or False.
      */
     public boolean isEmpty() {
-        return this.installationSetBuilder.getArtifactsCount()==0;
+        return this.installationSetBuilder.getArtifactsCount() == 0;
     }
 
 }

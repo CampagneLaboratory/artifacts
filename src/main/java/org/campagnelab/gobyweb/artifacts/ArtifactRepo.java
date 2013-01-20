@@ -697,7 +697,7 @@ public class ArtifactRepo {
 
     }
 
-    AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
+   static public AttributeValuePair[] convert(List<Artifacts.AttributeValuePair> attributesList) {
         if (attributesList == null) return new AttributeValuePair[0];
         AttributeValuePair[] avp = new AttributeValuePair[attributesList.size()];
         int index = 0;

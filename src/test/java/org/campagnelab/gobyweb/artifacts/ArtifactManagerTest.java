@@ -250,11 +250,27 @@ public class ArtifactManagerTest {
         repo.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
         assertTrue(repo.isInstalled("B", "ARTIFACT", "VERSION", null));
 
-        StringWriter stringWriter=new StringWriter();
+        StringWriter stringWriter = new StringWriter();
         repo.printBashExports(new PrintWriter(stringWriter));
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=")>=0);
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=")>=0);
-       }
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
+
+// now install C:
+        repo = new ArtifactRepo(repoDir);
+        repo.load();
+        repo.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
+        repo.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
+        assertTrue(repo.isInstalled("C", "ARTIFACT", "VERSION", null));
+        assertTrue(repo.isInstalled("D", "ARTIFACT", "VERSION", null));
+
+        stringWriter = new StringWriter();
+        repo.printBashExports(new PrintWriter(stringWriter));
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
+
+    }
 
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
         for (AttributeValuePair valuePair : attributeValuePairs) {

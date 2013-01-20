@@ -13,6 +13,7 @@ import java.util.List;
 
 import static junit.framework.Assert.*;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Fabien Campagne
@@ -183,7 +184,6 @@ public class BuildArtifactRequestTest {
         helper.showRepo(repoDir);
 
 
-
     }
 
     @Test
@@ -209,7 +209,7 @@ public class BuildArtifactRequestTest {
         helper.setSpaceRepoDirQuota(1000000000);
         final File repoDir = new File("REPO");
         helper.install(repoDir);
-        ArtifactRepo repo=new ArtifactRepo(repoDir);
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
         repo.load();
         final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
                 new AttributeValuePair("attribute-A", "VA"),
@@ -218,6 +218,35 @@ public class BuildArtifactRequestTest {
         assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
+
+    }
+
+    @Test
+    public void testPartialInstalls() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION");
+
+        request.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
+        request.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
+        request.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
+
+
+        final File output = new File("test-results/requests/request5.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000000000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        StringWriter stringWriter = new StringWriter();
+        helper.printBashExports(repoDir, new PrintWriter(stringWriter));
+        System.out.println(stringWriter.toString());
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
 
     }
 

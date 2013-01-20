@@ -58,7 +58,7 @@ public class ArtifactRequestHelper {
                 continue;
             }
             final String scriptInstallPath = request.getScriptInstallPath();
-            final File tempInstallFile = File.createTempFile(request.getPluginId(),
+            final File tempInstallFile = File.createTempFile("install-script-"+request.getPluginId(),
                     FilenameUtils.getBaseName(scriptInstallPath));
 
             try {
