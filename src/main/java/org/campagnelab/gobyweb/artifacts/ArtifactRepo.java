@@ -890,4 +890,10 @@ public class ArtifactRepo {
         }
         return found.getState() == Artifacts.InstallationState.INSTALLED;
     }
+
+    public void printBashExports(PrintWriter printWriter) {
+        printWriter.print(preInstalledPluginExports);
+        printWriter.print(currentBashExports);
+        printWriter.flush();
+    }
 }

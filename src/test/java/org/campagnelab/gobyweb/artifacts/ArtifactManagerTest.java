@@ -6,8 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import static junit.framework.Assert.*;
 import static org.junit.Assert.assertNotNull;
@@ -250,7 +249,12 @@ public class ArtifactManagerTest {
         repo.load();
         repo.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
         assertTrue(repo.isInstalled("B", "ARTIFACT", "VERSION", null));
-    }
+
+        StringWriter stringWriter=new StringWriter();
+        repo.printBashExports(new PrintWriter(stringWriter));
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=")>=0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=")>=0);
+       }
 
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
         for (AttributeValuePair valuePair : attributeValuePairs) {

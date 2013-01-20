@@ -218,6 +218,7 @@ public class BuildArtifactRequestTest {
         assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/VA/VB").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
+
     }
 
     @Before

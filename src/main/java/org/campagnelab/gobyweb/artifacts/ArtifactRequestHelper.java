@@ -43,7 +43,7 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
 
         StringWriter currentExports = new StringWriter();
-        LOG.info("Preparing to install from request: "+getPluginNames(requests));
+        LOG.info("Preparing to install from request: " + getPluginNames(requests));
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             repo.load();
             LOG.info("Processing install request: " + request.toString());
@@ -79,7 +79,7 @@ public class ArtifactRequestHelper {
                 repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                         avp, request.getRetention());
 
-               // printBashExports(repoDir, new PrintWriter(currentExports));
+                // printBashExports(repoDir, new PrintWriter(currentExports));
                 //repo.setCurrentBashExports(currentExports.toString());
                 repo.save();
 
@@ -103,8 +103,8 @@ public class ArtifactRequestHelper {
     }
 
     private String getPluginNames(Artifacts.InstallationSet requests) {
-        StringBuffer sb=new StringBuffer();
-        for (Artifacts.ArtifactDetails request: requests.getArtifactsList()) {
+        StringBuffer sb = new StringBuffer();
+        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             sb.append(repo.toText(request.getPluginId(), request.getPluginId(),
                     request.getVersion(), repo.convert(request.getAttributesList())));
             sb.append(" ");
@@ -165,7 +165,8 @@ public class ArtifactRequestHelper {
      */
 
     public void printBashExports(File repoDir) throws IOException {
-        printBashExports(repoDir, new PrintWriter(new OutputStreamWriter(System.out)));
+        getRepo(repoDir).printBashExports(new PrintWriter(new OutputStreamWriter(System.out)));
+        // printBashExports(repoDir, new PrintWriter(new OutputStreamWriter(System.out)));
     }
 
     /**
@@ -175,7 +176,8 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void printBashExports(File repoDir, PrintWriter output) throws IOException {
-        LOG.debug("printBashExports");
+        getRepo(repoDir).printBashExports(output);
+        /*LOG.debug("printBashExports");
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
@@ -226,7 +228,7 @@ public class ArtifactRequestHelper {
                 }
             }
         }
-        output.flush();
+        output.flush(); */
     }
 
     public void setRepo(ArtifactRepo repo) {
