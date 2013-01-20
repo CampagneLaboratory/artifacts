@@ -76,14 +76,17 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
         synchronized (this) {
             boolean success = false;
             if (lock != null && lock.isValid()) {
-                while (!success) {
+
                     try {
+                        // workaround for IOException? see https://groups.google.com/forum/?fromgroups=#!topic/android-developers/gSb_xdlIG5A
+                        lockFile.seek(0);
                         lock.release();
-                        success = true;
+
                     } catch (IOException e) {
+
                         LOG.warn("Caught IO exception when trying to release file lock. Ignoring.", e);
                     }
-                }
+
             }
         }
     }
