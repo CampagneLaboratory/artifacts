@@ -22,7 +22,7 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
     private final String filename;
 
     public ExclusiveLockRequestWithFile(String filename, File repoDir) {
-        this.filename=filename;
+        this.filename = filename;
         if (!repoDir.exists()) {
             LOG.warn("Repository directory did not exist, creating..");
             repoDir.mkdir();
@@ -33,7 +33,7 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
         try {
             lockFile = new RandomAccessFile(lockFilename, "rw");
         } catch (FileNotFoundException e) {
-            LOG.error("Cannot create LOCK on "+this.filename, e);
+            LOG.error("Cannot create LOCK on " + this.filename, e);
         }
 
     }
@@ -42,14 +42,14 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
 
     public void query() {
 
-
+       synchronized (this) {
         try {
             granted = (lock = lockFile.getChannel().tryLock()) != null;
         } catch (IOException e) {
-            LOG.error("Could not acquire lock on "+filename, e);
+            LOG.error("Could not acquire lock on " + filename, e);
             granted = false;
         }
-
+       }
 
     }
 
@@ -61,21 +61,30 @@ public class ExclusiveLockRequestWithFile implements ExclusiveLockRequest {
     }
 
     public void waitAndLock() throws IOException {
+       synchronized (this) {
         lock = lockFile.getChannel().lock();
         granted = true;
+       }
     }
 
     /**
      * Release the lock, call after the lock was granted to release.
      */
     public void release() throws IOException {
-       if (lock.isValid()) {
-        lock.release();
+       synchronized (this) {
+        if (lock.isValid()) {
+            try {
+                lock.release();
+            } catch (IOException e) {
+                LOG.warn("Caught IO exception when trying to release file lock. Ignoring.", e);
+            }
+        }
        }
     }
 
     /**
      * Return the file that was locked.
+     *
      * @return
      */
     public RandomAccessFile getLockedFile() {
