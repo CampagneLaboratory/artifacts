@@ -777,7 +777,9 @@ public class ArtifactRepo {
     private ExclusiveLockRequest request;
 
     public void acquireExclusiveLock() throws IOException {
-
+        if (request!=null && request.granted()) {
+            return;
+        }
         request = new ExclusiveLockRequestWithFile(metaDataFilename, repoDir);
         boolean done = false;
         do {
@@ -802,6 +804,7 @@ public class ArtifactRepo {
 
     public void releaseLock() throws IOException {
         request.release();
+        request=null;
     }
 
     public void load() throws IOException {
