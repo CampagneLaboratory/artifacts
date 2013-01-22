@@ -2,6 +2,7 @@ package org.campagnelab.gobyweb.artifacts;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.campagnelab.gobyweb.artifacts.util.CommandExecutor;
 import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
@@ -120,20 +121,8 @@ public class ArtifactRequestHelper {
     }
 
     private int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
-        return exec(String.format("scp -o StrictHostKeyChecking=no %s@%s:%s %s", username, remoteHost, remotePath, localFilename));
-    }
+       return new CommandExecutor(username, remoteHost).scp(remotePath, localFilename);
 
-    private int exec(String command) throws IOException, InterruptedException {
-        Runtime rt = Runtime.getRuntime();
-        String[] commands = command.split(" ");
-        Process pr = rt.exec(commands);
-        LOG.trace("executing command: " + command);
-        new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
-        new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
-
-        int exitVal = pr.waitFor();
-        LOG.info("Install script exited with error code " + exitVal);
-        return exitVal;
     }
 
     /**
