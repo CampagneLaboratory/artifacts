@@ -3,12 +3,9 @@ package org.campagnelab.gobyweb.artifacts;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.util.CommandExecutor;
-import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Helps execute artifact requests against a repository.
@@ -121,7 +118,7 @@ public class ArtifactRequestHelper {
     }
 
     private int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
-       return new CommandExecutor(username, remoteHost).scp(remotePath, localFilename);
+       return new CommandExecutor(username, remoteHost).scpFromRemote(remotePath, localFilename);
 
     }
 
