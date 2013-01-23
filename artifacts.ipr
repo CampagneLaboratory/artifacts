@@ -35,6 +35,9 @@
         <module name="artifacts" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="artifacts" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
   <component name="CopyrightManager" default="">
     <module2copyright />
