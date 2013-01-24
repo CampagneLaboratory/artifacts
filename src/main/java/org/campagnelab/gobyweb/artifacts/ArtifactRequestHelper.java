@@ -2,6 +2,7 @@ package org.campagnelab.gobyweb.artifacts;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.util.CommandExecutor;
 
 import java.io.*;
@@ -50,47 +51,32 @@ public class ArtifactRequestHelper {
             Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                     avp);
             if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
-                if (artifact.hasInstallScriptRelativePath()) {
-                    String path = repo.getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(), avp);
-                    if (new File(path).exists()) {
-                        // the cached installed script exist. This artifact is fully installed. Otherwise, somebody may
-                        // have removed the install script cache to cause a refetch from the remote location.
-                        LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
-                                request.getPluginId(), request.getArtifactId(), request.getVersion()));
 
-                        continue;
-                    }
-                }
+                LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
+                        request.getPluginId(), request.getArtifactId(), request.getVersion()));
+
+                continue;
             }
-            final String scriptInstallPath = request.getScriptInstallPath();
-            final File tempInstallFile = File.createTempFile("install-script-" + request.getPluginId(),
-                    FilenameUtils.getBaseName(scriptInstallPath));
-
+            final String remoteScriptInstallPath = request.getScriptInstallPath();
+            File tmpLocalInstallScript = null;
             try {
-                final String localFilename = tempInstallFile.getAbsolutePath();
+
                 String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                         System.getProperty("user.name");
-
-                String server = request.getSshWebAppHost();
-
-                int status = scp(username, server, scriptInstallPath, localFilename);
-                if (status != 0) {
-                    final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                            server, scriptInstallPath);
-                    LOG.error(message);
-                    throw new IOException(message);
-                }
+                tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(),
+                        username, request.getSshWebAppHost());
+                final String localFilename = tmpLocalInstallScript.getAbsolutePath();
                 repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
                 repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                         avp, request.getRetention());
 
-                // printBashExports(repoDir, new PrintWriter(currentExports));
-                //repo.setCurrentBashExports(currentExports.toString());
                 repo.save();
 
                 final String text = repo.toText(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
 
                 Artifacts.Artifact installedArtifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
+                repo.updateArtifact(installedArtifact.toBuilder().setInstallationRequest(request).build());
+
                 if (installedArtifact.getState() != Artifacts.InstallationState.INSTALLED) {
                     LOG.error("Early stop: unable to install previous artifact: " +
                             text);
@@ -101,10 +87,61 @@ public class ArtifactRequestHelper {
             } catch (InterruptedException e) {
                 LOG.error("An error occurred when transferring install script.", e);
             } finally {
-                tempInstallFile.delete();
+                if (tmpLocalInstallScript != null) {
+                    tmpLocalInstallScript.delete();
+                }
             }
         }
         repo.save();
+    }
+
+    public File getCachedInstallFile(String remoteScriptInstallPath, String pluginId,
+                                     String username, String server)
+            throws IOException, InterruptedException {
+        if (repo.hasCachedInstallationScript(pluginId)) {
+            return new File(repo.getCachedInstallationScript(pluginId));
+        } else {
+            final File tempInstallFile = File.createTempFile("install-script-" + pluginId,
+                    FilenameUtils.getBaseName(remoteScriptInstallPath));
+
+            final String localFilename = tempInstallFile.getAbsolutePath();
+
+            int status = scp(username, server, remoteScriptInstallPath, localFilename);
+            if (status != 0) {
+                final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                        server, remoteScriptInstallPath);
+                LOG.error(message);
+                throw new IOException(message);
+            }
+            return tempInstallFile;
+        }
+    }
+
+    public static void fetchInstallScript(Artifacts.Artifact artifact, Artifacts.ArtifactDetails request,
+                                          ArtifactRepo artifactRepo) {
+        String relativePath = artifact.getInstallScriptRelativePath();
+        String absolutePath = artifactRepo.absolutePathInRepo("scripts", relativePath);
+
+        String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
+                System.getProperty("user.name");
+        String server = request.getSshWebAppHost();
+        try {
+            int status = scp(username, server, request.getScriptInstallPath(), absolutePath);
+            if (status != 0) {
+                final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                        server, relativePath);
+                LOG.error(message);
+                throw new IOException(message);
+            }
+        } catch (InterruptedException e) {
+            final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                    server, relativePath);
+            LOG.error(message, e);
+        } catch (IOException e) {
+            final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                    server, relativePath);
+            LOG.error(message,e);
+        }
     }
 
     private String getPluginNames(Artifacts.InstallationSet requests) {
@@ -117,8 +154,8 @@ public class ArtifactRequestHelper {
         return sb.toString();
     }
 
-    private int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
-       return new CommandExecutor(username, remoteHost).scpFromRemote(remotePath, localFilename);
+    private static int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
+        return new CommandExecutor(username, remoteHost).scpFromRemote(remotePath, localFilename);
 
     }
 
@@ -290,4 +327,6 @@ public class ArtifactRequestHelper {
     public void showRepo(File repo) throws IOException {
         getRepo(repo).show();
     }
+
+
 }

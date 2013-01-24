@@ -1,6 +1,7 @@
 package org.campagnelab.gobyweb.artifacts;
 
 
+import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -248,6 +249,51 @@ public class BuildArtifactRequestTest {
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
 
+    }
+
+
+    @Test
+    /**
+     * Check that the end user can remove the cached install script from the repository to trigger a new fetch of the script.
+     */
+    public void testRemoveCachedInstallScript() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION");
+
+        request.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
+        request.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
+        request.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
+
+
+        final File output = new File("test-results/requests/request5.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000000000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        StringWriter stringWriter = new StringWriter();
+        helper.printBashExports(repoDir, new PrintWriter(stringWriter));
+        System.out.println(stringWriter.toString());
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
+
+        // now we delete script-A:
+        final String cachedInstallScriptA = "REPO/scripts/A/VERSION/install.sh";
+
+        final File file = new File(cachedInstallScriptA);
+        assertTrue("cached install script must exist", file.exists());
+        file.delete();
+
+        ArtifactRepo repo = new ArtifactRepo(repoDir);
+        repo.load();
+        assertTrue("cached install script must have been refetched", repo.hasCachedInstallationScript("A"));
+        assertTrue("cached install script must have been refetched", file.exists());
+        //repo.readAttributeValues()
     }
 
     @Before

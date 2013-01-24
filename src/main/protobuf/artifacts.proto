@@ -140,6 +140,11 @@ message Artifact {
    * The relative path to a copy of the install script within the local repository.
    */
   optional string install_script_relative_path = 21;
+
+  /*
+   * The installation request that resulted in this artifact.
+   */
+  optional ArtifactDetails installation_request = 22;
 }
 
 message Host {

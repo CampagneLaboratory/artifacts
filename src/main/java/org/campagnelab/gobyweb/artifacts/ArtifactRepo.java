@@ -1,6 +1,8 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import com.google.protobuf.TextFormat;
+import com.sun.tools.javac.resources.version;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.lang.MutableString;
@@ -9,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
+import org.campagnelab.gobyweb.artifacts.util.CommandExecutor;
 import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
@@ -51,6 +54,8 @@ public class ArtifactRepo {
     private long spaceMaxAvailableInRepoDir;
     private MutableString currentBashExports = new MutableString();
     private MutableString preInstalledPluginExports = new MutableString();
+    private boolean quiet = true;
+    private Object2ObjectMap<String, String> pluginIdToInstallScriptPath = new Object2ObjectOpenHashMap<String, String>();
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -272,6 +277,9 @@ public class ArtifactRepo {
             LOG.info("LOCAL_COPY: Copied install script to " + installInRepoAbsolute);
             artifact = artifactBuilder.setInstallScriptRelativePath(installScriptFinalLocation.getPath()).build();
             index.put(makeKey(artifact), artifact);
+            pluginIdToInstallScriptPath.put(artifact.getPluginId(),
+                    absolutePathInRepo("scripts", artifactBuilder.getInstallScriptRelativePath()));
+
             save();
         } catch (IOException e) {
             LOG.error("LOCAL_COPY: Failed to cache install script " + installInRepoAbsolute);
@@ -363,9 +371,12 @@ public class ArtifactRepo {
 
     protected Properties readAttributeValues(Artifacts.Artifact artifact, AttributeValuePair[] avpEnvironment) throws IOException {
         LOG.debug("readAttributeValues(artifact, avpEnvironment)");
-
+        if (artifact.getId().equals("FILE2")) {
+            System.out.println("STOP");
+        }
         assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
-        String installScript = getCachedScriptLocation(artifact.getInstallScriptRelativePath()).getAbsolutePath();
+        assert hasCachedInstallationScript(artifact.getPluginId()) : "cached install script must be found.";
+        String installScript = getCachedInstallationScript(artifact.getPluginId());
         return readAttributeValues(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
                 avpEnvironment, installScript);
 
@@ -451,7 +462,7 @@ public class ArtifactRepo {
         Runtime rt = Runtime.getRuntime();
         Process pr = rt.exec(cmds);
         new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
-        new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
+        new Thread(new SyncPipe(quiet, pr.getInputStream(), System.out, LOG)).start();
 
         int exitVal = pr.waitFor();
         LOG.debug("Install script get_attribute_values() exited with error code " + exitVal);
@@ -693,7 +704,61 @@ public class ArtifactRepo {
             final MutableString key;
             key = makeKey(artifact);
             index.put(key, artifact);
+            if (artifact.hasInstallScriptRelativePath()) {
+                String cachedPath = absolutePathInRepo("scripts", artifact.getInstallScriptRelativePath());
+                pluginIdToInstallScriptPath.put(artifact.getPluginId(), cachedPath);
+            }
         }
+    }
+
+
+    /**
+     * Calculate an absolute path for a relative path inside the current repo.
+     *
+     * @param relativePath
+     * @param kind         type of path (i.e. scripts or artifacts)
+     * @return An absolute path corresponding to the relative path.
+     */
+    protected String absolutePathInRepo(String kind, String relativePath) {
+        return FilenameUtils.concat(repoDir.getAbsolutePath(), FilenameUtils.concat(kind, relativePath));
+    }
+
+    /**
+     * Return the location of the cached installation script. Please note that the file at that location may not exist.
+     *
+     * @param pluginId Id of the plugin for which the installation script is sought.
+     * @return Absolute path of the cached installation script.
+     */
+    public String getCachedInstallationScript(String pluginId) {
+        return pluginIdToInstallScriptPath.get(pluginId);
+    }
+
+    /**
+     * Determine whether a plugin has a valid cached installation script.
+     *
+     * @param pluginId Id of the plugin for which the installation script is sought.
+     * @return True or False.
+     */
+    public boolean hasCachedInstallationScript(String pluginId) {
+        final String cachedInstallationScript = getCachedInstallationScript(pluginId);
+        if (cachedInstallationScript != null && !new File(cachedInstallationScript).exists()) {
+            // the cache was removed to trigger reinstallation. Do it here for all the artifacts of this plugin:
+            for (Artifacts.Artifact artifact : findArtifacts(pluginId)) {
+                LOG.info(String.format("Refetching install script for %s:%s %n", pluginId, artifact.getId()));
+                ArtifactRequestHelper.fetchInstallScript(artifact, artifact.getInstallationRequest(), this);
+            }
+        }
+        return cachedInstallationScript != null && new File(cachedInstallationScript).exists();
+    }
+
+    private ObjectArrayList<Artifacts.Artifact> findArtifacts(String pluginId) {
+        ObjectArrayList<Artifacts.Artifact> result = new ObjectArrayList<Artifacts.Artifact>();
+        for (Artifacts.Artifact artifact : index.values()) {
+            if (artifact.getPluginId().equals(pluginId)) {
+                result.add(artifact);
+            }
+        }
+        return result;
     }
 
     private MutableString makeKey(Artifacts.Artifact artifact) {
@@ -750,7 +815,7 @@ public class ArtifactRepo {
         return attribute.toUpperCase();
     }
 
-    private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
+private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
 
     public void save() throws IOException {
         save(repoDir);
@@ -780,7 +845,7 @@ public class ArtifactRepo {
         }
     }
 
-    private ExclusiveLockRequest request;
+private ExclusiveLockRequest request;
 
     public synchronized void acquireExclusiveLock() throws IOException {
         LOG.info("acquireExclusiveLock()");
@@ -856,6 +921,19 @@ public class ArtifactRepo {
     }
 
     /**
+     * Update values of an artifact in the repository.
+     *
+     * @param revisedArtifact
+     */
+    public void updateArtifact(Artifacts.Artifact revisedArtifact) throws IOException {
+
+        // update retention and store back:
+        index.put(makeKey(revisedArtifact), revisedArtifact);
+        save();
+        load();
+    }
+
+    /**
      * Set export variable BASH statements as a string.
      *
      * @param currentBashExports
@@ -904,4 +982,6 @@ public class ArtifactRepo {
         printWriter.print(currentBashExports);
         printWriter.flush();
     }
+
+
 }

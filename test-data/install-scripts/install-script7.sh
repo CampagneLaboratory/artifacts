@@ -15,6 +15,7 @@ function plugin_install_artifact {
 
             'NO-ATTRIBUTE' )
                 touch ${installation_path}/no-attribute
+                return 0
                 ;;
 
              'FILE2' )
