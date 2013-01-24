@@ -16,6 +16,10 @@ public class CommandExecutor {
     private String username;
     boolean quiet;
 
+    /**
+     * Turn the executor silent. Silent executor do not copy the process outputs.
+     * @param quiet
+     */
     public void setQuiet(boolean quiet) {
         this.quiet = quiet;
     }
