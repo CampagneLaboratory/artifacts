@@ -574,7 +574,7 @@ public class ArtifactRepo {
                         "    exit $S; \n" +
                         " fi \n" +
                         "} \n" +
-                        "(  set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                        "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
                         " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
         String tmpDir = System.getProperty("java.io.tmpdir");
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
@@ -744,7 +744,6 @@ public class ArtifactRepo {
         if (cachedInstallationScript != null && !new File(cachedInstallationScript).exists()) {
             // the cache was removed to trigger reinstallation. Do it here for all the artifacts of this plugin:
             for (Artifacts.Artifact artifact : findArtifacts(pluginId)) {
-                LOG.info(String.format("Refetching install script for %s:%s %n", pluginId, artifact.getId()));
                 ArtifactRequestHelper.fetchInstallScript(artifact, artifact.getInstallationRequest(), this);
             }
         }

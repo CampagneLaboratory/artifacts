@@ -119,9 +119,12 @@ public class ArtifactRequestHelper {
 
     public static void fetchInstallScript(Artifacts.Artifact artifact, Artifacts.ArtifactDetails request,
                                           ArtifactRepo artifactRepo) {
+
+
         String relativePath = artifact.getInstallScriptRelativePath();
         String absolutePath = artifactRepo.absolutePathInRepo("scripts", relativePath);
-
+        LOG.info(String.format("Refetching install script for %s:%s, will install to %s  %n", artifact.getPluginId(),
+                artifact.getId(), absolutePath));
         String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                 System.getProperty("user.name");
         String server = request.getSshWebAppHost();
@@ -155,7 +158,9 @@ public class ArtifactRequestHelper {
     }
 
     private static int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
-        return new CommandExecutor(username, remoteHost).scpFromRemote(remotePath, localFilename);
+        final CommandExecutor commandExecutor = new CommandExecutor(username, remoteHost);
+        commandExecutor.setQuiet(false);
+        return commandExecutor.scpFromRemote(remotePath, localFilename);
 
     }
 

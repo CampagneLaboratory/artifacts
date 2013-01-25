@@ -8,7 +8,7 @@ function plugin_install_artifact {
     case ${id} in
 
             'RANDOM' )
-                sleep 10
+                sleep 3
                 touch ${installation_path}/`date "+%m%d%H%M%Y.%S"`
                                 return 0
                 ;;
