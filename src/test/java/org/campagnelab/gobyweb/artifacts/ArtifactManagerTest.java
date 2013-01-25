@@ -243,7 +243,7 @@ public class ArtifactManagerTest {
     public void testPartialInstalls() throws IOException {
         ArtifactRepo repo = new ArtifactRepo(repoDir);
 
-        repo.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION");
+        repo.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", new AttributeValuePair("attribute-A"));
         repo.save();
         repo = new ArtifactRepo(repoDir);
         repo.load();
@@ -252,7 +252,7 @@ public class ArtifactManagerTest {
 
         StringWriter stringWriter = new StringWriter();
         repo.printBashExports(new PrintWriter(stringWriter));
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT_VA=") >= 0);
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
 
 // now install C:
@@ -265,7 +265,7 @@ public class ArtifactManagerTest {
 
         stringWriter = new StringWriter();
         repo.printBashExports(new PrintWriter(stringWriter));
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT_VA=") >= 0);
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
