@@ -10,13 +10,13 @@ function plugin_install_artifact {
             'ARTIFACT' )
                  echo "get_attribute_values for ID=${id}"
                  set -xv
-                 env
-                 if [ -z "${RESOURCES_ARTIFACTS_A_ARTIFACT+xxx}"  ]; then
+
+                 if [ -z "${RESOURCES_ARTIFACTS_A_ARTIFACT_VA+xxx}"  ]; then
 
                     exit 1;
 
                  else
-                   if [ ! -f  ${RESOURCES_ARTIFACTS_A_ARTIFACT}/installed ]    ]; then
+                   if [ ! -f  ${RESOURCES_ARTIFACTS_A_ARTIFACT_VA}/installed  ]; then
 
                         exit 1;
                    fi

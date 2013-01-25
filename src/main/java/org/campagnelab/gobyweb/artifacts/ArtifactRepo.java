@@ -371,11 +371,12 @@ public class ArtifactRepo {
 
     protected Properties readAttributeValues(Artifacts.Artifact artifact, AttributeValuePair[] avpEnvironment) throws IOException {
         LOG.debug("readAttributeValues(artifact, avpEnvironment)");
-        if (artifact.getId().equals("FILE2")) {
-            System.out.println("STOP");
-        }
+
         assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
-        assert hasCachedInstallationScript(artifact.getPluginId()) : "cached install script must be found.";
+        if (!hasCachedInstallationScript(artifact.getPluginId())) {
+            LOG.error("Cached install script must be found for plugin " + toText(artifact));
+            return null;
+        }
         String installScript = getCachedInstallationScript(artifact.getPluginId());
         return readAttributeValues(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
                 avpEnvironment, installScript);
@@ -740,6 +741,7 @@ public class ArtifactRepo {
      * @return True or False.
      */
     public boolean hasCachedInstallationScript(String pluginId) {
+        LOG.debug("hasCachedInstallationScript " + pluginId);
         final String cachedInstallationScript = getCachedInstallationScript(pluginId);
         if (cachedInstallationScript != null && !new File(cachedInstallationScript).exists()) {
             // the cache was removed to trigger reinstallation. Do it here for all the artifacts of this plugin:
@@ -814,7 +816,7 @@ public class ArtifactRepo {
         return attribute.toUpperCase();
     }
 
-private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
+    private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact>();
 
     public void save() throws IOException {
         save(repoDir);
@@ -844,7 +846,7 @@ private Object2ObjectOpenHashMap<MutableString, Artifacts.Artifact> index = new 
         }
     }
 
-private ExclusiveLockRequest request;
+    private ExclusiveLockRequest request;
 
     public synchronized void acquireExclusiveLock() throws IOException {
         LOG.info("acquireExclusiveLock()");

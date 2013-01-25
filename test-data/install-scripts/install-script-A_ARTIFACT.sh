@@ -7,10 +7,11 @@ function plugin_install_artifact {
 
     case ${id} in
 
+
             'ARTIFACT' )
-                 echo "get_attribute_values for ID=${id}"
-                sdsd
-                 touch ${installation_path}/installed
+                ATTRIBUTE=$3
+                echo "get_attribute_values for ID=${id} ${ATTRIBUTE}"
+                touch ${installation_path}/installed
                 exit $?
                 ;;
 
@@ -22,4 +23,22 @@ function plugin_install_artifact {
     esac
 
     return 1
+}
+
+
+function get_attribute_values() {
+
+     id=$1
+     out=$2
+     case ${id} in
+         'ARTIFACT' )
+
+             echo "get_attribute_values for ID=${id}"
+
+             echo "attribute-A=VA" >>${out}
+
+         ;;
+
+     esac
+     return 0
 }

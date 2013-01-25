@@ -257,30 +257,37 @@ public class BuildArtifactRequestTest {
      * Check that the end user can remove the cached install script from the repository to trigger a new fetch of the script.
      */
     public void testRemoveCachedInstallScript() throws IOException {
-        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        BuildArtifactRequest request1 = new BuildArtifactRequest(getUserName() + "@localhost");
+        BuildArtifactRequest request2 = new BuildArtifactRequest(getUserName() + "@localhost");
+        Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
 
-        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION");
+        request1.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", avp1);
+        request1.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
 
-        request.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
-        request.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
-        request.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
+        request2.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", avp1);
+        request2.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
+        request2.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
+        request2.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
 
 
-        final File output = new File("test-results/requests/request5.pb");
+        final File output1 = new File("test-results/requests/request5.pb");
+        final File output2 = new File("test-results/requests/request6.pb");
 
-        request.save(output);
+        request1.save(output1);
+        request2.save(output2);
 
-        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+
+        // install request1:
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output1);
         helper.setSpaceRepoDirQuota(1000000000);
         final File repoDir = new File("REPO");
         helper.install(repoDir);
         StringWriter stringWriter = new StringWriter();
         helper.printBashExports(repoDir, new PrintWriter(stringWriter));
         System.out.println(stringWriter.toString());
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT=") >= 0);
+        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT_VA=") >= 0);
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
-        assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
+
 
         // now we delete script-A:
         final String cachedInstallScriptA = "REPO/scripts/A/VERSION/install.sh";
@@ -289,9 +296,24 @@ public class BuildArtifactRequestTest {
         assertTrue("cached install script must exist", file.exists());
         file.delete();
 
+        // we install request2:
+        helper = new ArtifactRequestHelper(output2);
+        helper.setSpaceRepoDirQuota(1000000000);
+
+        helper.install(repoDir);
+        StringWriter stringWriter2 = new StringWriter();
+        helper.printBashExports(repoDir, new PrintWriter(stringWriter2));
+        System.out.println(stringWriter2.toString());
+        final StringBuffer buffer2 = stringWriter2.getBuffer();
+        assertTrue(buffer2.indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT_VA=") >= 0);
+        assertTrue(buffer2.indexOf("export RESOURCES_ARTIFACTS_B_ARTIFACT=") >= 0);
+        assertTrue(buffer2.indexOf("export RESOURCES_ARTIFACTS_C_ARTIFACT=") >= 0);
+        assertTrue(buffer2.indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
+
+
         ArtifactRepo repo = new ArtifactRepo(repoDir);
         repo.load();
-        assertTrue("cached install script must have been refetched", repo.hasCachedInstallationScript("A"));
+        //    assertTrue("cached install script must have been refetched", repo.hasCachedInstallationScript("A"));
         assertTrue("cached install script must have been refetched", file.exists());
         //repo.readAttributeValues()
     }

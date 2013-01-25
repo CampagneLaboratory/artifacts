@@ -46,7 +46,20 @@ public class ArtifactRequestHelper {
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
             repo.load();
             LOG.info("Processing install request: " + request.toString());
+            String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
+                    System.getProperty("user.name");
+            final String remoteScriptInstallPath = request.getScriptInstallPath();
+            File tmpLocalInstallScript = null;
+            try {
+                tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(),
+                        username, request.getSshWebAppHost());
 
+            } catch (InterruptedException e) {
+
+                LOG.error("Unable to retrieve cached install file for plugin: " + repo.toText(request.getPluginId(), request.getArtifactId(),
+                        request.getVersion(), repo.convert(request.getAttributesList())));
+                tmpLocalInstallScript = null;
+            }
             final AttributeValuePair[] avp = repo.convert(request.getAttributesList());
             Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
                     avp);
@@ -57,14 +70,11 @@ public class ArtifactRequestHelper {
 
                 continue;
             }
-            final String remoteScriptInstallPath = request.getScriptInstallPath();
-            File tmpLocalInstallScript = null;
+
+
             try {
 
-                String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
-                        System.getProperty("user.name");
-                tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(),
-                        username, request.getSshWebAppHost());
+
                 final String localFilename = tmpLocalInstallScript.getAbsolutePath();
                 repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
                 repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
@@ -84,8 +94,6 @@ public class ArtifactRequestHelper {
                 } else {
                     LOG.info("Artifact successfully installed: " + text);
                 }
-            } catch (InterruptedException e) {
-                LOG.error("An error occurred when transferring install script.", e);
             } finally {
                 if (tmpLocalInstallScript != null) {
                     tmpLocalInstallScript.delete();
@@ -143,7 +151,7 @@ public class ArtifactRequestHelper {
         } catch (IOException e) {
             final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
                     server, relativePath);
-            LOG.error(message,e);
+            LOG.error(message, e);
         }
     }
 
