@@ -240,6 +240,8 @@ public class ArtifactRepo {
                 updateInstallScriptLocation(artifact, pluginScript);
                 artifact = changeState(artifact, Artifacts.InstallationState.INSTALLED);
                 updateExportStatements(artifact, avp, currentBashExports);
+            } catch (InterruptedException e) {
+                changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (RuntimeException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (Exception e) {
@@ -567,36 +569,45 @@ public class ArtifactRepo {
         File tmpExports = File.createTempFile("exports", ".sh");
         MutableString exportString = add(preInstalledPluginExports, currentBashExports);
         FileUtils.write(tmpExports, exportString != null ? exportString.toString() : "", true);
-
-        String wrapperTemplate =
-                " dieIfError() {\n" +
-                        " S=$?; \n" +
-                        " if [ ! \"$S\" = \"0\" ]; then \n" +
-                        "    exit $S; \n" +
-                        " fi \n" +
-                        "} \n" +
-                        "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                        " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
         String tmpDir = System.getProperty("java.io.tmpdir");
-        String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
-                tmpDir, (new Date().getTime()),
-                pluginScript,
-                artifactId,
-                installationPath, formatForCommandLine(avp))};
+        final long time = new Date().getTime();
+        try {
+            String wrapperTemplate =
+                    " dieIfError() {\n" +
+                            " S=$?; \n" +
+                            " if [ ! \"$S\" = \"0\" ]; then \n" +
+                            "    exit $S; \n" +
+                            " fi \n" +
+                            "} \n" +
+                            "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
+                            " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
 
-        Runtime rt = Runtime.getRuntime();
-        Process pr = rt.exec(cmds);
+            String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
+                    tmpDir, time,
+                    pluginScript,
+                    artifactId,
+                    installationPath, formatForCommandLine(avp))};
 
-        new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
-        new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
+            Runtime rt = Runtime.getRuntime();
+            Process pr = rt.exec(cmds);
 
-        int exitVal = pr.waitFor();
-        LOG.info("Install script exited with error code " + exitVal);
-        System.out.println("Install script exited with error code " + exitVal);
-        tmpExports.delete();
-        if (exitVal != 0) {
-            throw new IllegalStateException();
+            new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
+            new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
+
+            int exitVal = pr.waitFor();
+            LOG.info("Install script exited with error code " + exitVal);
+            System.out.println("Install script exited with error code " + exitVal);
+            tmpExports.delete();
+            if (exitVal != 0) {
+                throw new IllegalStateException();
+            }
+        } finally {
+            // delete the install directory in case it was left behind:
+
+            new File(String.format("%s/%d", tmpDir, time)).delete();
+            tmpExports.delete();
         }
+
     }
 
     private MutableString add(MutableString preInstalledPluginExports, MutableString currentBashExports) {
