@@ -272,6 +272,14 @@ public class ArtifactManagerTest {
 
     }
 
+    @Test
+    public void testFailInstalling() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+        manager.failInstalling();
+
+        repo.show();
+    }
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
         for (AttributeValuePair valuePair : attributeValuePairs) {
             valuePair.value = null;

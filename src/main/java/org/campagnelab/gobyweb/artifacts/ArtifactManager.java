@@ -59,15 +59,22 @@ public class ArtifactManager {
 
     private static boolean hasError(JSAPResult config) {
         return !(config.getBoolean("install") || config.getBoolean("remove") || config.getBoolean("get-path") ||
-                config.getBoolean("bash-exports") || config.getBoolean("show") || config.getBoolean("show-repo"));
+                config.getBoolean("bash-exports") || config.getBoolean("show") || config.getBoolean("show-repo") ||
+                config.getBoolean("fail-installing"));
     }
 
     private void process(JSAPResult config, File repoDir) throws IOException {
         long quota = config.getLong("repo-dir-quota");
         repo.setSpaceRepoDirQuota(quota);
-        repo.load(repoDir);
+
         String[] artifacts = config.getStringArray("artifacts");
         File sshRequests = config.getFile("ssh-requests");
+
+        if (config.getBoolean("fail-installing")) {
+            failInstalling();
+            return;
+        }
+        repo.load(repoDir);
         if (sshRequests != null) {
             ArtifactRequestHelper helper = new ArtifactRequestHelper(sshRequests);
             helper.setRepo(repo);
@@ -77,9 +84,9 @@ public class ArtifactManager {
             } else if (config.getBoolean("remove")) {
                 helper.remove(repoDir);
             } else if (config.getBoolean("bash-exports")) {
-                String output=config.getString("output");
-                if (output==null) {
-                    output="./exports.sh";
+                String output = config.getString("output");
+                if (output == null) {
+                    output = "./exports.sh";
                 }
                 helper.printBashExports(repoDir, new PrintWriter(new FileWriter(output)));
             } else if (config.getBoolean("show")) {
@@ -118,6 +125,22 @@ public class ArtifactManager {
             repo.save(repoDir);
         }
 
+    }
+
+    public void failInstalling() throws IOException {
+        // do not update export statements upon loading, we are not installing:
+        repo.load(false);
+        for (Artifacts.Artifact artifact : repo.getArtifacts()) {
+            if (artifact.getState() == Artifacts.InstallationState.INSTALLING) {
+                try {
+                    final Artifacts.Artifact revisedArtifact = artifact.toBuilder().setState(Artifacts.InstallationState.FAILED).build();
+                    repo.updateArtifact(revisedArtifact);
+                    System.out.println("failed plugin: "+repo.toTextShort(artifact));
+                } catch (IOException e) {
+                    LOG.error("An IO exception occurred when failing " + repo.toText(artifact));
+                }
+            }
+        }
     }
 
 

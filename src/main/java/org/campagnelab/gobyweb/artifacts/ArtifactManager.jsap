@@ -107,6 +107,11 @@
             <longFlag>show</longFlag>
             <help>Show the requests meta data in text format.</help>
         </switch>
+        <switch>
+            <id>fail-installing</id>
+            <longFlag>fail-installing</longFlag>
+            <help>Fail the installation of any artifact marked as currently installing in the repository.</help>
+        </switch>
 
         <switch>
             <id>show-repo</id>

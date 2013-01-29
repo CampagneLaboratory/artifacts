@@ -5,6 +5,7 @@ import com.sun.tools.javac.resources.version;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectCollection;
 import it.unimi.dsi.lang.MutableString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -672,6 +673,14 @@ public class ArtifactRepo {
     }
 
     public synchronized void load(File repoDir) throws IOException {
+        load(repoDir, true);
+    }
+
+    public synchronized void load(boolean updateExportStatements) throws IOException {
+        load(this.repoDir, updateExportStatements);
+    }
+
+    public synchronized void load(File repoDir, boolean updateExportStatements) throws IOException {
         FileInputStream input = null;
         try {
             acquireExclusiveLock();
@@ -690,14 +699,15 @@ public class ArtifactRepo {
             }
             scan(repo);
             preInstalledPluginExports.setLength(0);
-            // pre-set export statements with exports for all pre-installed tools:
-            for (Artifacts.Artifact installedArtifact : this.index.values()) {
-                if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED)
+            if (updateExportStatements) {
+                // pre-set export statements with exports for all pre-installed tools:
+                for (Artifacts.Artifact installedArtifact : this.index.values()) {
+                    if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED)
 
-                    updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
-                            preInstalledPluginExports);
+                        updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
+                                preInstalledPluginExports);
+                }
             }
-
         } finally {
             releaseLock();
             if (input != null) {
@@ -996,4 +1006,11 @@ public class ArtifactRepo {
     }
 
 
+    public ObjectCollection<Artifacts.Artifact> getArtifacts() {
+        return index.values();
+    }
+
+    public String toTextShort(Artifacts.Artifact artifact) {
+        return String.format("%s:%s:%s", artifact.getId(), artifact.getId(), artifact.getVersion());
+    }
 }
