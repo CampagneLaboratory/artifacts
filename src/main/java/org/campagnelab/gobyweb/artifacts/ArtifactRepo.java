@@ -255,9 +255,9 @@ public class ArtifactRepo {
         }
     }
 
-    private boolean updateInstallScriptLocation(Artifacts.Artifact artifact, String pluginScript) {
+    private boolean updateInstallScriptLocation(Artifacts.Artifact artifact, String pluginScript) throws IOException {
 
-        if (pluginScript == null) {
+        if (pluginScript == null || artifact.hasInstallScriptRelativePath()) {
             //success
             return true;
         }
@@ -275,8 +275,12 @@ public class ArtifactRepo {
         try {
 
             installInRepoAbsolute.getParentFile().mkdirs();
-            FileUtils.copyFile(new File(pluginScript),
-                    installInRepoAbsolute);
+            if (pluginScript.equals(installInRepoAbsolute.getAbsolutePath())) {
+                           // script already cached
+                return true;
+            }
+
+            FileUtils.copyFile(new File(pluginScript),                      installInRepoAbsolute);
             LOG.info("LOCAL_COPY: Copied install script to " + installInRepoAbsolute);
             artifact = artifactBuilder.setInstallScriptRelativePath(installScriptFinalLocation.getPath()).build();
             index.put(makeKey(artifact), artifact);
@@ -284,10 +288,11 @@ public class ArtifactRepo {
                     absolutePathInRepo("scripts", artifactBuilder.getInstallScriptRelativePath()));
 
             save();
+            load();
         } catch (IOException e) {
-            LOG.error("LOCAL_COPY: Failed to cache install script " + installInRepoAbsolute);
+            LOG.error("LOCAL_COPY: Failed to cache install script " + installInRepoAbsolute,e);
 
-            failed = true;
+            throw e;
         }
         return !failed;
 
@@ -526,19 +531,32 @@ public class ArtifactRepo {
 
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         if (artifact == null) {
-            LOG.warn(String.format("Cannot remove artifact %s:%s since it is not present in the repository.",
-                    pluginId, artifactId));
+            LOG.warn(String.format("Could not find artifact %s:%s with attributes, removing while ignoring attributes.",
+                                   pluginId, artifactId));
+            List<Artifacts.Artifact> list = findIgnoringAttributes(pluginId, artifactId, version);
+            for (Artifacts.Artifact a: list) {
+                removeArtifactInternal(a.getPluginId(), a.getId(), a.getVersion(), a,convert( a.getAttributesList()));
+            }
+            if (list.isEmpty()) {
+                LOG.warn(String.format("Could not find any artifact matching %s:%s. Ignoring remove request.",
+                       pluginId, artifactId));
+            }
+
             return;
         } else {
-            FileUtils.deleteDirectory(getArtifactDir(pluginId, artifactId, version, avp));
-            LOG.info(String.format("Removing artifact %s:%s.",
-                    pluginId, artifactId));
-            index.remove(makeKey(artifact));
+            removeArtifactInternal(pluginId, artifactId, version, artifact, avp);
         }
         save();
     }
 
-    private String appendKeyValuePairs(String artifactInstallDir, AttributeValuePair[] avp) {
+    private void removeArtifactInternal(String pluginId, String artifactId, String version, Artifacts.Artifact artifact, AttributeValuePair[] avp) throws IOException {
+        FileUtils.deleteDirectory(getArtifactDir(pluginId, artifactId, version, avp));
+        LOG.info(String.format("Removing artifact %s:%s.",
+                pluginId, artifactId));
+        index.remove(makeKey(artifact));
+    }
+
+    private String appendKeyValuePairs(String artifactInstallDir, AttributeValuePair... avp) {
         if (avp == null) return artifactInstallDir;
         String result = artifactInstallDir;
         for (AttributeValuePair valuePair : avp) {
@@ -549,7 +567,7 @@ public class ArtifactRepo {
         return result;
     }
 
-    private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair[] avp) {
+    private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair ... avp) {
 
         return new File(appendKeyValuePairs(FilenameUtils.concat(
                 FilenameUtils.concat(
