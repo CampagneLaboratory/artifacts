@@ -81,6 +81,9 @@ public class ArtifactManager {
             if (config.getBoolean("install")) {
 
                 helper.install(repoDir);
+                if (helper.isEarlyStopRequested()) {
+                    System.exit(10);
+                }
             } else if (config.getBoolean("remove")) {
                 helper.remove(repoDir);
             } else if (config.getBoolean("bash-exports")) {

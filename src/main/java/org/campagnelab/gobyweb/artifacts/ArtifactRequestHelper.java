@@ -24,6 +24,7 @@ public class ArtifactRequestHelper {
      * The repository quota. This field is used when a new repo is created, but not if you set a repo directly.
      */
     private long spaceRepoDirQuota;
+    private boolean earlyStopRequested;
 
     public ArtifactRequestHelper(File pbRequestFile) throws IOException {
 
@@ -90,10 +91,13 @@ public class ArtifactRequestHelper {
                 if (installedArtifact.getState() != Artifacts.InstallationState.INSTALLED) {
                     LOG.error("Early stop: unable to install previous artifact: " +
                             text);
+                    earlyStopRequested=true;
+
                     return;
                 } else {
                     LOG.info("Artifact successfully installed: " + text);
                 }
+
             } finally {
                 if (tmpLocalInstallScript != null) {
                     tmpLocalInstallScript.delete();
@@ -101,6 +105,10 @@ public class ArtifactRequestHelper {
             }
         }
         repo.save();
+    }
+
+    public boolean isEarlyStopRequested() {
+        return earlyStopRequested;
     }
 
     public File getCachedInstallFile(String remoteScriptInstallPath, String pluginId,
