@@ -246,7 +246,7 @@ public class ArtifactManagerTest {
         repo.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", new AttributeValuePair("attribute-A"));
         repo.save();
         repo = new ArtifactRepo(repoDir);
-        repo.load();
+        repo.load(repoDir, true);
         repo.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
         assertTrue(repo.isInstalled("B", "ARTIFACT", "VERSION", null));
 
@@ -280,6 +280,21 @@ public class ArtifactManagerTest {
 
         repo.show();
     }
+
+
+    @Test
+    public void testMultipleLocks() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+        repo.acquireExclusiveLock();
+        repo.acquireExclusiveLock();
+        repo.releaseLock();
+        repo.releaseLock();
+
+
+
+    }
+
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
         for (AttributeValuePair valuePair : attributeValuePairs) {
             valuePair.value = null;

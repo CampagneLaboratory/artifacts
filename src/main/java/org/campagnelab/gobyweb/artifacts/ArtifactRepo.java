@@ -30,6 +30,12 @@ import java.util.*;
 public class ArtifactRepo {
     private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactRepo.class);
     private static final long WAIT_FOR_INSTALLING_DELAY = 30 * 1000; // wait 30 secs.
+    /**
+     * The number of locks acquired on the repository.  When >0, at least one lock has been granted.
+     * When 0, no lock has been granted.
+     */
+    int lockCount = 0;
+
     File repoDir;
     /**
      * Sort artifacts by increasing installation date
@@ -276,11 +282,11 @@ public class ArtifactRepo {
 
             installInRepoAbsolute.getParentFile().mkdirs();
             if (pluginScript.equals(installInRepoAbsolute.getAbsolutePath())) {
-                           // script already cached
+                // script already cached
                 return true;
             }
 
-            FileUtils.copyFile(new File(pluginScript),                      installInRepoAbsolute);
+            FileUtils.copyFile(new File(pluginScript), installInRepoAbsolute);
             LOG.info("LOCAL_COPY: Copied install script to " + installInRepoAbsolute);
             artifact = artifactBuilder.setInstallScriptRelativePath(installScriptFinalLocation.getPath()).build();
             index.put(makeKey(artifact), artifact);
@@ -288,9 +294,8 @@ public class ArtifactRepo {
                     absolutePathInRepo("scripts", artifactBuilder.getInstallScriptRelativePath()));
 
             save();
-            load();
         } catch (IOException e) {
-            LOG.error("LOCAL_COPY: Failed to cache install script " + installInRepoAbsolute,e);
+            LOG.error("LOCAL_COPY: Failed to cache install script " + installInRepoAbsolute, e);
 
             throw e;
         }
@@ -532,14 +537,14 @@ public class ArtifactRepo {
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         if (artifact == null) {
             LOG.warn(String.format("Could not find artifact %s:%s with attributes, removing while ignoring attributes.",
-                                   pluginId, artifactId));
+                    pluginId, artifactId));
             List<Artifacts.Artifact> list = findIgnoringAttributes(pluginId, artifactId, version);
-            for (Artifacts.Artifact a: list) {
-                removeArtifactInternal(a.getPluginId(), a.getId(), a.getVersion(), a,convert( a.getAttributesList()));
+            for (Artifacts.Artifact a : list) {
+                removeArtifactInternal(a.getPluginId(), a.getId(), a.getVersion(), a, convert(a.getAttributesList()));
             }
             if (list.isEmpty()) {
                 LOG.warn(String.format("Could not find any artifact matching %s:%s. Ignoring remove request.",
-                       pluginId, artifactId));
+                        pluginId, artifactId));
             }
 
             return;
@@ -567,7 +572,7 @@ public class ArtifactRepo {
         return result;
     }
 
-    private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair ... avp) {
+    private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
 
         return new File(appendKeyValuePairs(FilenameUtils.concat(
                 FilenameUtils.concat(
@@ -703,11 +708,11 @@ public class ArtifactRepo {
         try {
             acquireExclusiveLock();
 
-            RandomAccessFile file = getLockedRepoFile();
+            File repoFile=new File(getMetaDataFilename() );
             Artifacts.Repository repo;
-            if (file.length() != 0) {
+            if (repoFile.exists() && FileUtils.sizeOf(repoFile)!=0) {
                 LOG.trace(String.format("Loading from %s%n", repoDir.getAbsolutePath()));
-                input = new FileInputStream(file.getFD());
+                input = new FileInputStream(getMetaDataFilename());
                 repo = Artifacts.Repository.parseDelimitedFrom(input);
                 LOG.trace(String.format("Loaded repo with %d artifacts. %n", repo.getArtifactsCount()));
             } else {
@@ -866,9 +871,9 @@ public class ArtifactRepo {
         FileOutputStream output = null;
         try {
             acquireExclusiveLock();
-            RandomAccessFile file = getLockedRepoFile();
+
             LOG.debug(String.format("Saving to %s %n", repoDir.getAbsolutePath()));
-            output = new FileOutputStream(file.getFD());
+            output = new FileOutputStream(getMetaDataFilename());
             // recreate the ProtoBuf repo from the index:
             Artifacts.Repository.Builder repoBuilder = Artifacts.Repository.newBuilder();
             repoBuilder.addAllArtifacts(index.values());
@@ -878,24 +883,31 @@ public class ArtifactRepo {
             LOG.debug(String.format("Wrote repo with %d artifacts.%n", repo.getArtifactsCount()));
 
         } finally {
-            releaseLock();
             if (output != null) {
                 output.close();
             }
+            releaseLock();
+
         }
     }
 
     private ExclusiveLockRequest request;
 
     public synchronized void acquireExclusiveLock() throws IOException {
-        LOG.info("acquireExclusiveLock()");
-        request = new ExclusiveLockRequestWithFile(metaDataFilename, repoDir);
+        if (lockCount > 0) {
+            // already locked, simply increment lock count and return:
+            lockCount++;
+            return;
+        }
+        LOG.debug("acquireExclusiveLock()");
+        request = new ExclusiveLockRequestWithFile(metaDataFilename + ".lock", repoDir);
         boolean done = false;
         do {
             request.waitAndLock();
 
             if (request.granted()) {
                 done = true;
+
             } else {
                 // wait a bit.
                 try {
@@ -905,16 +917,23 @@ public class ArtifactRepo {
                 }
             }
         } while (!done);
+        lockCount++;
     }
 
     public RandomAccessFile getLockedRepoFile() {
         return request.getLockedFile();
     }
 
-    public void releaseLock() throws IOException {
-        LOG.info("releaseLock()");
+    public synchronized void releaseLock() throws IOException {
+        if ((lockCount - 1) > 0) {
+            // still locked after releasing this lock:  simply decrement lock count and return:
+            lockCount--;
+            return;
+        }
+        LOG.debug("releaseLock()");
         request.release();
         request = null;
+        lockCount--;
     }
 
     public void load() throws IOException {
@@ -1030,5 +1049,9 @@ public class ArtifactRepo {
 
     public String toTextShort(Artifacts.Artifact artifact) {
         return String.format("%s:%s:%s", artifact.getId(), artifact.getId(), artifact.getVersion());
+    }
+
+    public String getMetaDataFilename() {
+        return FilenameUtils.concat(repoDir.getAbsolutePath(), "metadata.pb");
     }
 }

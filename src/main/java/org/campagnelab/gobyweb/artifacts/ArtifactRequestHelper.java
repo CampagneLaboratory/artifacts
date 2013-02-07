@@ -44,67 +44,73 @@ public class ArtifactRequestHelper {
 
         StringWriter currentExports = new StringWriter();
         LOG.info("Preparing to install from request: " + getPluginNames(requests));
-        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            repo.load();
-            LOG.info("Processing install request: " + request.toString());
-            String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
-                    System.getProperty("user.name");
-            final String remoteScriptInstallPath = request.getScriptInstallPath();
-            File tmpLocalInstallScript = null;
-            try {
-                tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(),
-                        username, request.getSshWebAppHost());
+        try {
+            repo.acquireExclusiveLock();
+            for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+                repo.load();
+                LOG.info("Processing install request: " + request.toString());
+                String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
+                        System.getProperty("user.name");
+                final String remoteScriptInstallPath = request.getScriptInstallPath();
+                File tmpLocalInstallScript = null;
+                try {
+                    tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(),
+                            username, request.getSshWebAppHost());
 
-            } catch (InterruptedException e) {
+                } catch (InterruptedException e) {
 
-                LOG.error("Unable to retrieve cached install file for plugin: " + repo.toText(request.getPluginId(), request.getArtifactId(),
-                        request.getVersion(), repo.convert(request.getAttributesList())));
-                tmpLocalInstallScript = null;
-            }
-            final AttributeValuePair[] avp = repo.convert(request.getAttributesList());
-            Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
-                    avp);
-            if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
+                    LOG.error("Unable to retrieve cached install file for plugin: " + repo.toText(request.getPluginId(), request.getArtifactId(),
+                            request.getVersion(), repo.convert(request.getAttributesList())));
+                    tmpLocalInstallScript = null;
+                }
+                final AttributeValuePair[] avp = repo.convert(request.getAttributesList());
+                Artifacts.Artifact artifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                        avp);
+                if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
 
-                LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
-                        request.getPluginId(), request.getArtifactId(), request.getVersion()));
+                    LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
+                            request.getPluginId(), request.getArtifactId(), request.getVersion()));
 
-                continue;
-            }
-
-
-            try {
-
-
-                final String localFilename = tmpLocalInstallScript.getAbsolutePath();
-                repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
-                repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
-                        avp, request.getRetention());
-
-                repo.save();
-
-                final String text = repo.toText(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
-
-                Artifacts.Artifact installedArtifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
-                repo.updateArtifact(installedArtifact.toBuilder().setInstallationRequest(request).build());
-
-                if (installedArtifact.getState() != Artifacts.InstallationState.INSTALLED) {
-                    LOG.error("Early stop: unable to install previous artifact: " +
-                            text);
-                    earlyStopRequested=true;
-
-                    return;
-                } else {
-                    LOG.info("Artifact successfully installed: " + text);
+                    continue;
                 }
 
-            } finally {
-                if (tmpLocalInstallScript != null) {
-                    tmpLocalInstallScript.delete();
+
+                try {
+
+
+                    final String localFilename = tmpLocalInstallScript.getAbsolutePath();
+                    repo.install(request.getPluginId(), request.getArtifactId(), localFilename, request.getVersion(), avp);
+                    repo.setRetention(request.getPluginId(), request.getArtifactId(), request.getVersion(),
+                            avp, request.getRetention());
+
+                    repo.save();
+
+                    final String text = repo.toText(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
+
+                    Artifacts.Artifact installedArtifact = repo.find(request.getPluginId(), request.getArtifactId(), request.getVersion(), avp);
+                    repo.updateArtifact(installedArtifact.toBuilder().setInstallationRequest(request).build());
+
+                    if (installedArtifact.getState() != Artifacts.InstallationState.INSTALLED) {
+                        LOG.error("Early stop: unable to install previous artifact: " +
+                                text);
+                        earlyStopRequested = true;
+
+                        return;
+                    } else {
+                        LOG.info("Artifact successfully installed: " + text);
+                    }
+
+                } finally {
+                    if (tmpLocalInstallScript != null) {
+                        tmpLocalInstallScript.delete();
+                    }
                 }
             }
+
+        } finally {
+            repo.save();
+            repo.releaseLock();
         }
-        repo.save();
     }
 
     public boolean isEarlyStopRequested() {
