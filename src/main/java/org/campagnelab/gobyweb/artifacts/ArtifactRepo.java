@@ -180,21 +180,17 @@ public class ArtifactRepo {
             avp = getAttributeValues(null, artifactId, version, avp, pluginScript, pluginId);
         }
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
-        while (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
-            try {
-                LOG.info("waiting while other installing.. ");
+        if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
 
-                // wait a bit
+                LOG.info("Found an artifact that failed to finished installing (was state=INSTALLING).. This likely results from the repo being killed/(or crash) during an installation. Removing the artifact to start installation over. ");
 
-                Thread.sleep(WAIT_FOR_INSTALLING_DELAY);
-
+                remove(artifact);
+                save();
                 // reload the plugin info from disk:
                 load();
                 artifact = find(pluginId, artifactId, version, avp);
 
-            } catch (InterruptedException e) {
-                LOG.warn("Interrupted while waiting for other process to complete installation.");
-            }
+
         }
 
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
