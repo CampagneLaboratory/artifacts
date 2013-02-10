@@ -318,6 +318,44 @@ public class BuildArtifactRequestTest {
         //repo.readAttributeValues()
     }
 
+
+    @Test
+    // check that we can execute requests sent from the web server in pb format.
+    public void testEnvironmentCollectionScripts() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        request.registerEnvironmentCollection("test-data/env-scripts/env-script1.sh");
+        request.registerEnvironmentCollection("test-data/env-scripts/env-script2.sh");
+        Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
+        Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
+
+        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script11.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script11.sh", avp2);
+        request.addArtifact("PLUGIN", "NO-ATTRIBUTE", "1.0", "test-data/install-scripts/install-script11.sh");
+        final File output = new File("test-results/requests/request4.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+        final StringWriter resultRequest = new StringWriter();
+
+        helper.printBashExports(repoDir, new PrintWriter(resultRequest));
+        System.out.println(resultRequest.getBuffer());
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_VA_VB=") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_VB=") >= 0);
+        //        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_NO-ATTRIBUTE=") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_A=VA") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE1_ATTRIBUTE_B=VB") >= 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_A=VA") < 0);
+        assertTrue(resultRequest.getBuffer().indexOf("export RESOURCES_ARTIFACTS_PLUGIN_FILE2_ATTRIBUTE_B=VB") >= 0);
+
+        helper.showRepo(repoDir);
+
+
+    }
+
     @Before
     public void cleanRepo() throws IOException {
         FileUtils.deleteDirectory(new File("REPO"));

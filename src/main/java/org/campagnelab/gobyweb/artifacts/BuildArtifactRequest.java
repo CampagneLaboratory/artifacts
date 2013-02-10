@@ -20,6 +20,7 @@ import java.util.Vector;
  */
 public class BuildArtifactRequest {
     private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactManager.class);
+    public static final String ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT = "ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT";
 
 
     private String webServerHostname;
@@ -58,7 +59,7 @@ public class BuildArtifactRequest {
     }
 
     public void install(String pluginId, String artifactId, String pluginScript, String version, Artifacts.AttributeValuePair... avp) {
-        addArtifact(pluginId, artifactId, version, pluginScript , Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
+        addArtifact(pluginId, artifactId, version, pluginScript, Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, String installScript,
@@ -99,4 +100,18 @@ public class BuildArtifactRequest {
         return this.installationSetBuilder.getArtifactsCount() == 0;
     }
 
+    /**
+     * Register an environment collection script. Environment collection scripts tie artifacts with a
+     * specific runtime environment. Registered collection scripts will be run to populate the Bash
+     * environment before the get_attribute function of a plugin is called.
+     *
+     * @param scriptFilename
+     *
+     */
+    public void registerEnvironmentCollection(String scriptFilename) {
+        environmentCollectionScripts.add(scriptFilename);
+        addArtifact(ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT+environmentCollectionScripts.size(),"ENV_SCRIPT","1.0",scriptFilename);
+    }
+
+    ObjectArrayList<String> environmentCollectionScripts = new ObjectArrayList<String>();
 }

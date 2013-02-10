@@ -1,5 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
@@ -41,7 +42,7 @@ public class ArtifactRequestHelper {
      */
     public void install(File repoDir) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
-
+        repo.unregisterAllEnvironmentCollectionScripts();
         StringWriter currentExports = new StringWriter();
         LOG.info("Preparing to install from request: " + getPluginNames(requests));
         try {
@@ -98,6 +99,7 @@ public class ArtifactRequestHelper {
                         return;
                     } else {
                         LOG.info("Artifact successfully installed: " + text);
+
                     }
 
                 } finally {
@@ -112,6 +114,8 @@ public class ArtifactRequestHelper {
             repo.releaseLock();
         }
     }
+
+
 
     public boolean isEarlyStopRequested() {
         return earlyStopRequested;

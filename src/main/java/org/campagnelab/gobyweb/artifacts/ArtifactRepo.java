@@ -182,13 +182,13 @@ public class ArtifactRepo {
         Artifacts.Artifact artifact = find(pluginId, artifactId, version, avp);
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLING) {
 
-                LOG.info("Found an artifact that failed to finished installing (was state=INSTALLING).. This likely results from the repo being killed/(or crash) during an installation. Removing the artifact to start installation over. ");
+            LOG.info("Found an artifact that failed to finished installing (was state=INSTALLING).. This likely results from the repo being killed/(or crash) during an installation. Removing the artifact to start installation over. ");
 
-                remove(artifact);
-                save();
-                // reload the plugin info from disk:
-                load();
-                artifact = find(pluginId, artifactId, version, avp);
+            remove(artifact);
+            save();
+            // reload the plugin info from disk:
+            load();
+            artifact = find(pluginId, artifactId, version, avp);
 
 
         }
@@ -243,6 +243,7 @@ public class ArtifactRepo {
                 updateInstallScriptLocation(artifact, pluginScript);
                 artifact = changeState(artifact, Artifacts.InstallationState.INSTALLED);
                 updateExportStatements(artifact, avp, currentBashExports);
+                registerPossibleEnvironmentCollection(artifact);
             } catch (InterruptedException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
             } catch (RuntimeException e) {
@@ -255,6 +256,31 @@ public class ArtifactRepo {
             LOG.debug("Exiting ArtifactRepo.install");
             save();
         }
+    }
+
+    /**
+     * List of script paths for environment collection scripts. This collection holds local absolute paths.
+     * We use a list because order of the scripts is important, but we discard repeated scripts, keeping only
+     * the first registration.
+     */
+    private ObjectArrayList<String> environmentCollectionScripts = new ObjectArrayList<String>();
+
+
+    private void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
+        if (artifact.getPluginId().startsWith(BuildArtifactRequest.ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT)) {
+
+            String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId());
+            if (!environmentCollectionScripts.contains(cachedInstallationScript)) {
+                environmentCollectionScripts.add(cachedInstallationScript);
+            }
+        }
+    }
+
+    /**
+     * Unregister all environment collection scripts registered so far.
+     */
+    public void unregisterAllEnvironmentCollectionScripts() {
+        environmentCollectionScripts.clear();
     }
 
     private boolean updateInstallScriptLocation(Artifacts.Artifact artifact, String pluginScript) throws IOException {
@@ -457,16 +483,18 @@ public class ArtifactRepo {
         pluginScript = new File(pluginScript).getAbsolutePath();
         String tmpDir = System.getProperty("java.io.tmpdir");
         final long time = new Date().getTime();
-        LOG.info("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
+        LOG.debug("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
+
+        MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
-        String wrapperTemplate = "( set -e ; set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR};  " +
+        String wrapperTemplate = "( set -e ; set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR}; %s  " +
                 " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties; set -xv )%n";
 
         String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
                 pluginId, artifactId,
                 time,
                 pluginScript,
-                artifactId
+                sourceEnvCollectionScripts, artifactId
         )};
 
         Runtime rt = Runtime.getRuntime();
@@ -482,6 +510,14 @@ public class ArtifactRepo {
 
             return result;
         }
+    }
+
+    private MutableString getEnvCollectionSourceStatements() {
+        MutableString sourceEnvCollectionScripts = new MutableString();
+        for (String envScript : environmentCollectionScripts) {
+            sourceEnvCollectionScripts.append(String.format(" chmod +x %s; source %s; ", envScript, envScript));
+        }
+        return sourceEnvCollectionScripts;
     }
 
     /**
@@ -600,11 +636,13 @@ public class ArtifactRepo {
                             " fi \n" +
                             "} \n" +
                             "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
-                            " chmod +x $script ;  . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
+                            " chmod +x $script ; %s . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
 
+            MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
             String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                     tmpDir, time,
                     pluginScript,
+                    sourceEnvCollectionScripts,
                     artifactId,
                     installationPath, formatForCommandLine(avp))};
 
@@ -615,10 +653,11 @@ public class ArtifactRepo {
             new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
 
             int exitVal = pr.waitFor();
-            LOG.info("Install script exited with error code " + exitVal);
-            System.out.println("Install script exited with error code " + exitVal);
+
+           // System.out.println("Install script exited with error code " + exitVal);
             tmpExports.delete();
             if (exitVal != 0) {
+                LOG.info("Install script exited with error code " + exitVal);
                 throw new IllegalStateException();
             }
         } finally {
@@ -704,9 +743,9 @@ public class ArtifactRepo {
         try {
             acquireExclusiveLock();
 
-            File repoFile=new File(getMetaDataFilename() );
+            File repoFile = new File(getMetaDataFilename());
             Artifacts.Repository repo;
-            if (repoFile.exists() && FileUtils.sizeOf(repoFile)!=0) {
+            if (repoFile.exists() && FileUtils.sizeOf(repoFile) != 0) {
                 LOG.trace(String.format("Loading from %s%n", repoDir.getAbsolutePath()));
                 input = new FileInputStream(getMetaDataFilename());
                 repo = Artifacts.Repository.parseDelimitedFrom(input);

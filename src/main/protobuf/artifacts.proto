@@ -25,6 +25,7 @@ enum RetentionPolicy {
 }
 
 message InstallationSet {
+
     /*
      *  List of artifacts to install, remove or act upon.
      */
