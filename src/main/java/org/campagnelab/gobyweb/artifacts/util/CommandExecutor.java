@@ -53,6 +53,20 @@ public class CommandExecutor {
     }
 
     /**
+     * Remote copy dirs from remote server.
+     *
+     * @param remotePath    the path on the remote server
+     * @param localPath the local destination path.
+     * @return scpFromRemote return status.
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public int scpDirFromRemote(String remotePath, String localPath) throws IOException, InterruptedException {
+
+        return exec(String.format("scp -r -o StrictHostKeyChecking=no %s@%s:%s %s", username, remoteServer, remotePath, localPath));
+    }
+
+    /**
      * Remote copy files from remote server.
      *
      * @param remotePath    the path on the remote server
@@ -64,6 +78,22 @@ public class CommandExecutor {
     public int scpToRemote(String localFilename, String remotePath) throws IOException, InterruptedException {
 
         return exec(String.format("scp -o StrictHostKeyChecking=no %s %s@%s:%s", localFilename, username, remoteServer, remotePath));
+    }
+
+
+
+    /**
+     * Remote copy a directory from remote server.
+     *
+     * @param remotePath    the path on the remote server
+     * @param localPath the local destination path.
+     * @return scpFromRemote return status.
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public int scpDirToRemote(String localPath, String remotePath) throws IOException, InterruptedException {
+
+        return exec(String.format("scp -r -o StrictHostKeyChecking=no %s %s@%s:%s", localPath, username, remoteServer, remotePath));
     }
 
     /**
