@@ -67,7 +67,7 @@
                             <tasks>
                                 <mkdir dir="target/generated-sources"/>
                                 <echo>PATH=${env.PATH}</echo>
-                                <exec executable="protoc">
+                                <exec executable="/usr/local/bin/protoc">
                                     <arg value="--java_out=target/generated-sources"/>
                                     <arg value="src/main/protobuf/artifacts.proto"/>
                                 </exec>
@@ -243,6 +243,12 @@
             <groupId>it.unimi.dsi</groupId>
             <artifactId>dsiutils</artifactId>
             <version>2.0.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.cornell.med.icb</groupId>
+            <artifactId>icb-util</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

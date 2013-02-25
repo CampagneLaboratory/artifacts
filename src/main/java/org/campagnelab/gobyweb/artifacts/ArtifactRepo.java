@@ -2,6 +2,7 @@ package org.campagnelab.gobyweb.artifacts;
 
 import com.google.protobuf.TextFormat;
 import com.sun.tools.javac.resources.version;
+import edu.cornell.med.icb.net.SyncPipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -12,8 +13,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
-import org.campagnelab.gobyweb.artifacts.util.CommandExecutor;
-import org.campagnelab.gobyweb.artifacts.util.SyncPipe;
 
 import java.io.*;
 import java.net.InetAddress;

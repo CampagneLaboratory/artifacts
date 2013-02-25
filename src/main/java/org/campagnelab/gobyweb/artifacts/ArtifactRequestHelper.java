@@ -1,10 +1,8 @@
 package org.campagnelab.gobyweb.artifacts;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import edu.cornell.med.icb.net.CommandExecutor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
-import org.campagnelab.gobyweb.artifacts.util.CommandExecutor;
 
 import java.io.*;
 import java.util.List;
