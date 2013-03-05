@@ -5,6 +5,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.cornell.med.icb.net.CommandExecutor;
+
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
@@ -17,7 +19,7 @@ import static junit.framework.Assert.assertEquals;
 public class CommandExecutorTest {
     @Test
     public void sshTest() throws IOException, InterruptedException {
-        CommandExecutor executor = new org.campagnelab.gobyweb.artifacts.util.CommandExecutor(getUserName(), "localhost");
+        CommandExecutor executor = new CommandExecutor(getUserName(), "localhost");
         int status = executor.ssh("date");
         assertEquals(0, status);
 
@@ -25,7 +27,7 @@ public class CommandExecutorTest {
 
     @Test
     public void sshWithEnvironmentTest() throws IOException, InterruptedException {
-        CommandExecutor executor = new org.campagnelab.gobyweb.artifacts.util.CommandExecutor(getUserName(), "localhost");
+        CommandExecutor executor = new CommandExecutor(getUserName(), "localhost");
         int status = executor.ssh("echo ${JOB_DIR}", "JOB_DIR=AASSA");
         assertEquals(0, status);
 
