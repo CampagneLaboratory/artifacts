@@ -67,7 +67,7 @@
                             <tasks>
                                 <mkdir dir="target/generated-sources"/>
                                 <echo>PATH=${env.PATH}</echo>
-                                <exec executable="/usr/local/bin/protoc">
+                                <exec executable="${project.basedir}/bin/protoc">
                                     <arg value="--java_out=target/generated-sources"/>
                                     <arg value="src/main/protobuf/artifacts.proto"/>
                                 </exec>

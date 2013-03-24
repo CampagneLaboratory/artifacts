@@ -242,7 +242,7 @@
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
@@ -323,15 +323,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/martiansoftware/jsap/2.1/jsap-2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.thoughtworks.xstream:xstream:1.2.2">
+    <library name="Maven: com.thoughtworks.xstream:xstream:1.4.4">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.4.4/xstream-1.4.4.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.4.4/xstream-1.4.4-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/xstream/xstream/1.4.4/xstream-1.4.4-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: commons-beanutils:commons-beanutils:1.8.3">
@@ -521,15 +521,26 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: xpp3:xpp3_min:1.1.3.4.O">
+    <library name="Maven: xmlpull:xmlpull:1.1.3.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3_min/1.1.3.4.O/xpp3_min-1.1.3.4.O.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3_min/1.1.3.4.O/xpp3_min-1.1.3.4.O-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3_min/1.1.3.4.O/xpp3_min-1.1.3.4.O-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: xpp3:xpp3_min:1.1.4c">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
