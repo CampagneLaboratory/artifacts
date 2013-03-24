@@ -1,7 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import com.google.protobuf.TextFormat;
-import com.sun.tools.javac.resources.version;
 import edu.cornell.med.icb.net.SyncPipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
