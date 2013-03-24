@@ -165,10 +165,10 @@ public class ArtifactManagerTest {
 
     @Test
     public void testMultipleInstallationsWithChangingAttributes() throws IOException {
-        ArtifactManager manager = new ArtifactManager("test-results/REPO");
+        ArtifactManager manager = new ArtifactManager("REPO");
         final ArtifactRepo repo = manager.getRepo();
 
-        final File dir = new File("test-results/REPO/artifacts/PLUGIN/RANDOM/VERSION");
+        final File dir = new File("REPO/artifacts/PLUGIN/RANDOM/VERSION");
         if (dir.exists()) {
             assertTrue(dir.listFiles().length <= 1);
         }
@@ -185,8 +185,8 @@ public class ArtifactManagerTest {
         final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
                 new AttributeValuePair("attribute-A", "A"));
         assertNotNull(artifact);
-        assertEquals(1, new File("test-results/REPO/artifacts/PLUGIN/RANDOM/VERSION/A").listFiles().length);
-        assertEquals(1, new File("test-results/REPO/artifacts/PLUGIN/RANDOM/VERSION/B").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/A").listFiles().length);
+        assertEquals(1, new File("REPO/artifacts/PLUGIN/RANDOM/VERSION/B").listFiles().length);
         assertEquals(Artifacts.InstallationState.INSTALLED, artifact.getState());
 
     }
