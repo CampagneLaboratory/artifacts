@@ -483,7 +483,7 @@ public class ArtifactRepo {
         final long time = new Date().getTime();
         LOG.debug("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
 
-        MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements(jobDir);
+        MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
         File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
         String wrapperTemplate = "( set -e ; set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR}; %s  " +
                 " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties; set -xv )%n";
@@ -510,11 +510,13 @@ public class ArtifactRepo {
         }
     }
 
-    private MutableString getEnvCollectionSourceStatements(String jobDir) {
+    private MutableString getEnvCollectionSourceStatements() {
+        String jobDir = System.getenv("JOB_DIR");
         MutableString sourceEnvCollectionScripts = new MutableString();
+
         for (String envScript : environmentCollectionScripts) {
             if (jobDir != null) {
-                sourceEnvCollectionScripts.append(String.format(" JOB_DIR=%s; chmod +x %s; source %s; ", jobDir, envScript, envScript));
+                sourceEnvCollectionScripts.append(String.format(" export JOB_DIR=%s; chmod +x %s; source %s; ", jobDir, envScript, envScript));
             } else {
                 sourceEnvCollectionScripts.append(String.format(" chmod +x %s; source %s; ", envScript, envScript));
 
@@ -629,7 +631,7 @@ public class ArtifactRepo {
         MutableString exportString = add(preInstalledPluginExports, currentBashExports);
         FileUtils.write(tmpExports, exportString != null ? exportString.toString() : "", true);
         String tmpDir = System.getProperty("java.io.tmpdir");
-        String jobDir = System.getenv("JOB_DIR");
+
         final long time = new Date().getTime();
         try {
             String wrapperTemplate =
@@ -642,7 +644,7 @@ public class ArtifactRepo {
                             "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
                             " chmod +x $script ; %s . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
 
-            MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements(jobDir);
+            MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
             String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
                     tmpDir, time,
                     pluginScript,
