@@ -268,8 +268,8 @@ public class ArtifactRepo {
 
     protected void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
         if (artifact.getPluginId().startsWith(BuildArtifactRequest.ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT)) {
-
             String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId());
+            LOG.info(String.format("Registering environment script %s",cachedInstallationScript));
             if (!environmentCollectionScripts.contains(cachedInstallationScript)) {
                 environmentCollectionScripts.add(cachedInstallationScript);
             }
@@ -517,6 +517,7 @@ public class ArtifactRepo {
         for (String envScript : environmentCollectionScripts) {
             sourceEnvCollectionScripts.append(String.format(" chmod +x %s; source %s; ", envScript, envScript));
         }
+        LOG.info("Returning EnvCollectionSourceStatements: "+sourceEnvCollectionScripts);
         return sourceEnvCollectionScripts;
     }
 
