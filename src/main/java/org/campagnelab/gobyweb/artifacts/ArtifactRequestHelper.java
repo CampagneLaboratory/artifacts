@@ -69,7 +69,8 @@ public class ArtifactRequestHelper {
 
                     LOG.info(String.format("Artifact already installed, skipping %s:%s:%s ",
                             request.getPluginId(), request.getArtifactId(), request.getVersion()));
-
+                    // even when already installed, scan for possible env script
+                    repo.registerPossibleEnvironmentCollection(artifact);
                     continue;
                 }
 
