@@ -770,7 +770,7 @@ public class ArtifactRepo {
                 // pre-set export statements with exports for all pre-installed tools:
                 for (Artifacts.Artifact installedArtifact : this.index.values()) {
                     if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED)
-
+                        registerPossibleEnvironmentCollection(installedArtifact);
                         updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
                                 preInstalledPluginExports);
                 }
