@@ -193,6 +193,8 @@ public class ArtifactRepo {
 
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
             LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
+            // even when already installed, scan for possible env script
+            registerPossibleEnvironmentCollection(artifact);
             return;
         }
         if (artifact != null) {
@@ -264,10 +266,10 @@ public class ArtifactRepo {
     private ObjectArrayList<String> environmentCollectionScripts = new ObjectArrayList<String>();
 
 
-    private void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
+    protected void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
         if (artifact.getPluginId().startsWith(BuildArtifactRequest.ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT)) {
-
             String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId());
+            LOG.info(String.format("Registering environment script %s",cachedInstallationScript));
             if (!environmentCollectionScripts.contains(cachedInstallationScript)) {
                 environmentCollectionScripts.add(cachedInstallationScript);
             }
@@ -522,6 +524,7 @@ public class ArtifactRepo {
 
             }
         }
+        LOG.info("Returning EnvCollectionSourceStatements: "+sourceEnvCollectionScripts);
         return sourceEnvCollectionScripts;
     }
 
