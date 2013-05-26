@@ -42,7 +42,9 @@ public class ArtifactRequestHelper {
         ArtifactRepo repo = getRepo(repoDir);
         repo.unregisterAllEnvironmentCollectionScripts();
         StringWriter currentExports = new StringWriter();
-        LOG.info("Preparing to install from request: " + getPluginNames(requests));
+        final String message1 = "Preparing to install from request: " + getPluginNames(requests);
+        repo.getStepsLogger().step(message1);
+        LOG.info(message1);
         try {
             repo.acquireExclusiveLock();
             for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
@@ -58,8 +60,10 @@ public class ArtifactRequestHelper {
 
                 } catch (InterruptedException e) {
 
-                    LOG.error("Unable to retrieve cached install file for plugin: " + repo.toText(request.getPluginId(), request.getArtifactId(),
-                            request.getVersion(), repo.convert(request.getAttributesList())));
+                    final String message = "Unable to retrieve cached install file for plugin: " + repo.toText(request.getPluginId(), request.getArtifactId(),
+                            request.getVersion(), repo.convert(request.getAttributesList()));
+                    LOG.error(message);
+                    repo.getStepsLogger().error(message);
                     tmpLocalInstallScript = null;
                 }
                 final AttributeValuePair[] avp = repo.convert(request.getAttributesList());
@@ -98,7 +102,7 @@ public class ArtifactRequestHelper {
                         return;
                     } else {
                         LOG.info("Artifact successfully installed: " + text);
-
+                        repo.getStepsLogger().step("Artifact successfully installed: " + text);
                     }
 
                 } finally {
@@ -136,6 +140,7 @@ public class ArtifactRequestHelper {
                 final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
                         server, remoteScriptInstallPath);
                 LOG.error(message);
+                repo.getStepsLogger().error(message);
                 throw new IOException(message);
             }
             return tempInstallFile;
@@ -153,22 +158,24 @@ public class ArtifactRequestHelper {
         String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                 System.getProperty("user.name");
         String server = request.getSshWebAppHost();
+        final String format = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                server, relativePath);
         try {
             int status = scp(username, server, request.getScriptInstallPath(), absolutePath);
             if (status != 0) {
-                final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                        server, relativePath);
+                final String message = format;
                 LOG.error(message);
+                artifactRepo.getStepsLogger().error(format);
                 throw new IOException(message);
             }
         } catch (InterruptedException e) {
-            final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                    server, relativePath);
+            final String message = format;
             LOG.error(message, e);
+            artifactRepo.getStepsLogger().error(format);
         } catch (IOException e) {
-            final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                    server, relativePath);
+            final String message = format;
             LOG.error(message, e);
+            artifactRepo.getStepsLogger().error(format);
         }
     }
 

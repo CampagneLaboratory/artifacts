@@ -12,6 +12,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
+import org.campagnelab.stepslogger.FileStepsLogger;
+import org.campagnelab.stepslogger.RedirectStreams;
+import org.campagnelab.stepslogger.SilentStepsLogger;
+import org.campagnelab.stepslogger.StepsLogger;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -61,6 +65,7 @@ public class ArtifactRepo {
     private MutableString preInstalledPluginExports = new MutableString();
     private boolean quiet = true;
     private Object2ObjectMap<String, String> pluginIdToInstallScriptPath = new Object2ObjectOpenHashMap<String, String>();
+    private StepsLogger stepsLogger;
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -136,6 +141,7 @@ public class ArtifactRepo {
 
     public ArtifactRepo(File repoDir) {
         this.repoDir = repoDir;
+        stepsLogger = new SilentStepsLogger();
     }
 
     /**
@@ -169,7 +175,7 @@ public class ArtifactRepo {
      */
 
     public void install(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair... avp) throws IOException {
-
+        stepsLogger.step("Installing " + toText(pluginId, artifactId, version, avp));
         if (pluginScript != null && !new File(pluginScript).exists()) {
             throw new IOException("Install script not found: " + pluginScript);
         }
@@ -192,7 +198,8 @@ public class ArtifactRepo {
         }
 
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
-            LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
+          //  LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
+            stepsLogger.step(String.format("Artifact %s was found and was installed.", toText(artifact)));
             // even when already installed, scan for possible env script
             registerPossibleEnvironmentCollection(artifact);
             return;
@@ -269,7 +276,8 @@ public class ArtifactRepo {
     protected void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
         if (artifact.getPluginId().startsWith(BuildArtifactRequest.ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT)) {
             String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId());
-            LOG.info(String.format("Registering environment script %s",cachedInstallationScript));
+           // LOG.info(String.format("Registering environment script %s", cachedInstallationScript));
+            stepsLogger.step(String.format("Registering environment script %s", cachedInstallationScript));
             if (!environmentCollectionScripts.contains(cachedInstallationScript)) {
                 environmentCollectionScripts.add(cachedInstallationScript);
             }
@@ -284,6 +292,7 @@ public class ArtifactRepo {
     }
 
     private boolean updateInstallScriptLocation(Artifacts.Artifact artifact, String pluginScript) throws IOException {
+        stepsLogger.step("update install script location");
 
         if (pluginScript == null || artifact.hasInstallScriptRelativePath()) {
             //success
@@ -309,7 +318,9 @@ public class ArtifactRepo {
             }
 
             FileUtils.copyFile(new File(pluginScript), installInRepoAbsolute);
-            LOG.info("LOCAL_COPY: Copied install script to " + installInRepoAbsolute);
+            LOG.debug("LOCAL_COPY: Copied install script to " + installInRepoAbsolute);
+            stepsLogger.step("Copied install script to " + installInRepoAbsolute);
+
             artifact = artifactBuilder.setInstallScriptRelativePath(installScriptFinalLocation.getPath()).build();
             index.put(makeKey(artifact), artifact);
             pluginIdToInstallScriptPath.put(artifact.getPluginId(),
@@ -353,6 +364,7 @@ public class ArtifactRepo {
     private void updateExportStatements(Artifacts.Artifact artifact, AttributeValuePair[] avp,
                                         MutableString destination) throws IOException {
         LOG.debug("printBashExports");
+        stepsLogger.step("update export statements");
 
 
         //repo.convert(request.getAttributesList()
@@ -406,7 +418,7 @@ public class ArtifactRepo {
 
     protected Properties readAttributeValues(Artifacts.Artifact artifact, AttributeValuePair[] avpEnvironment) throws IOException {
         LOG.debug("readAttributeValues(artifact, avpEnvironment)");
-
+        stepsLogger.step("readAttributeValues(artifact, avpEnvironment)");
         assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
         if (!hasCachedInstallationScript(artifact.getPluginId())) {
             LOG.error("Cached install script must be found for plugin " + toText(artifact));
@@ -496,13 +508,15 @@ public class ArtifactRepo {
                 pluginScript,
                 sourceEnvCollectionScripts, artifactId
         )};
+        RedirectStreams redirect = stepsLogger.stepProcess("Run runAttributeValuesFunction", wrapperTemplate);
 
         Runtime rt = Runtime.getRuntime();
         Process pr = rt.exec(cmds);
-        new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
-        new Thread(new SyncPipe(quiet, pr.getInputStream(), System.out, LOG)).start();
+        new Thread(new SyncPipe(pr.getErrorStream(), redirect.getStandardError(), LOG)).start();
+        new Thread(new SyncPipe(quiet, pr.getInputStream(), redirect.getStandardOut(), LOG)).start();
 
         int exitVal = pr.waitFor();
+        stepsLogger.processReturned(exitVal);
         LOG.debug("Install script get_attribute_values() exited with error code " + exitVal);
         if (exitVal != 0) {
             throw new IllegalStateException();
@@ -524,7 +538,7 @@ public class ArtifactRepo {
 
             }
         }
-        LOG.info("Returning EnvCollectionSourceStatements: "+sourceEnvCollectionScripts);
+        LOG.trace("Returning EnvCollectionSourceStatements: " + sourceEnvCollectionScripts);
         return sourceEnvCollectionScripts;
     }
 
@@ -646,6 +660,7 @@ public class ArtifactRepo {
                             "} \n" +
                             "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ; " +
                             " chmod +x $script ; %s . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n";
+            RedirectStreams redirect = stepsLogger.stepProcess("Run install script", wrapperTemplate);
 
             MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
             String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpExports.getCanonicalPath(),
@@ -658,11 +673,11 @@ public class ArtifactRepo {
             Runtime rt = Runtime.getRuntime();
             Process pr = rt.exec(cmds);
 
-            new Thread(new SyncPipe(pr.getErrorStream(), System.err, LOG)).start();
-            new Thread(new SyncPipe(pr.getInputStream(), System.out, LOG)).start();
+            new Thread(new SyncPipe(pr.getErrorStream(), redirect.getStandardError(), LOG)).start();
+            new Thread(new SyncPipe(pr.getInputStream(), redirect.getStandardOut(), LOG)).start();
 
             int exitVal = pr.waitFor();
-
+            stepsLogger.processReturned(exitVal);
             // System.out.println("Install script exited with error code " + exitVal);
             tmpExports.delete();
             if (exitVal != 0) {
@@ -771,8 +786,8 @@ public class ArtifactRepo {
                 for (Artifacts.Artifact installedArtifact : this.index.values()) {
                     if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED)
                         registerPossibleEnvironmentCollection(installedArtifact);
-                        updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
-                                preInstalledPluginExports);
+                    updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
+                            preInstalledPluginExports);
                 }
             }
         } finally {
@@ -908,6 +923,7 @@ public class ArtifactRepo {
 
     public void save() throws IOException {
         save(repoDir);
+        stepsLogger.close();
     }
 
     public synchronized void save(File repoDir) throws IOException {
@@ -1097,5 +1113,16 @@ public class ArtifactRepo {
 
     public String getMetaDataFilename() {
         return FilenameUtils.concat(repoDir.getAbsolutePath(), "metadata.pb");
+    }
+
+    public void setStepLogDir(File stepLogDir) {
+
+        stepsLogger = new FileStepsLogger(stepLogDir);
+
+    }
+
+
+    public StepsLogger getStepsLogger() {
+        return stepsLogger;
     }
 }

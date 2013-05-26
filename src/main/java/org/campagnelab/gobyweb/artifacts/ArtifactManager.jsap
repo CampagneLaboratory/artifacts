@@ -71,6 +71,27 @@
                 quota, even when the filesystem that contains the repository directory has more available space.
             </help>
         </flaggedOption>
+        <flaggedOption>
+            <id>log-dir</id>
+            <classname>FileStringParser</classname>
+            <properties>
+                <property>
+                    <name>mustBeDirectory</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>mustExist</name>
+                    <value>true</value>
+                </property>
+            </properties>
+            <required>false</required>
+            <longFlag>log-dir</longFlag>
+            <defaults>
+                <string>steplogs</string>
+            </defaults>
+            <help>The directory where step logs will be written.
+            </help>
+        </flaggedOption>
 
         <switch>
             <id>install</id>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AntConfiguration">
-    <defaultAnt bundledAnt="true" />
-  </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
@@ -508,6 +505,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/gobyweb/serverside-dependencies/1.0.0/serverside-dependencies-1.0.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.campagnelab:org.campagnelab.stepslogger:1.0.0-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.0.0-SNAPSHOT/org.campagnelab.stepslogger-1.0.0-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.0.0-SNAPSHOT/org.campagnelab.stepslogger-1.0.0-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.0.0-SNAPSHOT/org.campagnelab.stepslogger-1.0.0-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.hamcrest:hamcrest-core:1.1">
