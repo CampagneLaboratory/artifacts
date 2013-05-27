@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.objects.ObjectCollection;
 import it.unimi.dsi.lang.MutableString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
@@ -928,7 +929,7 @@ public class ArtifactRepo {
 
     public void save() throws IOException {
         save(repoDir);
-        stepsLogger.close();
+
     }
 
     public synchronized void save(File repoDir) throws IOException {
@@ -1129,5 +1130,13 @@ public class ArtifactRepo {
 
     public StepsLogger getStepsLogger() {
         return stepsLogger;
+    }
+
+    /**
+     * Write the steps log.
+     */
+    public void writeLog() {
+
+        IOUtils.closeQuietly(stepsLogger);
     }
 }
