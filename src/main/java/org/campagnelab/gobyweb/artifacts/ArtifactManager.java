@@ -1,6 +1,7 @@
 package org.campagnelab.gobyweb.artifacts;
 
 import com.martiansoftware.jsap.JSAP;
+import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.JSAPResult;
 import org.apache.log4j.Logger;
 
@@ -22,6 +23,13 @@ public class ArtifactManager {
     public ArtifactManager(File repoDir) throws IOException {
         repo = new ArtifactRepo(repoDir);
         repo.load(repoDir);
+    }
+
+    public static JSAPResult loadJsapConfig() throws IOException, JSAPException {
+        JSAP jsap = new JSAP(ArtifactManager.class.getResource("ArtifactManager.jsap"));
+
+        JSAPResult config = jsap.parse(new String[]{});
+        return config;
     }
 
     public static void main(String[] args) throws Exception {
@@ -138,7 +146,7 @@ public class ArtifactManager {
                 try {
                     final Artifacts.Artifact revisedArtifact = artifact.toBuilder().setState(Artifacts.InstallationState.FAILED).build();
                     repo.updateArtifact(revisedArtifact);
-                    System.out.println("failed plugin: "+repo.toTextShort(artifact));
+                    System.out.println("failed plugin: " + repo.toTextShort(artifact));
                 } catch (IOException e) {
                     LOG.error("An IO exception occurred when failing " + repo.toText(artifact));
                 }

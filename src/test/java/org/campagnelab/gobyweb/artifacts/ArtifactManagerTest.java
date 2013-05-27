@@ -294,7 +294,11 @@ public class ArtifactManagerTest {
 
 
     }
-
+   @Test
+   public void loadJSap() throws Exception {
+       ArtifactManager manager=new ArtifactManager("REPO");
+      Assert.assertNotNull( manager.loadJsapConfig());
+   }
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
         for (AttributeValuePair valuePair : attributeValuePairs) {
             valuePair.value = null;

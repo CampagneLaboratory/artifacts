@@ -73,17 +73,19 @@
         </flaggedOption>
         <flaggedOption>
             <id>log-dir</id>
-            <classname>FileStringParser</classname>
-            <properties>
-                <property>
-                    <name>mustBeDirectory</name>
-                    <value>true</value>
-                </property>
-                <property>
-                    <name>mustExist</name>
-                    <value>true</value>
-                </property>
-            </properties>
+            <stringParser>
+                <classname>FileStringParser</classname>
+                <properties>
+                    <property>
+                        <name>mustBeDirectory</name>
+                        <value>true</value>
+                    </property>
+                    <property>
+                        <name>mustExist</name>
+                        <value>true</value>
+                    </property>
+                </properties>
+            </stringParser>
             <required>false</required>
             <longFlag>log-dir</longFlag>
             <defaults>
