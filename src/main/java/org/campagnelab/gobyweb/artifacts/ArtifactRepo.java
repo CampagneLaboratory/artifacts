@@ -462,7 +462,12 @@ public class ArtifactRepo {
             return null;
         } finally {
             if (attributeFile != null) {
-                attributeFile.delete();
+                File tmpDir=new File(attributeFile.getParent());
+                try {
+                    FileUtils.deleteDirectory(tmpDir);
+                } catch (IOException e) {
+                    LOG.error("Unable to remove temporary job directory. Ignoring.");
+                }
             }
         }
         return null;
