@@ -90,6 +90,7 @@ public class ArtifactManager {
 
                     helper.install(repoDir);
                     if (helper.isEarlyStopRequested()) {
+                        repo.writeLog();
                         System.exit(10);
                     }
                 } else if (config.getBoolean("remove")) {
