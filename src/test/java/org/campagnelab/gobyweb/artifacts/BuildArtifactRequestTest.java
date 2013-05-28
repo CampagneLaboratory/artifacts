@@ -253,6 +253,52 @@ public class BuildArtifactRequestTest {
 
 
     @Test
+    public void testWrongExports() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
+
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.2", avp1);
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.1", avp1);
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.1.1", avp1);
+
+
+        final File output = new File("test-results/requests/request-wrong-1.pb");
+
+        //install three versions of A:
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000000000);
+        final File repoDir = new File("REPO");
+        helper.install(repoDir);
+
+        BuildArtifactRequest requestUsed = new BuildArtifactRequest(getUserName() + "@localhost");
+        final File outputUsed = new File("test-results/requests/request-wrong-2.pb");
+
+        //a request with only one version of A (1.2):
+        requestUsed.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.2", avp1);
+        requestUsed.save(outputUsed);
+
+        ArtifactRequestHelper helperUsed = new ArtifactRequestHelper(outputUsed);
+        helperUsed.setSpaceRepoDirQuota(1000000000);
+
+        helperUsed.install(repoDir);
+
+        StringWriter stringWriterUsed = new StringWriter();
+        helperUsed.printBashExports(repoDir, new PrintWriter(stringWriterUsed));
+        System.out.flush();
+        System.out.println(stringWriterUsed.toString());
+        assertTrue(stringWriterUsed.getBuffer().indexOf("export RESOURCES_ARTIFACTS_A_ARTIFACT_VA=") >= 0);
+        // version 1.2 must be found
+        assertTrue("version 1.2 must be found", stringWriterUsed.getBuffer().indexOf("artifacts/A/ARTIFACT/1.2/VA") >= 0);
+        assertTrue("version 1.1 must not be found",stringWriterUsed.getBuffer().indexOf("artifacts/A/ARTIFACT/1.1/VA") == -1);
+        assertTrue("version 1.1.1 must not be found",stringWriterUsed.getBuffer().indexOf("artifacts/A/ARTIFACT/1.1.1/VA") == -1);
+
+
+    }
+
+
+    @Test
     /**
      * Check that the end user can remove the cached install script from the repository to trigger a new fetch of the script.
      */

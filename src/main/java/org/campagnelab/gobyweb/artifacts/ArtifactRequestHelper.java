@@ -5,7 +5,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Helps execute artifact requests against a repository.
@@ -244,11 +246,12 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void printBashExports(File repoDir, PrintWriter output) throws IOException {
-        getRepo(repoDir).printBashExports(output);
-        /*LOG.debug("printBashExports");
+      //  getRepo(repoDir).printBashExports(output);
+        LOG.debug("printBashExports");
         ArtifactRepo repo = getRepo(repoDir);
         repo.load();
-        for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
+        List<Artifacts.ArtifactDetails> artifactsList = requests.getArtifactsList();
+        for (Artifacts.ArtifactDetails request : artifactsList) {
             List<Artifacts.Artifact> artifacts = repo.findIgnoringAttributes(request.getPluginId(),
                     request.getArtifactId(), request.getVersion()
             );
@@ -296,7 +299,7 @@ public class ArtifactRequestHelper {
                 }
             }
         }
-        output.flush(); */
+        output.flush();
     }
 
     public void setRepo(ArtifactRepo repo) {

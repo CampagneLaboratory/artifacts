@@ -199,7 +199,7 @@ public class ArtifactRepo {
         }
 
         if (artifact != null && artifact.getState() == Artifacts.InstallationState.INSTALLED) {
-          //  LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
+            //  LOG.info(String.format("Artifact %s was found and was installed.", toText(artifact)));
             stepsLogger.step(String.format("Artifact %s was found and was installed.", toText(artifact)));
             // even when already installed, scan for possible env script
             registerPossibleEnvironmentCollection(artifact);
@@ -277,7 +277,7 @@ public class ArtifactRepo {
     protected void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
         if (artifact.getPluginId().startsWith(BuildArtifactRequest.ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT)) {
             String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId());
-           // LOG.info(String.format("Registering environment script %s", cachedInstallationScript));
+            // LOG.info(String.format("Registering environment script %s", cachedInstallationScript));
             stepsLogger.step(String.format("Registering environment script %s", cachedInstallationScript));
             if (!environmentCollectionScripts.contains(cachedInstallationScript)) {
                 environmentCollectionScripts.add(cachedInstallationScript);
@@ -463,7 +463,7 @@ public class ArtifactRepo {
             return null;
         } finally {
             if (attributeFile != null) {
-                File tmpDir=new File(attributeFile.getParent());
+                File tmpDir = new File(attributeFile.getParent());
                 try {
                     FileUtils.deleteDirectory(tmpDir);
                 } catch (IOException e) {
@@ -754,7 +754,12 @@ public class ArtifactRepo {
         List<Artifacts.Artifact> result = new ObjectArrayList<Artifacts.Artifact>();
         for (MutableString key : index.keySet()) {
             if (key.startsWith(makeKey(pluginId, artifactId, version).toString())) {
-                result.add(index.get(key));
+
+                Artifacts.Artifact artifact = index.get(key);
+               // check exact version match, since 1.1.1 is a prefix of 1.1, but should not be considered..
+                if (artifact.getVersion().equals(version)) {
+                    result.add(artifact);
+                }
             }
         }
         return result;
