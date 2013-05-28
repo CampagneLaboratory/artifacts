@@ -49,7 +49,8 @@ public class ArtifactRequestHelper {
             repo.acquireExclusiveLock();
             for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
                 repo.load();
-                LOG.info("Processing install request: " + request.toString());
+                //LOG.info("Processing install request: " + request.toString());
+                repo.getStepsLogger().step("Processing install request: " + request.toString());
                 String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                         System.getProperty("user.name");
                 final String remoteScriptInstallPath = request.getScriptInstallPath();
