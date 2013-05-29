@@ -3,6 +3,7 @@ package org.campagnelab.gobyweb.artifacts;
 
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
+import org.campagnelab.stepslogger.StepsReportBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +20,7 @@ public class ArtifactManagerTest {
 
 
     private File repoDir = new File("REPO");
+    private File stepsLogDir=new File("test-results/stepslogs");
 
     @Test
     public void testInstall() throws IOException {
@@ -233,10 +235,13 @@ public class ArtifactManagerTest {
     public void testCommandNotFoundInScript() throws IOException {
 
         ArtifactRepo repo = new ArtifactRepo(repoDir);
-
+        repo.setStepLogDir(stepsLogDir);
         repo.install("PLUGIN", "ARTIFACT", "test-data/install-scripts/install-script-COMMAND_NOT_FOUND.sh", "VERSION");
 
         assertFalse(repo.isInstalled("A", "ARTIFACT", "VERSION", null));
+        repo.writeLog();
+        StepsReportBuilder reporter=new StepsReportBuilder(stepsLogDir.listFiles()[0]);
+        assertTrue(reporter.summarize().contains("line 13: SJdksjdkjs: command not found"));
     }
 
     @Test
@@ -345,6 +350,7 @@ public class ArtifactManagerTest {
     @Before
     public void cleanRepo() throws IOException {
         FileUtils.deleteDirectory(repoDir);
+        FileUtils.deleteDirectory(stepsLogDir);
         FileUtils.deleteQuietly(new File(System.getenv("TMPDIR") + "/FLAG"));
     }
 

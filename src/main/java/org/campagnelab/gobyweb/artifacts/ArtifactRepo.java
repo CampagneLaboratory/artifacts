@@ -756,7 +756,7 @@ public class ArtifactRepo {
             if (key.startsWith(makeKey(pluginId, artifactId, version).toString())) {
 
                 Artifacts.Artifact artifact = index.get(key);
-               // check exact version match, since 1.1.1 is a prefix of 1.1, but should not be considered..
+                // check exact version match, since 1.1.1 is a prefix of 1.1, but should not be considered..
                 if (artifact.getVersion().equals(version)) {
                     result.add(artifact);
                 }
@@ -1127,7 +1127,7 @@ public class ArtifactRepo {
     }
 
     public void setStepLogDir(File stepLogDir) {
-
+        stepLogDir.mkdir();
         stepsLogger = new FileStepsLogger(stepLogDir);
 
     }
