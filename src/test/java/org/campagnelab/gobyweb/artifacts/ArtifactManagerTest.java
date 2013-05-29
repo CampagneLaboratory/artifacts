@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class ArtifactManagerTest {
 
 
-    private File repoDir = new File("test-results/REPO");
+    private File repoDir = new File("REPO");
     private File stepsLogDir=new File("test-results/stepslogs");
 
     @Test
@@ -241,48 +241,7 @@ public class ArtifactManagerTest {
         assertFalse(repo.isInstalled("A", "ARTIFACT", "VERSION", null));
         repo.writeLog();
         StepsReportBuilder reporter=new StepsReportBuilder(stepsLogDir.listFiles()[0]);
-        assertEquals("Error encountered: \n" +
-                "OK    Installing PLUGIN:ARTIFACT:VERSION([])\n" +
-                "ERROR Run install script Status=127 Command= dieIfError() {\n" +
-                " S=$?; \n" +
-                " if [ ! \"$S\" = \"0\" ]; then \n" +
-                "    exit $S; \n" +
-                " fi \n" +
-                "} \n" +
-                "( set -e ; set -x ; exports=%s ; cat $exports ; DIR=%s/%d ; script=%s; echo $DIR; mkdir -p ${DIR}; cd ${DIR}; ls -l ;  chmod +x $script ; %s . $exports; . $script ; dieIfError; plugin_install_artifact %s %s %s; dieIfError; ls -l ; rm -fr ${DIR}); %n\n" +
-                "-------  StdOut> ---------\n" +
-                "/var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T//1369831235465\n" +
-                "WORKING\n" +
-                "Installing ID=ARTIFACT\n" +
-                "get_attribute_values for ID=ARTIFACT\n" +
-                "------- <StdOut ---------\n" +
-                "\n" +
-                "-------  StdErr> ---------\n" +
-                "+ exports=/private/var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T/exports5090226130437351697.sh\n" +
-                "+ cat /private/var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T/exports5090226130437351697.sh\n" +
-                "+ DIR=/var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T//1369831235465\n" +
-                "+ script=/Users/fac2003/IdeaProjects/git/artifacts-2/test-data/install-scripts/install-script-COMMAND_NOT_FOUND.sh\n" +
-                "+ echo /var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T//1369831235465\n" +
-                "+ mkdir -p /var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T//1369831235465\n" +
-                "+ cd /var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T//1369831235465\n" +
-                "+ ls -l\n" +
-                "+ chmod +x /Users/fac2003/IdeaProjects/git/artifacts-2/test-data/install-scripts/install-script-COMMAND_NOT_FOUND.sh\n" +
-                "+ . /private/var/folders/9j/f_4_0b0d5zb7pbvdktfcpnz80000gp/T/exports5090226130437351697.sh\n" +
-                "+ . /Users/fac2003/IdeaProjects/git/artifacts-2/test-data/install-scripts/install-script-COMMAND_NOT_FOUND.sh\n" +
-                "+ dieIfError\n" +
-                "+ S=0\n" +
-                "+ '[' '!' 0 = 0 ']'\n" +
-                "+ plugin_install_artifact ARTIFACT /Users/fac2003/IdeaProjects/git/artifacts-2/test-results/REPO/artifacts/PLUGIN/ARTIFACT/VERSION\n" +
-                "+ echo WORKING\n" +
-                "+ id=ARTIFACT\n" +
-                "+ installation_path=/Users/fac2003/IdeaProjects/git/artifacts-2/test-results/REPO/artifacts/PLUGIN/ARTIFACT/VERSION\n" +
-                "+ echo Installing ID=ARTIFACT\n" +
-                "+ case ${id} in\n" +
-                "+ echo 'get_attribute_values for ID=ARTIFACT'\n" +
-                "+ SJdksjdkjs\n" +
-                "/Users/fac2003/IdeaProjects/git/artifacts-2/test-data/install-scripts/install-script-COMMAND_NOT_FOUND.sh: line 13: SJdksjdkjs: command not found\n" +
-                "------- <StdErr ---------\n" +
-                "\n", reporter.summarize());
+        assertTrue(reporter.summarize().contains("line 13: SJdksjdkjs: command not found"));
     }
 
     @Test
