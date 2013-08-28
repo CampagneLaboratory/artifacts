@@ -918,7 +918,7 @@ public class ArtifactRepo {
      * @param attribute
      * @return
      */
-    String normalize(String attribute) {
+    public String normalize(String attribute) {
         if (attribute == null) {
             return null;
         }
