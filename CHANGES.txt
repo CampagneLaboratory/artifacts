@@ -1,5 +1,9 @@
-Recent changes to the project will be described here:
+2.2.4 (Sep 5 2013)
+    Change visibility of normalize() method to public in ArtifactRepo.
 
-- Add ability to register environment collection scripts. See request.registerEnvironmentCollection().
-  These scripts will automatically be source before calling any plugin function. We will use this feature in GobyWeb
-  to automate the sourcing of constants.sh and auto-options.sh before installing artifacts or getting attributes.
+2.2.3 (May 29 2013)
+    Add ability to register environment collection scripts. See request.registerEnvironmentCollection().
+    These scripts will automatically be source before calling any plugin function. We will use this feature in GobyWeb
+    to automate the sourcing of constants.sh and auto-options.sh before installing artifacts or getting attributes.
+
+2.2.0 (May 23 2013)
