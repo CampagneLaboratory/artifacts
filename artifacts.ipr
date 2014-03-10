@@ -254,15 +254,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/colt/colt/1.2.0/colt-1.2.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.esotericsoftware.wildcard:wildcard:1.0">
+    <library name="Maven: com.esotericsoftware.wildcard:wildcard:1.0.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/esotericsoftware/wildcard/wildcard/1.0/wildcard-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/esotericsoftware/wildcard/wildcard/1.0.3/wildcard-1.0.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/esotericsoftware/wildcard/wildcard/1.0/wildcard-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/esotericsoftware/wildcard/wildcard/1.0.3/wildcard-1.0.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/esotericsoftware/wildcard/wildcard/1.0/wildcard-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/esotericsoftware/wildcard/wildcard/1.0.3/wildcard-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.google.guava:guava-annotations:r03">

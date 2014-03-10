@@ -5,11 +5,9 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Helper class to prepare artifact installation requests for installation on the server.
@@ -41,28 +39,28 @@ public class BuildArtifactRequest {
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, String installScript) {
-        addArtifact(pluginId, artifactId, version, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE
+        addArtifact(pluginId, artifactId, version, false, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE
         );
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, String installScript,
                             Artifacts.AttributeValuePair... attributes) {
-        addArtifact(pluginId, artifactId, version, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE,
+        addArtifact(pluginId, artifactId, version, false, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE,
                 attributes);
     }
 
-    public void addArtifactWithList(String pluginId, String artifactId, String version, String installScript,
+    public void addArtifactWithList(String pluginId, String artifactId, String version, boolean mandatory, String installScript,
                                     Artifacts.RetentionPolicy retention,
                                     List<Artifacts.AttributeValuePair> attributes) {
-        addArtifact(pluginId, artifactId, version, installScript, retention,
+        addArtifact(pluginId, artifactId, version, mandatory, installScript, retention,
                 attributes.toArray(new Artifacts.AttributeValuePair[attributes.size()]));
     }
 
     public void install(String pluginId, String artifactId, String pluginScript, String version, Artifacts.AttributeValuePair... avp) {
-        addArtifact(pluginId, artifactId, version, pluginScript, Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
+        addArtifact(pluginId, artifactId, version, false, pluginScript, Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
     }
 
-    public void addArtifact(String pluginId, String artifactId, String version, String installScript,
+    public void addArtifact(String pluginId, String artifactId, String version, boolean mandatory, String installScript,
                             Artifacts.RetentionPolicy retention, Artifacts.AttributeValuePair... attributes) {
 
         Artifacts.ArtifactDetails.Builder detailsBuilder = Artifacts.ArtifactDetails.newBuilder();
@@ -72,7 +70,7 @@ public class BuildArtifactRequest {
         detailsBuilder.setScriptInstallPath(new File(installScript).getAbsolutePath());
         detailsBuilder.setSshWebAppHost(webServerHostname);
         detailsBuilder.setRetention(retention);
-
+        detailsBuilder.setMandatory(mandatory);
         detailsBuilder.addAllAttributes(ObjectArrayList.wrap(attributes));
         if (webServerUsername != null) detailsBuilder.setSshWebAppUserName(webServerUsername);
         installationSetBuilder.addArtifacts(detailsBuilder);
