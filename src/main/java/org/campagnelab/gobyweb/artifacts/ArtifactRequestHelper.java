@@ -41,6 +41,16 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void install(File repoDir) throws IOException {
+          install(repoDir,false);
+    }
+    /**
+     * Install artifacts described in a request, obtaining install scripts as needed from remote web app server.
+     *
+     * @param repoDir Repository directory.
+     * @param onlyMandatory if true, only mandatory artifacts are installed.
+     * @throws IOException
+     */
+    public void install(File repoDir, boolean onlyMandatory) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
         repo.unregisterAllEnvironmentCollectionScripts();
         StringWriter currentExports = new StringWriter();
@@ -53,6 +63,10 @@ public class ArtifactRequestHelper {
                 repo.load();
                 //LOG.info("Processing install request: " + request.toString());
                 repo.getStepsLogger().step("Processing install request: " + request.toString());
+                if (onlyMandatory && !request.getMandatory()) {
+                    repo.getStepsLogger().step("Skipping non-mandatory install request: " + request.toString());
+                    continue;
+                }
                 String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                         System.getProperty("user.name");
                 final String remoteScriptInstallPath = request.getScriptInstallPath();

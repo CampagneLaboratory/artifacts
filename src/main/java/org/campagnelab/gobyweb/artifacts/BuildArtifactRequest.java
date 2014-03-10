@@ -38,14 +38,14 @@ public class BuildArtifactRequest {
         installationSetBuilder = Artifacts.InstallationSet.newBuilder();
     }
 
-    public void addArtifact(String pluginId, String artifactId, String version, String installScript) {
-        addArtifact(pluginId, artifactId, version, false, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE
+    public void addArtifact(String pluginId, String artifactId, String version, boolean mandatory, String installScript) {
+        addArtifact(pluginId, artifactId, version, mandatory, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE
         );
     }
 
-    public void addArtifact(String pluginId, String artifactId, String version, String installScript,
+    public void addArtifact(String pluginId, String artifactId, String version, boolean mandatory, String installScript,
                             Artifacts.AttributeValuePair... attributes) {
-        addArtifact(pluginId, artifactId, version, false, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE,
+        addArtifact(pluginId, artifactId, version, mandatory, installScript, Artifacts.RetentionPolicy.KEEP_UNTIL_EXPLICIT_REMOVE,
                 attributes);
     }
 
@@ -56,8 +56,8 @@ public class BuildArtifactRequest {
                 attributes.toArray(new Artifacts.AttributeValuePair[attributes.size()]));
     }
 
-    public void install(String pluginId, String artifactId, String pluginScript, String version, Artifacts.AttributeValuePair... avp) {
-        addArtifact(pluginId, artifactId, version, false, pluginScript, Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
+    public void install(String pluginId, String artifactId, String pluginScript, String version, boolean mandatory, Artifacts.AttributeValuePair... avp) {
+        addArtifact(pluginId, artifactId, version, mandatory, pluginScript, Artifacts.RetentionPolicy.REMOVE_OLDEST, avp);
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, boolean mandatory, String installScript,
@@ -108,7 +108,7 @@ public class BuildArtifactRequest {
      */
     public void registerEnvironmentCollection(String scriptFilename) {
         environmentCollectionScripts.add(scriptFilename);
-        addArtifact(ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT+environmentCollectionScripts.size(),"ENV_SCRIPT","1.0",scriptFilename);
+        addArtifact(ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT+environmentCollectionScripts.size(),"ENV_SCRIPT","1.0", true, scriptFilename);
     }
 
     ObjectArrayList<String> environmentCollectionScripts = new ObjectArrayList<String>();
