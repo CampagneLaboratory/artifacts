@@ -18,14 +18,14 @@ public class InstalledInRepoScope implements InstallationScope {
     @Override
     public boolean isInScope(String pluginId, String artifactId, String version) {
 
-        List<Artifacts.Artifact> artifacts=                repo.findIgnoringAttributes(pluginId, artifactId, version);
-        boolean installed=false;
-        for ( Artifacts.Artifact artifact: artifacts) {
-            if (artifact.getState() == Artifacts.InstallationState.INSTALLED) installed=true;
+        List<Artifacts.Artifact> artifacts = repo.findIgnoringAttributes(pluginId, artifactId, version);
+        boolean installed = false;
+        for (Artifacts.Artifact artifact : artifacts) {
+            if (artifact.getState() == Artifacts.InstallationState.INSTALLED) installed = true;
         }
         if (installed) {
             return true;
-        }else {
+        } else {
             return false;
         }
 

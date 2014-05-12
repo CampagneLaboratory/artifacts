@@ -764,7 +764,7 @@ public class ArtifactRepo {
         for (MutableString key : index.keySet()) {
             String prefix = makeKey(pluginId, artifactId, version).toString();
             if (key.startsWith(prefix)) {
-                LOG.info(String.format("Accepting prefix match between key=%s and prefix=%s", key, prefix));
+                //LOG.info(String.format("Accepting prefix match between key=%s and prefix=%s", key, prefix));
                 Artifacts.Artifact artifact = index.get(key);
                 // check exact version match, since 1.1.1 is a prefix of 1.1, but should not be considered..
                 if (artifact.getVersion().equals(version)) {
