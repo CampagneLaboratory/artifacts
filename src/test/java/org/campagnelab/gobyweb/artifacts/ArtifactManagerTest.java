@@ -3,6 +3,8 @@ package org.campagnelab.gobyweb.artifacts;
 
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
+import org.campagnelab.gobyweb.artifacts.scope.ExplicitInstallationScope;
+import org.campagnelab.gobyweb.artifacts.scope.InstallationScope;
 import org.campagnelab.stepslogger.StepsReportBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.junit.Test;
 import java.io.*;
 
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -20,7 +23,7 @@ public class ArtifactManagerTest {
 
 
     private File repoDir = new File("REPO");
-    private File stepsLogDir=new File("test-results/stepslogs");
+    private File stepsLogDir = new File("test-results/stepslogs");
 
     @Test
     public void testInstall() throws IOException {
@@ -240,7 +243,7 @@ public class ArtifactManagerTest {
 
         assertFalse(repo.isInstalled("A", "ARTIFACT", "VERSION", null));
         repo.writeLog();
-        StepsReportBuilder reporter=new StepsReportBuilder(stepsLogDir.listFiles()[0]);
+        StepsReportBuilder reporter = new StepsReportBuilder(stepsLogDir.listFiles()[0]);
         assertTrue(reporter.summarize().contains("line 13: SJdksjdkjs: command not found"));
     }
 
@@ -297,14 +300,13 @@ public class ArtifactManagerTest {
         repo.releaseLock();
 
 
-
     }
-   @Test
-   public void loadJSap() throws Exception {
-       ArtifactManager manager=new ArtifactManager("REPO");
-      Assert.assertNotNull( manager.loadJsapConfig());
-   }
 
+    @Test
+    public void loadJSap() throws Exception {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        Assert.assertNotNull(manager.loadJsapConfig());
+    }
 
 
     @Test
@@ -340,12 +342,49 @@ public class ArtifactManagerTest {
         assertTrue(stringWriter.getBuffer().indexOf("export RESOURCES_ARTIFACTS_D_ARTIFACT=") >= 0);
 
     }
+
     private void clearValues(AttributeValuePair[] attributeValuePairs) {
         for (AttributeValuePair valuePair : attributeValuePairs) {
             valuePair.value = null;
         }
     }
 
+
+    @Test
+    // test that export is correctly generated even when multiple versions of the same artifact were
+    // are already installed in the repo.
+    // them:
+    public void testInstallMultipleVersions() throws IOException {
+        ArtifactManager manager = new ArtifactManager("REPO");
+        final ArtifactRepo repo = manager.getRepo();
+        repo.load();
+        assertNull(repo.find("PLUGIN", "ARTIFACT"));
+        String[] allVersionsToInstall = {"1.0", "1.1", "1.2", "1.0.1", "1.0.2", "1.1.1"};
+        for (String version : allVersionsToInstall) {
+            repo.install("PLUGIN1", "A", "test-data/install-scripts/install-script5.sh", version);
+        }
+        for (String version : allVersionsToInstall) {
+            assertNotNull(repo.find("PLUGIN1", "A", version));
+            assertEquals(Artifacts.InstallationState.INSTALLED, repo.find("PLUGIN1", "A", version).getState());
+        }
+        repo.save();
+
+        ExplicitInstallationScope scope = new ExplicitInstallationScope();
+        scope.addArtifact("PLUGIN1", "A", "1.0.2");
+        repo.setInstallationScope(scope);
+        repo.load();
+        StringWriter exports = new StringWriter();
+        repo.printBashExports(new PrintWriter(exports));
+
+        final String exportString = exports.getBuffer().toString();
+
+        String[] allOtherVersions = {"1.0", "1.1", "1.2", "1.0.1", "1.1.1"}; // does not contain 1.0.2
+        for (String version : allOtherVersions) {
+            assertFalse("exports must not contain version "+version, exportString.contains("PLUGIN1/A/"+version+"\n"));
+        }
+        assertTrue("exports must  contain version 1.0.2", exportString.endsWith("PLUGIN1/A/1.0.2\n"));
+
+    }
 
     @Before
     public void cleanRepo() throws IOException {

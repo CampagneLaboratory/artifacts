@@ -13,6 +13,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequest;
 import org.campagnelab.gobyweb.artifacts.locks.ExclusiveLockRequestWithFile;
+import org.campagnelab.gobyweb.artifacts.scope.InstallationScope;
+import org.campagnelab.gobyweb.artifacts.scope.InstalledInRepoScope;
 import org.campagnelab.stepslogger.FileStepsLogger;
 import org.campagnelab.stepslogger.RedirectStreams;
 import org.campagnelab.stepslogger.SilentStepsLogger;
@@ -250,7 +252,9 @@ public class ArtifactRepo {
 
                 updateInstallScriptLocation(artifact, pluginScript);
                 artifact = changeState(artifact, Artifacts.InstallationState.INSTALLED);
-                updateExportStatements(artifact, avp, currentBashExports);
+                if (installationScope.isInScope(pluginId, artifactId, version)) {
+                    updateExportStatements(artifact, avp, currentBashExports);
+                }
                 registerPossibleEnvironmentCollection(artifact);
             } catch (InterruptedException e) {
                 changeState(artifact, Artifacts.InstallationState.FAILED);
@@ -343,8 +347,9 @@ public class ArtifactRepo {
 
     private File getCachedScriptLocation(File installScriptFinalLocation) {
         return new File(FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(),
-                "scripts"),
-                installScriptFinalLocation.getPath()));
+                        "scripts"),
+                installScriptFinalLocation.getPath()
+        ));
     }
 
     protected String toText(Artifacts.Artifact artifact) {
@@ -389,14 +394,15 @@ public class ArtifactRepo {
                 attributesInRepoMatchEnvironment = Arrays.equals(avpEnvironment, avpRepo);
             }
 
-            if (attributesInRepoMatchEnvironment) {
+            if (attributesInRepoMatchEnvironment && installationScope.isInScope(artifact.getPluginId(), artifact.getId(), artifact.getVersion())) {
 
                 // only write exports when the attribute values obtained from the runtime env match those in the repo:
                 final AttributeValuePair[] avpPluginInRepo = convert(artifact.getAttributesList());
                 final String exportLine1 = String.format("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", artifact.getPluginId(),
                         artifact.getId(), listAttributeValues(artifact.getAttributesList()),
                         getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
-                                avpPluginInRepo));
+                                avpPluginInRepo)
+                );
                 destination.append(exportLine1);
                 LOG.debug(exportLine1);
                 // also write each attribute value:
@@ -413,9 +419,8 @@ public class ArtifactRepo {
                 }
             }
         }
-
-
     }
+
 
     protected Properties readAttributeValues(Artifacts.Artifact artifact, AttributeValuePair[] avpEnvironment) throws IOException {
         LOG.debug("readAttributeValues(artifact, avpEnvironment)");
@@ -635,11 +640,15 @@ public class ArtifactRepo {
     private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
 
         return new File(appendKeyValuePairs(FilenameUtils.concat(
-                FilenameUtils.concat(
-                        FilenameUtils.concat(FilenameUtils.concat(
-                                repoDir.getAbsolutePath(), "artifacts"),
-                                pluginId), artifactId), version),
-                avp));
+                        FilenameUtils.concat(
+                                FilenameUtils.concat(FilenameUtils.concat(
+                                                repoDir.getAbsolutePath(), "artifacts"),
+                                        pluginId
+                                ), artifactId
+                        ), version
+                ),
+                avp
+        ));
     }
 
     private void runInstallScript(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair[] avp)
@@ -753,8 +762,9 @@ public class ArtifactRepo {
     public List<Artifacts.Artifact> findIgnoringAttributes(String pluginId, String artifactId, String version) {
         List<Artifacts.Artifact> result = new ObjectArrayList<Artifacts.Artifact>();
         for (MutableString key : index.keySet()) {
-            if (key.startsWith(makeKey(pluginId, artifactId, version).toString())) {
-
+            String prefix = makeKey(pluginId, artifactId, version).toString();
+            if (key.startsWith(prefix)) {
+                LOG.info(String.format("Accepting prefix match between key=%s and prefix=%s", key, prefix));
                 Artifacts.Artifact artifact = index.get(key);
                 // check exact version match, since 1.1.1 is a prefix of 1.1, but should not be considered..
                 if (artifact.getVersion().equals(version)) {
@@ -765,6 +775,24 @@ public class ArtifactRepo {
         return result;
     }
 
+    /**
+     * Set the scope of the artifacts that should be considered during installation. Only artifacts identified in this
+     * scope will be included in the exports list provided to artifact install functions.
+     *
+     * @param installScope The installation scope implementation to use.
+     */
+    public void setInstallationScope(InstallationScope installScope) {
+        this.installationScope = installScope;
+    }
+
+    private InstallationScope installationScope = new InstalledInRepoScope(this);
+
+    /**
+     * Load a repository.
+     *
+     * @param repoDir
+     * @throws IOException
+     */
     public synchronized void load(File repoDir) throws IOException {
         load(repoDir, true);
     }
@@ -792,13 +820,17 @@ public class ArtifactRepo {
             }
             scan(repo);
             preInstalledPluginExports.setLength(0);
+            currentBashExports.setLength(0);
             if (updateExportStatements) {
                 // pre-set export statements with exports for all pre-installed tools:
                 for (Artifacts.Artifact installedArtifact : this.index.values()) {
-                    if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED)
+                    if (installedArtifact.getState() == Artifacts.InstallationState.INSTALLED) {
                         registerPossibleEnvironmentCollection(installedArtifact);
-                    updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
-                            preInstalledPluginExports);
+                        if (installationScope.isInScope(installedArtifact.getPluginId(), installedArtifact.getId(), installedArtifact.getVersion())) {
+                            updateExportStatements(installedArtifact, convert(installedArtifact.getAttributesList()),
+                                    preInstalledPluginExports);
+                        }
+                    }
                 }
             }
         } finally {

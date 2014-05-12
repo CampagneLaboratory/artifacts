@@ -3,6 +3,7 @@ package org.campagnelab.gobyweb.artifacts;
 import edu.cornell.med.icb.net.CommandExecutor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.campagnelab.gobyweb.artifacts.scope.RequestInstallScope;
 
 import java.io.*;
 import java.util.Arrays;
@@ -59,6 +60,8 @@ public class ArtifactRequestHelper {
         LOG.info(message1);
         try {
             repo.acquireExclusiveLock();
+            // restricts exports used during installation to the artifacts that are part of this request:
+            repo.setInstallationScope(new RequestInstallScope(requests));
             for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
                 repo.load();
                 //LOG.info("Processing install request: " + request.toString());
