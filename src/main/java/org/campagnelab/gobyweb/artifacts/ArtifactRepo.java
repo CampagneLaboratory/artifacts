@@ -280,7 +280,7 @@ public class ArtifactRepo {
 
     protected void registerPossibleEnvironmentCollection(Artifacts.Artifact artifact) {
         if (artifact.getPluginId().startsWith(BuildArtifactRequest.ARTIFACTS_ENVIRONMENT_COLLECTION_SCRIPT)) {
-            String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId());
+            String cachedInstallationScript = getCachedInstallationScript(artifact.getPluginId(),artifact.getVersion());
             // LOG.info(String.format("Registering environment script %s", cachedInstallationScript));
             stepsLogger.step(String.format("Registering environment script %s", cachedInstallationScript));
             if (!environmentCollectionScripts.contains(cachedInstallationScript)) {
@@ -328,7 +328,7 @@ public class ArtifactRepo {
 
             artifact = artifactBuilder.setInstallScriptRelativePath(installScriptFinalLocation.getPath()).build();
             index.put(makeKey(artifact), artifact);
-            pluginIdToInstallScriptPath.put(artifact.getPluginId(),
+            pluginIdToInstallScriptPath.put(buildCacheKey(artifact),
                     absolutePathInRepo("scripts", artifactBuilder.getInstallScriptRelativePath()));
 
             save();
@@ -426,11 +426,11 @@ public class ArtifactRepo {
         LOG.debug("readAttributeValues(artifact, avpEnvironment)");
         stepsLogger.step("readAttributeValues(artifact, avpEnvironment)");
         assert artifact.getState() == Artifacts.InstallationState.INSTALLED : "Artifact must be installed to call readAttributeValues(artifact). ";
-        if (!hasCachedInstallationScript(artifact.getPluginId())) {
+        if (!hasCachedInstallationScript(artifact)) {
             LOG.error("Cached install script must be found for plugin " + toText(artifact));
             return null;
         }
-        String installScript = getCachedInstallationScript(artifact.getPluginId());
+        String installScript = getCachedInstallationScript(artifact.getPluginId(), artifact.getVersion());
         return readAttributeValues(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
                 avpEnvironment, installScript);
 
@@ -853,9 +853,17 @@ public class ArtifactRepo {
             index.put(key, artifact);
             if (artifact.hasInstallScriptRelativePath()) {
                 String cachedPath = absolutePathInRepo("scripts", artifact.getInstallScriptRelativePath());
-                pluginIdToInstallScriptPath.put(artifact.getPluginId(), cachedPath);
+                pluginIdToInstallScriptPath.put(buildCacheKey(artifact), cachedPath);
             }
         }
+    }
+
+    private String buildCacheKey(Artifacts.Artifact artifact) {
+       return buildCacheKey(artifact.getPluginId(), artifact.getVersion());
+    }
+
+    private String buildCacheKey(String pluginId, String version) {
+        return String.format("$%s$%s$",pluginId, version);
     }
 
 
@@ -874,34 +882,47 @@ public class ArtifactRepo {
      * Return the location of the cached installation script. Please note that the file at that location may not exist.
      *
      * @param pluginId Id of the plugin for which the installation script is sought.
+     * @param version of the plugin for which the installation script is sought.
      * @return Absolute path of the cached installation script.
      */
-    public String getCachedInstallationScript(String pluginId) {
-        return pluginIdToInstallScriptPath.get(pluginId);
+    public String getCachedInstallationScript(String pluginId, String version) {
+        return pluginIdToInstallScriptPath.get(buildCacheKey(pluginId,version));
     }
 
     /**
      * Determine whether a plugin has a valid cached installation script.
      *
-     * @param pluginId Id of the plugin for which the installation script is sought.
+     * @param artifact for which the installation script is sought.
      * @return True or False.
      */
-    public boolean hasCachedInstallationScript(String pluginId) {
+    public boolean hasCachedInstallationScript(Artifacts.Artifact artifact) {
+        String pluginId=artifact.getPluginId();
+        String version=artifact.getVersion();
+        return hasCachedInstallationScript( pluginId, version);
+    }
+    /**
+     * Determine whether a plugin has a valid cached installation script.
+     *
+     * @param pluginId Id of the plugin for which the installation script is sought.
+     * @param version of the plugin for which the installation script is sought.
+     * @return True or False.
+     */
+    public boolean hasCachedInstallationScript(String pluginId, String version) {
         LOG.debug("hasCachedInstallationScript " + pluginId);
-        final String cachedInstallationScript = getCachedInstallationScript(pluginId);
+        final String cachedInstallationScript = getCachedInstallationScript(pluginId, version);
         if (cachedInstallationScript != null && !new File(cachedInstallationScript).exists()) {
             // the cache was removed to trigger reinstallation. Do it here for all the artifacts of this plugin:
-            for (Artifacts.Artifact artifact : findArtifacts(pluginId)) {
-                ArtifactRequestHelper.fetchInstallScript(artifact, artifact.getInstallationRequest(), this);
+            for (Artifacts.Artifact a : findArtifacts(pluginId, version)) {
+                ArtifactRequestHelper.fetchInstallScript(a, a.getInstallationRequest(), this);
             }
         }
         return cachedInstallationScript != null && new File(cachedInstallationScript).exists();
     }
 
-    private ObjectArrayList<Artifacts.Artifact> findArtifacts(String pluginId) {
+    private ObjectArrayList<Artifacts.Artifact> findArtifacts(String pluginId, String version) {
         ObjectArrayList<Artifacts.Artifact> result = new ObjectArrayList<Artifacts.Artifact>();
         for (Artifacts.Artifact artifact : index.values()) {
-            if (artifact.getPluginId().equals(pluginId)) {
+            if (artifact.getPluginId().equals(pluginId) && artifact.getVersion().equals(version)) {
                 result.add(artifact);
             }
         }
