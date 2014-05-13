@@ -202,7 +202,7 @@ public class ArtifactRequestHelper {
     private String getPluginNames(Artifacts.InstallationSet requests) {
         StringBuffer sb = new StringBuffer();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            sb.append(repo.toText(request.getPluginId(), request.getPluginId(),
+            sb.append(repo.toText(request.getPluginId(), request.getArtifactId(),
                     request.getVersion(), repo.convert(request.getAttributesList())));
             sb.append(" ");
         }
