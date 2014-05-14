@@ -16,7 +16,7 @@ public class RequestInstallScope implements InstallationScope {
     @Override
     public boolean isInScope(String pluginId, String artifactId, String version) {
         for (Artifacts.ArtifactDetails artifact : requests.getArtifactsList()) {
-            if (artifact.getArtifactId().equals(artifactId) && artifact.getVersion().equals(version)) {
+            if (artifact.getPluginId().equals(pluginId) && artifact.getVersion().equals(version)) {
                 return true;
             }
         }
