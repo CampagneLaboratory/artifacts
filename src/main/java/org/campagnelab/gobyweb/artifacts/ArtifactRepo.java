@@ -343,8 +343,9 @@ public class ArtifactRepo {
 
     private File getCachedScriptLocation(File installScriptFinalLocation) {
         return new File(FilenameUtils.concat(FilenameUtils.concat(repoDir.getAbsolutePath(),
-                "scripts"),
-                installScriptFinalLocation.getPath()));
+                        "scripts"),
+                installScriptFinalLocation.getPath()
+        ));
     }
 
     protected String toText(Artifacts.Artifact artifact) {
@@ -396,7 +397,8 @@ public class ArtifactRepo {
                 final String exportLine1 = String.format("export RESOURCES_ARTIFACTS_%s_%s%s=%s%n", artifact.getPluginId(),
                         artifact.getId(), listAttributeValues(artifact.getAttributesList()),
                         getInstalledPath(artifact.getPluginId(), artifact.getId(), artifact.getVersion(),
-                                avpPluginInRepo));
+                                avpPluginInRepo)
+                );
                 destination.append(exportLine1);
                 LOG.debug(exportLine1);
                 // also write each attribute value:
@@ -635,11 +637,15 @@ public class ArtifactRepo {
     private File getArtifactDir(String pluginId, String artifactId, String version, AttributeValuePair... avp) {
 
         return new File(appendKeyValuePairs(FilenameUtils.concat(
-                FilenameUtils.concat(
-                        FilenameUtils.concat(FilenameUtils.concat(
-                                repoDir.getAbsolutePath(), "artifacts"),
-                                pluginId), artifactId), version),
-                avp));
+                        FilenameUtils.concat(
+                                FilenameUtils.concat(FilenameUtils.concat(
+                                                repoDir.getAbsolutePath(), "artifacts"),
+                                        pluginId
+                                ), artifactId
+                        ), version
+                ),
+                avp
+        ));
     }
 
     private void runInstallScript(String pluginId, String artifactId, String pluginScript, String version, AttributeValuePair[] avp)
@@ -719,7 +725,14 @@ public class ArtifactRepo {
 
     private String mkDirs(File repoDir, String pluginId, String artifactId, String version, AttributeValuePair... avp) {
         final File dir = getArtifactDir(pluginId, artifactId, version, avp);
+
         dir.mkdirs();
+        try {
+            FileUtils.cleanDirectory(dir);
+        } catch (IOException e) {
+            LOG.warn(String.format("An exception was encountered when cleaning the installation directory %s before installation ",
+                    dir.getPath()),e);
+        }
         return dir.getAbsolutePath();
     }
 
