@@ -1,7 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
 
-import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,13 +28,13 @@ public class BuildArtifactRequestTest {
     // check that we can execute requests sent from the web server in pb format.
     public void testOneRequest() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest("localhost");
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script1.sh");
         final File output = new File("test-results/requests/request1.pb");
 
         request.save(output);
 
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
-        helper.install(new File("REPO"));
+        helper.install(new File("REPO"),false);
 
         assertTrue(new File("REPO/artifacts/PLUGIN/FILE1/1.0/installed-file-1").exists());
         assertFalse(new File("REPO/artifacts/PLUGIN/FILE2/1.0/installed-file-2").exists());
@@ -46,13 +45,13 @@ public class BuildArtifactRequestTest {
     // check that we can execute requests sent from the web server in pb format.
     public void testOneRequestWithUser() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script1.sh");
         final File output = new File("test-results/requests/request1.pb");
 
         request.save(output);
 
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
-        helper.install(new File("REPO"));
+        helper.install(new File("REPO"),false);
 
         assertTrue(new File("REPO/artifacts/PLUGIN/FILE1/1.0/installed-file-1").exists());
         assertFalse(new File("REPO/artifacts/PLUGIN/FILE2/1.0/installed-file-2").exists());
@@ -63,14 +62,14 @@ public class BuildArtifactRequestTest {
     // check that we can execute requests sent from the web server in pb format.
     public void testBashExport() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script1.sh");
-        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script1.sh");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script1.sh");
+        request.addArtifact("PLUGIN", "FILE2", "1.0", false, "test-data/install-scripts/install-script1.sh");
         final File output = new File("test-results/requests/request2.pb");
 
         request.save(output);
 
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
-        helper.install(new File("REPO"));
+        helper.install(new File("REPO"),false);
         helper.printBashExports(new File("REPO"));
 
     }
@@ -83,14 +82,14 @@ public class BuildArtifactRequestTest {
                 Artifacts.AttributeValuePair.newBuilder().setName("key").setValue("value").build(),
                 Artifacts.AttributeValuePair.newBuilder().setName("undefined-key").build()
         };
-        request.addArtifact("PLUGIN", "INDEX", "1.0", "test-data/install-scripts/install-script3.sh", attributes);
+        request.addArtifact("PLUGIN", "INDEX", "1.0", false, "test-data/install-scripts/install-script3.sh", attributes);
         final File output = new File("test-results/requests/request3.pb");
 
         request.save(output);
 
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         helper.printBashExports(repoDir);
         helper.showRepo(repoDir);
         ArtifactRepo repo = new ArtifactRepo(repoDir);
@@ -114,8 +113,8 @@ public class BuildArtifactRequestTest {
     // check that we can execute requests sent from the web server in pb format.
     public void testRetentionPolicy() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
-        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
+        request.addArtifact("PLUGIN", "FILE2", "1.0", false, "test-data/install-scripts/install-script4.sh", Artifacts.RetentionPolicy.REMOVE_OLDEST);
         final File output = new File("test-results/requests/request4.pb");
 
         request.save(output);
@@ -123,7 +122,7 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.setSpaceRepoDirQuota(1000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         helper.printBashExports(repoDir);
         helper.showRepo(repoDir);
         helper.prune(repoDir);
@@ -135,8 +134,8 @@ public class BuildArtifactRequestTest {
     // check that we can execute requests sent from the web server in pb format.
     public void testRetentionPolicy2() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script4.sh");
-        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script4.sh");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script4.sh");
+        request.addArtifact("PLUGIN", "FILE2", "1.0", false, "test-data/install-scripts/install-script4.sh");
         final File output = new File("test-results/requests/request4.pb");
 
         request.save(output);
@@ -144,7 +143,7 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.setSpaceRepoDirQuota(1000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         helper.printBashExports(repoDir);
         helper.showRepo(repoDir);
         helper.prune(repoDir);
@@ -159,9 +158,9 @@ public class BuildArtifactRequestTest {
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
         Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
 
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script7.sh", avp1, avp2);
-        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script7.sh", avp2);
-        request.addArtifact("PLUGIN", "NO-ATTRIBUTE", "1.0", "test-data/install-scripts/install-script7.sh");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script7.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "FILE2", "1.0", false, "test-data/install-scripts/install-script7.sh", avp2);
+        request.addArtifact("PLUGIN", "NO-ATTRIBUTE", "1.0", false, "test-data/install-scripts/install-script7.sh");
         final File output = new File("test-results/requests/request4.pb");
 
         request.save(output);
@@ -169,7 +168,7 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.setSpaceRepoDirQuota(1000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         final StringWriter resultRequest = new StringWriter();
 
         helper.printBashExports(repoDir, new PrintWriter(resultRequest));
@@ -197,9 +196,9 @@ public class BuildArtifactRequestTest {
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
         Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
 
-        request.addArtifact("PLUGIN", "RANDOM", "VERSION", "test-data/install-scripts/install-script8.sh", avp1, avp2);
-        request.addArtifact("PLUGIN", "RANDOM", "VERSION", "test-data/install-scripts/install-script8.sh", avp1, avp2);
-        request.addArtifact("PLUGIN", "RANDOM", "VERSION", "test-data/install-scripts/install-script8.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "RANDOM", "VERSION", false, "test-data/install-scripts/install-script8.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "RANDOM", "VERSION", false, "test-data/install-scripts/install-script8.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "RANDOM", "VERSION", false, "test-data/install-scripts/install-script8.sh", avp1, avp2);
 
 
         final File output = new File("test-results/requests/request4.pb");
@@ -209,7 +208,7 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.setSpaceRepoDirQuota(1000000000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         ArtifactRepo repo = new ArtifactRepo(repoDir);
         repo.load();
         final Artifacts.Artifact artifact = repo.find("PLUGIN", "RANDOM", "VERSION",
@@ -227,10 +226,10 @@ public class BuildArtifactRequestTest {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
 
-        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", avp1);
-        request.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
-        request.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
-        request.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", false, avp1);
+        request.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION", false);
+        request.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION", false);
+        request.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION", false);
 
 
         final File output = new File("test-results/requests/request5.pb");
@@ -251,15 +250,33 @@ public class BuildArtifactRequestTest {
 
     }
 
+    @Test
+    public void testMandatoryArtifacts() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
+        request.addArtifact("A", "ARTIFACT", "1.2", true, "test-data/install-scripts/install-script-A_ARTIFACT.sh");
+        request.addArtifact("A1", "ARTIFACT", "1.1", false, "test-data/install-scripts/install-script-A_ARTIFACT.sh");
+        request.addArtifact("A2", "ARTIFACT", "1.1", true, "test-data/install-scripts/install-script-A_ARTIFACT.sh");
+
+        final File output = new File("test-results/requests/mandatory.pb");
+        request.save(output);
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.setSpaceRepoDirQuota(1000000000);
+        final File repoDir = new File("REPO-ONLY_MANDATORY");
+        helper.install(repoDir,true);
+        StringWriter stringWriter = new StringWriter();
+        helper.printBashExports(repoDir, new PrintWriter(stringWriter));
+        System.out.println(stringWriter.toString());
+    }
+
 
     @Test
     public void testWrongExports() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest(getUserName() + "@localhost");
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
 
-        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.2", avp1);
-        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.1", avp1);
-        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.1.1", avp1);
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.2", false, avp1);
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.1", false, avp1);
+        request.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.1.1", false, avp1);
 
 
         final File output = new File("test-results/requests/request-wrong-1.pb");
@@ -270,19 +287,19 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.setSpaceRepoDirQuota(1000000000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
 
         BuildArtifactRequest requestUsed = new BuildArtifactRequest(getUserName() + "@localhost");
         final File outputUsed = new File("test-results/requests/request-wrong-2.pb");
 
         //a request with only one version of A (1.2):
-        requestUsed.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.2", avp1);
+        requestUsed.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "1.2", false, avp1);
         requestUsed.save(outputUsed);
 
         ArtifactRequestHelper helperUsed = new ArtifactRequestHelper(outputUsed);
         helperUsed.setSpaceRepoDirQuota(1000000000);
 
-        helperUsed.install(repoDir);
+        helperUsed.install(repoDir,false);
 
         StringWriter stringWriterUsed = new StringWriter();
         helperUsed.printBashExports(repoDir, new PrintWriter(stringWriterUsed));
@@ -307,13 +324,13 @@ public class BuildArtifactRequestTest {
         BuildArtifactRequest request2 = new BuildArtifactRequest(getUserName() + "@localhost");
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
 
-        request1.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", avp1);
-        request1.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
+        request1.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", false, avp1);
+        request1.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION", false);
 
-        request2.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", avp1);
-        request2.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION");
-        request2.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION");
-        request2.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION");
+        request2.install("A", "ARTIFACT", "test-data/install-scripts/install-script-A_ARTIFACT.sh", "VERSION", false, avp1);
+        request2.install("B", "ARTIFACT", "test-data/install-scripts/install-script-B_ARTIFACT.sh", "VERSION", false);
+        request2.install("C", "ARTIFACT", "test-data/install-scripts/install-script-C_ARTIFACT.sh", "VERSION", false);
+        request2.install("D", "ARTIFACT", "test-data/install-scripts/install-script-D_ARTIFACT.sh", "VERSION", false);
 
 
         final File output1 = new File("test-results/requests/request5.pb");
@@ -327,7 +344,7 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output1);
         helper.setSpaceRepoDirQuota(1000000000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         StringWriter stringWriter = new StringWriter();
         helper.printBashExports(repoDir, new PrintWriter(stringWriter));
         System.out.println(stringWriter.toString());
@@ -346,7 +363,7 @@ public class BuildArtifactRequestTest {
         helper = new ArtifactRequestHelper(output2);
         helper.setSpaceRepoDirQuota(1000000000);
 
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         StringWriter stringWriter2 = new StringWriter();
         helper.printBashExports(repoDir, new PrintWriter(stringWriter2));
         System.out.println(stringWriter2.toString());
@@ -374,9 +391,9 @@ public class BuildArtifactRequestTest {
         Artifacts.AttributeValuePair avp1 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-A").build();
         Artifacts.AttributeValuePair avp2 = Artifacts.AttributeValuePair.newBuilder().setName("attribute-B").build();
 
-        request.addArtifact("PLUGIN", "FILE1", "1.0", "test-data/install-scripts/install-script11.sh", avp1, avp2);
-        request.addArtifact("PLUGIN", "FILE2", "1.0", "test-data/install-scripts/install-script11.sh", avp2);
-        request.addArtifact("PLUGIN", "NO-ATTRIBUTE", "1.0", "test-data/install-scripts/install-script11.sh");
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script11.sh", avp1, avp2);
+        request.addArtifact("PLUGIN", "FILE2", "1.0", false, "test-data/install-scripts/install-script11.sh", avp2);
+        request.addArtifact("PLUGIN", "NO-ATTRIBUTE", "1.0", false,"test-data/install-scripts/install-script11.sh");
         final File output = new File("test-results/requests/request4.pb");
 
         request.save(output);
@@ -384,7 +401,7 @@ public class BuildArtifactRequestTest {
         ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
         helper.setSpaceRepoDirQuota(1000);
         final File repoDir = new File("REPO");
-        helper.install(repoDir);
+        helper.install(repoDir,false);
         final StringWriter resultRequest = new StringWriter();
 
         helper.printBashExports(repoDir, new PrintWriter(resultRequest));

@@ -72,6 +72,11 @@ message ArtifactDetails {
      * The retention policy that should be given to the artifact.
      */
     required RetentionPolicy retention=8;
+    /*
+     * Mandatory artifacts are installed for each job execution phase.
+     * If not specified, false is assumed as value.
+     */
+    optional bool mandatory = 9;
 }
 
 message AttributeValuePair {

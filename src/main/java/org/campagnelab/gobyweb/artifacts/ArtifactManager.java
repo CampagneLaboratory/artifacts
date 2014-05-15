@@ -88,8 +88,13 @@ public class ArtifactManager {
                 helper.setRepo(repo);
                 if (config.getBoolean("install")) {
 
-                    helper.install(repoDir);
+                    if (config.userSpecified("installation-type")
+                            && config.getString("installation-type").equals("only-mandatory")) {
+                        helper.install(repoDir,true);
+                    } else
+                        helper.install(repoDir, false);
                     if (helper.isEarlyStopRequested()) {
+                        repo.writeLog();
                         System.exit(10);
                     }
                 } else if (config.getBoolean("remove")) {

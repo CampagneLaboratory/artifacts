@@ -3,6 +3,7 @@ package org.campagnelab.gobyweb.artifacts;
 import edu.cornell.med.icb.net.CommandExecutor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.campagnelab.gobyweb.artifacts.scope.RequestInstallScope;
 
 import java.io.*;
 import java.util.Arrays;
@@ -41,6 +42,16 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void install(File repoDir) throws IOException {
+          install(repoDir,false);
+    }
+    /**
+     * Install artifacts described in a request, obtaining install scripts as needed from remote web app server.
+     *
+     * @param repoDir Repository directory.
+     * @param onlyMandatory if true, only mandatory artifacts are installed.
+     * @throws IOException
+     */
+    public void install(File repoDir, boolean onlyMandatory) throws IOException {
         ArtifactRepo repo = getRepo(repoDir);
         repo.unregisterAllEnvironmentCollectionScripts();
         StringWriter currentExports = new StringWriter();
@@ -49,16 +60,22 @@ public class ArtifactRequestHelper {
         LOG.info(message1);
         try {
             repo.acquireExclusiveLock();
+            // restricts exports used during installation to the artifacts that are part of this request:
+            repo.setInstallationScope(new RequestInstallScope(requests));
             for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
                 repo.load();
                 //LOG.info("Processing install request: " + request.toString());
                 repo.getStepsLogger().step("Processing install request: " + request.toString());
+                if (onlyMandatory && !request.getMandatory()) {
+                    repo.getStepsLogger().step("Skipping non-mandatory install request: " + request.toString());
+                    continue;
+                }
                 String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
                         System.getProperty("user.name");
                 final String remoteScriptInstallPath = request.getScriptInstallPath();
                 File tmpLocalInstallScript = null;
                 try {
-                    tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(),
+                    tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(), request.getVersion(),
                             username, request.getSshWebAppHost());
 
                 } catch (InterruptedException e) {
@@ -127,11 +144,11 @@ public class ArtifactRequestHelper {
         return earlyStopRequested;
     }
 
-    public File getCachedInstallFile(String remoteScriptInstallPath, String pluginId,
+    public File getCachedInstallFile(String remoteScriptInstallPath, String pluginId, String version,
                                      String username, String server)
             throws IOException, InterruptedException {
-        if (repo.hasCachedInstallationScript(pluginId)) {
-            return new File(repo.getCachedInstallationScript(pluginId));
+        if (repo.hasCachedInstallationScript(pluginId, version)) {
+            return new File(repo.getCachedInstallationScript(pluginId, version));
         } else {
             final File tempInstallFile = File.createTempFile("install-script-" + pluginId,
                     FilenameUtils.getBaseName(remoteScriptInstallPath));
@@ -185,7 +202,7 @@ public class ArtifactRequestHelper {
     private String getPluginNames(Artifacts.InstallationSet requests) {
         StringBuffer sb = new StringBuffer();
         for (Artifacts.ArtifactDetails request : requests.getArtifactsList()) {
-            sb.append(repo.toText(request.getPluginId(), request.getPluginId(),
+            sb.append(repo.toText(request.getPluginId(), request.getArtifactId(),
                     request.getVersion(), repo.convert(request.getAttributesList())));
             sb.append(" ");
         }
@@ -319,6 +336,7 @@ public class ArtifactRequestHelper {
         else {
             repo = new ArtifactRepo(repoDir);
             repo.setSpaceRepoDirQuota(spaceRepoDirQuota);
+            repo.setInstallationScope(new RequestInstallScope(requests));
             return repo;
         }
 

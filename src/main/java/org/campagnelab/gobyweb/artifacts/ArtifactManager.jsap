@@ -11,6 +11,18 @@
             <longFlag>output</longFlag>
             <help>The output filename to use when writing BASH export statements.</help>
         </flaggedOption>
+
+        <flaggedOption>
+            <id>installation-type</id>
+            <stringParser>
+                <classname>StringStringParser</classname>
+            </stringParser>
+            <required>false</required>
+            <shortFlag>t</shortFlag>
+            <longFlag>installation-type</longFlag>
+            <help>The type of installation required. Allowed values: [all, only-mandatory]</help>
+        </flaggedOption>
+
         <flaggedOption>
             <id>repository</id>
             <stringParser>
