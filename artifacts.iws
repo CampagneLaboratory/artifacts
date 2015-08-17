@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iml" afterPath="$PROJECT_DIR$/artifacts.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.ipr" afterPath="$PROJECT_DIR$/artifacts.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
@@ -157,11 +153,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="164" column="20" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.20939086">
+              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -232,11 +228,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtifactManager.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ArtifactManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7361769">
-              <caret line="44" column="62" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="45" column="39" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CHANGES.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CHANGES.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -275,9 +281,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
+        <option value="$PROJECT_DIR$/CHANGES.txt" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -1357,19 +1364,7 @@
       <workItem from="1404318497745" duration="24000" />
       <workItem from="1404318955101" duration="75000" />
       <workItem from="1439586631288" duration="866000" />
-      <workItem from="1439823387936" duration="3452000" />
-    </task>
-    <task id="LOCAL-00005" summary="Prepare the api and executable jars.">
-      <created>1356036133101</created>
-      <option name="number" value="00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1356036133101</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Prepare the api and executable jars with shade plugin, much simper.">
-      <created>1356037077101</created>
-      <option name="number" value="00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1356037077101</updated>
+      <workItem from="1439823387936" duration="5283000" />
     </task>
     <task id="LOCAL-00007" summary="Add username in pb artifact details.">
       <created>1356050162105</created>
@@ -1653,11 +1648,23 @@
       <option name="project" value="LOCAL" />
       <updated>1400094487027</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Make artifacts working with java 7. Advance version to 2.3.2. Fix loadJSap() test case. Update serverside dependencies to 1.0.13.">
+      <created>1439830425396</created>
+      <option name="number" value="00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1439830425397</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Update change log for 2.3.2.">
+      <created>1439837207667</created>
+      <option name="number" value="00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1439837207667</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28072000" />
+    <option name="totallyTimeSpent" value="29903000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1688,7 +1695,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Usages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32784185" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32784185" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31466228" sideWeight="0.47396767" order="1" side_tool="false" content_ui="tabs" />
@@ -1706,7 +1713,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17553614" sideWeight="0.6735537" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28038126" sideWeight="0.6735537" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45551893" sideWeight="0.90178573" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45551893" sideWeight="0.90178573" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32809916" sideWeight="0.4935065" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67937607" order="6" side_tool="false" content_ui="tabs" />
@@ -1743,8 +1750,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Test the validity of the lock before calling release." />
-    <MESSAGE value="Use repo method to write BashExports in request helper." />
     <MESSAGE value="Add export tests for repo and requests." />
     <MESSAGE value="change language level." />
     <MESSAGE value="Add ability to refetch installation scripts when the cache was manually deleted." />
@@ -1768,7 +1773,9 @@
     <MESSAGE value="Manage mandatory and non-mandatory artifacts during the installation in the Repository. Add a related test case." />
     <MESSAGE value="Advance version to 2.3.0" />
     <MESSAGE value="Advance version to 2.3.1. Update serverside dependencies to 1.0.9." />
-    <option name="LAST_COMMIT_MESSAGE" value="Advance version to 2.3.1. Update serverside dependencies to 1.0.9." />
+    <MESSAGE value="Make artifacts working with java 7. Advance version to 2.3.2. Fix loadJSap() test case. Update serverside dependencies to 1.0.13." />
+    <MESSAGE value="Update change log for 2.3.2." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update change log for 2.3.2." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1793,27 +1800,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java</url>
-          <line>779</line>
+          <line>786</line>
           <properties />
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java</url>
-          <line>29</line>
-          <properties />
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java</url>
-          <line>28</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java</url>
-          <line>30</line>
-          <properties />
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -2136,13 +2125,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CHANGES.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2224,14 +2206,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="164" column="20" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2242,8 +2216,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7361769">
-          <caret line="44" column="62" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="39" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CHANGES.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20939086">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding />
         </state>
       </provider>
