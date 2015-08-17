@@ -728,7 +728,14 @@ public class ArtifactRepo {
 
     private String mkDirs(File repoDir, String pluginId, String artifactId, String version, AttributeValuePair... avp) {
         final File dir = getArtifactDir(pluginId, artifactId, version, avp);
+
         dir.mkdirs();
+        try {
+            FileUtils.cleanDirectory(dir);
+        } catch (IOException e) {
+            LOG.warn(String.format("An exception was encountered when cleaning the installation directory %s before installation ",
+                    dir.getPath()),e);
+        }
         return dir.getAbsolutePath();
     }
 
