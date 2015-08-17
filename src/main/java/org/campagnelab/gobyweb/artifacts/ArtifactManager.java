@@ -25,11 +25,10 @@ public class ArtifactManager {
         repo.load(repoDir);
     }
 
-    public static JSAPResult loadJsapConfig() throws IOException, JSAPException {
+    public static JSAPResult loadJsapConfig(String commandLine) throws IOException, JSAPException {
         JSAP jsap = new JSAP(ArtifactManager.class.getResource("ArtifactManager.jsap"));
+        return jsap.parse(commandLine);
 
-        JSAPResult config = jsap.parse(new String[]{});
-        return config;
     }
 
     public static void main(String[] args) throws Exception {

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CHANGES.txt" afterPath="$PROJECT_DIR$/CHANGES.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iml" afterPath="$PROJECT_DIR$/artifacts.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.ipr" afterPath="$PROJECT_DIR$/artifacts.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
@@ -10,6 +11,14 @@
     </list>
     <ignored path="artifacts.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/target/apidocs/" />
+    <ignored path="$PROJECT_DIR$/target/classes/" />
+    <ignored path="$PROJECT_DIR$/target/maven-archiver/" />
+    <ignored path="$PROJECT_DIR$/target/maven-status/" />
+    <ignored path="$PROJECT_DIR$/target/surefire-reports/" />
+    <ignored path="$PROJECT_DIR$/target/test-classes/" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,48 +34,8 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="DaemonCodeAnalyzer">
-    <disable_hints />
-  </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="&#13;&#13;JAVA" />
-        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
-      </breakpoint>
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="&#13;&#13;JAVA" />
-        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
-      </breakpoint>
-    </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
       <breakpoint url="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java" line="174" class="org.campagnelab.gobyweb.artifacts.BuildArtifactRequestTest" package="org.campagnelab.gobyweb.artifacts">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -112,7 +81,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" line="758" class="org.campagnelab.gobyweb.artifacts.ArtifactRepo" package="org.campagnelab.gobyweb.artifacts">
+      <breakpoint url="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" line="779" class="org.campagnelab.gobyweb.artifacts.ArtifactRepo" package="org.campagnelab.gobyweb.artifacts">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -143,8 +112,44 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
-    <breakpoint_rules />
-    <ui_properties />
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
+      </breakpoint>
+    </breakpoint_any>
+    <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -152,91 +157,96 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="140" column="172" selection-start="6081" selection-end="6081" vertical-scroll-proportion="0.41182795" vertical-offset="1717" max-vertical-offset="2880">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="164" column="20" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CHANGES.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CHANGES.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="83" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConcurrentInstallationTest.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ConcurrentInstallationTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ConcurrentInstallationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="13" selection-start="433" selection-end="433" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1125">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="37" column="53" selection-start-line="37" selection-start-column="53" selection-end-line="37" selection-end-column="53" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="artifacts.proto" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="7" selection-start="2081" selection-end="2081" vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="2670">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BuildArtifactRequestTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="264" column="37" selection-start="13090" selection-end="13090" vertical-scroll-proportion="0.0" vertical-offset="3960" max-vertical-offset="6555">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="install-script-B_ARTIFACT.sh" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="install-script-B_ARTIFACT.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-B_ARTIFACT.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="install-script-C_ARTIFACT.sh" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="install-script-C_ARTIFACT.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-C_ARTIFACT.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtifactManager.jsap" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ArtifactManager.jsap" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="16" selection-start="461" selection-end="478" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="2580">
+            <state vertical-scroll-proportion="-64.44444">
+              <caret line="116" column="15" selection-start-line="116" selection-start-column="13" selection-end-line="116" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AttributeValuePair.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AttributeValuePair.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="13" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="690">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding>
+                <element signature="e#376#377#0" expanded="false" />
+                <element signature="e#411#412#0" expanded="false" />
+                <element signature="e#880#881#0" expanded="false" />
+                <element signature="e#965#966#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArtifactManagerTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtifactManagerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
+      <file leaf-file-name="ArtifactManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="0" selection-start="7144" selection-end="7144" vertical-scroll-proportion="0.0" vertical-offset="2460" max-vertical-offset="6030">
+            <state vertical-scroll-proportion="0.7361769">
+              <caret line="44" column="62" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JSAP.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/campagnelab/gobyweb/serverside-dependencies/1.0.12/serverside-dependencies-1.0.12-full.jar!/com/martiansoftware/jsap/JSAP.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-26.037037">
+              <caret line="383" column="22" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -257,30 +267,30 @@
       <MyDateState />
     </option>
   </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
-    <option name="changedFiles">
+    <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/test-data/env-scripts/env-script2.sh" />
-        <option value="$PROJECT_DIR$/test-data/env-scripts/env-script1.sh" />
-        <option value="$PROJECT_DIR$/target/generated-sources/org/campagnelab/gobyweb/artifacts/Artifacts.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/util/CommandExecutor.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/log4j.properties" />
-        <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/util/CommandExecutorTest.java" />
-        <option value="$PROJECT_DIR$/protoc" />
-        <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
-        <option value="$PROJECT_DIR$/src/main/protobuf/artifacts.proto" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java" />
-        <option value="$PROJECT_DIR$/CHANGES.txt" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="importAutomatically" value="true" />
@@ -289,6 +299,38 @@
   </component>
   <component name="MavenProjectNavigator">
     <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="artifacts" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="artifacts" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="org.campagnelab.gobyweb:serverside-dependencies:full:1.0.13" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependencyNode" />
+        </PATH_ELEMENT>
+      </PATH>
       <PATH>
         <PATH_ELEMENT>
           <option name="myItemId" value="" />
@@ -321,15 +363,84 @@
       </PATH>
     </treeState>
   </component>
-  <component name="MessagesViewTool">
-    <option name="autoscrollToSource" value="true" />
-    <option name="info" value="true" />
-    <option name="warnings" value="true" />
+  <component name="NamedScopeManager">
+    <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
+    <option name="y" value="23" />
     <option name="width" value="2560" />
     <option name="height" value="1330" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android Lint</id>
+          </State>
+          <State>
+            <id>Code style issuesJava</id>
+          </State>
+          <State>
+            <id>Compiler issuesJava</id>
+          </State>
+          <State>
+            <id>Finalization issuesJava</id>
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>Groovy</id>
+          </State>
+          <State>
+            <id>Inheritance issuesJava</id>
+          </State>
+          <State>
+            <id>J2ME issuesJava</id>
+          </State>
+          <State>
+            <id>JSP Inspections</id>
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>JavaBeans issuesJava</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Numeric issuesJava</id>
+          </State>
+          <State>
+            <id>OtherGroovy</id>
+          </State>
+          <State>
+            <id>Performance issuesJava</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
+          </State>
+          <State>
+            <id>Security issuesJava</id>
+          </State>
+          <State>
+            <id>Serialization issuesJava</id>
+          </State>
+          <State>
+            <id>Verbose or redundant code constructsJava</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -345,7 +456,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -357,6 +468,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -524,26 +636,26 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="415" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="416" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="419" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="420" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="416" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="420" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="152" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="146" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="149" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="426" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1216" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1214" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="431" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1220" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1218" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="823" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="421" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="426" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="149" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="418" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="422" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
@@ -553,10 +665,10 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="164" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="165" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="75" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="176" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
@@ -586,6 +698,9 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -607,41 +722,7 @@
       <recent name="org.campagnelab.gobyweb" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BuildArtifactRequestTest.testMandatoryArtifacts">
-    <configuration default="false" name="all tests" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="org.campagnelab.gobyweb.artifacts.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="artifacts" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="org.campagnelab.gobyweb.artifacts" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.ArtifactManagerTest.loadJSap">
     <configuration default="false" name="ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" runner="idea">
         <pattern>
@@ -655,40 +736,6 @@
       <option name="PACKAGE_NAME" value="org.campagnelab.gobyweb.artifacts" />
       <option name="MAIN_CLASS_NAME" value="org.campagnelab.gobyweb.artifacts.ArtifactManagerTest" />
       <option name="METHOD_NAME" value="testMultipleInstallationsWithChangingAttributes" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="BuildArtifactRequestTest.testEnvironmentCollectionScripts" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="org.campagnelab.gobyweb.artifacts.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="artifacts" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="org.campagnelab.gobyweb.artifacts" />
-      <option name="MAIN_CLASS_NAME" value="org.campagnelab.gobyweb.artifacts.BuildArtifactRequestTest" />
-      <option name="METHOD_NAME" value="testEnvironmentCollectionScripts" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PARAMETERS" value="" />
@@ -766,7 +813,219 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails" singleton="true">
+    <configuration default="false" name="ArtifactManagerTest.testInstall" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.campagnelab.gobyweb.artifacts.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="artifacts" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.campagnelab.gobyweb.artifacts" />
+      <option name="MAIN_CLASS_NAME" value="org.campagnelab.gobyweb.artifacts.ArtifactManagerTest" />
+      <option name="METHOD_NAME" value="testInstall" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="ArtifactManagerTest.loadJSap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.campagnelab.gobyweb.artifacts.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="artifacts" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.campagnelab.gobyweb.artifacts" />
+      <option name="MAIN_CLASS_NAME" value="org.campagnelab.gobyweb.artifacts.ArtifactManagerTest" />
+      <option name="METHOD_NAME" value="loadJSap" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
       <module name="" />
       <setting name="vmparams" value="" />
       <setting name="cmdLine" value="run-app" />
@@ -774,6 +1033,38 @@
       <setting name="passParentEnv" value="true" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method>
+        <option name="Make" enabled="false" />
+        <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="test-compile" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
@@ -806,20 +1097,10 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -850,150 +1131,19 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <method>
-        <option name="Make" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="test-compile" />
-      </method>
-    </configuration>
-    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
-      <option name="BCName" value="" />
-      <option name="IOSSimulatorSdkPath" value="" />
-      <option name="adlOptions" value="" />
-      <option name="airProgramParameters" value="" />
-      <option name="appDescriptorForEmulator" value="Android" />
-      <option name="debugTransport" value="USB" />
-      <option name="debuggerSdkRaw" value="BC SDK" />
-      <option name="emulator" value="NexusOne" />
-      <option name="emulatorAdlOptions" value="" />
-      <option name="fastPackaging" value="true" />
-      <option name="fullScreenHeight" value="0" />
-      <option name="fullScreenWidth" value="0" />
-      <option name="launchUrl" value="false" />
-      <option name="launcherParameters">
-        <LauncherParameters>
-          <option name="browserFamily" value="FIREFOX" />
-          <option name="launcherType" value="OSDefault" />
-          <option name="newPlayerInstance" value="false" />
-          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
-        </LauncherParameters>
-      </option>
-      <option name="mobileRunTarget" value="Emulator" />
-      <option name="moduleName" value="" />
-      <option name="overriddenMainClass" value="" />
-      <option name="overriddenOutputFileName" value="" />
-      <option name="overrideMainClass" value="false" />
-      <option name="runTrusted" value="true" />
-      <option name="screenDpi" value="0" />
-      <option name="screenHeight" value="0" />
-      <option name="screenWidth" value="0" />
-      <option name="url" value="http://" />
-      <option name="usbDebugPort" value="7936" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="" scope="Class">
-      <option name="BCName" value="" />
-      <option name="launcherParameters">
-        <LauncherParameters>
-          <option name="browserFamily" value="FIREFOX" />
-          <option name="launcherType" value="OSDefault" />
-          <option name="newPlayerInstance" value="false" />
-          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
-        </LauncherParameters>
-      </option>
-      <option name="moduleName" value="" />
-      <option name="trusted" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="myFilePath" />
-      <option name="GLUE" />
-      <option name="myNameFilter" />
-      <option name="myGeneratedName" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
+    <configuration default="true" type="osgi.bnd.run" factoryName="Run Launcher">
       <method />
     </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+    <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
     <configuration default="false" name="add " type="Application" factoryName="Application">
@@ -1158,19 +1308,19 @@
       <item index="2" class="java.lang.String" itemvalue="Application.get-path" />
       <item index="3" class="java.lang.String" itemvalue="Application.bash-exports" />
       <item index="4" class="java.lang.String" itemvalue="Maven.artifacts [package]" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.all tests" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
-      <item index="7" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testEnvironmentCollectionScripts" />
-      <item index="8" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest" />
-      <item index="9" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testMandatoryArtifacts" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testMandatoryArtifacts" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testInstall" />
+      <item index="9" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.loadJSap" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testMandatoryArtifacts" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.loadJSap" />
         <item index="1" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.all tests" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testEnvironmentCollectionScripts" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testInstall" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.BuildArtifactRequestTest.testMandatoryArtifacts" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ArtifactManagerTest.testMultipleInstallationsWithChangingAttributes" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1179,29 +1329,16 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="true" SSL_PROTOCOLS="sslv3">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="true" />
-    <option name="IGNORE_EXTERNALS" value="false" />
+  <component name="SvnConfiguration" myUseAcceleration="nothing" cleanupOnStartRun="true">
     <configuration useDefault="false">$USER_HOME$/.subversion_IDEA</configuration>
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
     <supportedVersion>125</supportedVersion>
+    <option name="FORCE_UPDATE" value="true" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="" />
       <created>1355674214417</created>
+      <option name="number" value="Default" />
       <updated>1355674214417</updated>
       <workItem from="1394467560015" duration="15000" />
       <workItem from="1394467577673" duration="13092000" />
@@ -1210,221 +1347,317 @@
       <workItem from="1398106775098" duration="87000" />
       <workItem from="1399919377519" duration="2193000" />
       <workItem from="1400013785783" duration="597000" />
-      <workItem from="1400094358040" duration="102000" />
-    </task>
-    <task id="LOCAL-00001" summary="Adding basic artifact functionality. Install and remove are implemented.">
-      <created>1355876756102</created>
-      <updated>1355876756102</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Adding basic artifact functionality. Install and remove are implemented.">
-      <created>1355876914100</created>
-      <updated>1355876914100</updated>
-    </task>
-    <task id="LOCAL-00003" summary="API support to install artifacts described in a PB request. Refactor packages.">
-      <created>1355952409101</created>
-      <updated>1355952409101</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Make a self contained jar. Support removing artifacts for pb requests.&#10;">
-      <created>1355955289100</created>
-      <updated>1355955289100</updated>
+      <workItem from="1400094358040" duration="2763000" />
+      <workItem from="1400615950164" duration="9000" />
+      <workItem from="1400616865806" duration="629000" />
+      <workItem from="1401976658291" duration="1191000" />
+      <workItem from="1403015701841" duration="634000" />
+      <workItem from="1403618547642" duration="576000" />
+      <workItem from="1403814641210" duration="599000" />
+      <workItem from="1404318497745" duration="24000" />
+      <workItem from="1404318955101" duration="75000" />
+      <workItem from="1439586631288" duration="866000" />
+      <workItem from="1439823387936" duration="3452000" />
     </task>
     <task id="LOCAL-00005" summary="Prepare the api and executable jars.">
       <created>1356036133101</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
       <updated>1356036133101</updated>
     </task>
     <task id="LOCAL-00006" summary="Prepare the api and executable jars with shade plugin, much simper.">
       <created>1356037077101</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
       <updated>1356037077101</updated>
     </task>
     <task id="LOCAL-00007" summary="Add username in pb artifact details.">
       <created>1356050162105</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
       <updated>1356050162105</updated>
     </task>
     <task id="LOCAL-00008" summary="Fix problems with saving and running requests.">
       <created>1356113200101</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
       <updated>1356113200101</updated>
     </task>
     <task id="LOCAL-00009" summary="Add --get-path to retrieve the path of an installed artifact.">
       <created>1356648047101</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
       <updated>1356648047101</updated>
     </task>
     <task id="LOCAL-00010" summary="Log to stderr to keep stdout clear.">
       <created>1356648280104</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
       <updated>1356648280105</updated>
     </task>
     <task id="LOCAL-00011" summary="Write version in relative path. Use the same repo instance everywhere. Do not download install script if artifact already installed.">
       <created>1356716687100</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
       <updated>1356716687100</updated>
     </task>
     <task id="LOCAL-00012" summary="Make install wait while another process is installing the same artifact.">
       <created>1357321883103</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
       <updated>1357321883103</updated>
     </task>
     <task id="LOCAL-00013" summary="Fix a bug with remove.&#10;Make the tests more robust (e.g., adapt to a different user name).">
       <created>1357404382126</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
       <updated>1357404382126</updated>
     </task>
     <task id="LOCAL-00014" summary="Store the installed size of each artifact.">
       <created>1357406535104</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
       <updated>1357406535104</updated>
     </task>
     <task id="LOCAL-00015" summary="Add a mechanism to obtain attribute values from the installation script. This will make it possible for GobyWeb resource scripts to provide organism and referenceBuild to the artifact management system, such that built genome indices can be stored in a repository location suitable for each index.">
       <created>1357680637102</created>
+      <option name="number" value="00015" />
+      <option name="project" value="LOCAL" />
       <updated>1357680637102</updated>
     </task>
     <task id="LOCAL-00016" summary="Support chained installations (installs that require environment variables from a previously installed artifact).">
       <created>1357776128106</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
       <updated>1357776128106</updated>
     </task>
     <task id="LOCAL-00017" summary="Fix exports for resources with attributes. &#10;Use SyncPipe strategy for Runtime.exec()">
       <created>1357855271101</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
       <updated>1357855271101</updated>
     </task>
     <task id="LOCAL-00018" summary="Test bash exports for requests. Fix output when artifact have no attributes.">
       <created>1357862823100</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
       <updated>1357862823100</updated>
     </task>
     <task id="LOCAL-00019" summary="Load attributes before checking if an artifact was installed. Add an option to show the repository content (show-repo).">
       <created>1357865088101</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
       <updated>1357865088101</updated>
     </task>
     <task id="LOCAL-00020" summary="exit without error.">
       <created>1357865640100</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
       <updated>1357865640100</updated>
     </task>
     <task id="LOCAL-00021" summary="Add test to check that artifacts with attrributes do not install more than once.">
       <created>1357927915100</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
       <updated>1357927915100</updated>
     </task>
     <task id="LOCAL-00022" summary="Fix a bug where artifacts with attributes could be installed twice.&#10;Fix remove so that all artifacts with attributes are removed for set of requests.">
       <created>1357936162100</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
       <updated>1357936162100</updated>
     </task>
     <task id="LOCAL-00023" summary="Add a method to get requests from the helper.">
       <created>1358374377102</created>
+      <option name="number" value="00023" />
+      <option name="project" value="LOCAL" />
       <updated>1358374377102</updated>
     </task>
     <task id="LOCAL-00024" summary="Store a local copy of the installation script for each plugin.">
       <created>1358451909100</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
       <updated>1358451909100</updated>
     </task>
     <task id="LOCAL-00025" summary="More logging.">
       <created>1358460219125</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
       <updated>1358460219125</updated>
     </task>
     <task id="LOCAL-00026" summary="Discard artifacts that failed to install and start over.">
       <created>1358468823101</created>
+      <option name="number" value="00026" />
+      <option name="project" value="LOCAL" />
       <updated>1358468823101</updated>
     </task>
     <task id="LOCAL-00027" summary="Write export statements for already installed tools.">
       <created>1358552720104</created>
+      <option name="number" value="00027" />
+      <option name="project" value="LOCAL" />
       <updated>1358552720104</updated>
     </task>
     <task id="LOCAL-00028" summary="Write tests for partial install. Run install scripts with set -e to force an error when a command is not found. Note that some parts of scripts may require set +e, see http://stackoverflow.com/questions/64786/error-handling-in-bash">
       <created>1358636048106</created>
+      <option name="number" value="00028" />
+      <option name="project" value="LOCAL" />
       <updated>1358636048106</updated>
     </task>
     <task id="LOCAL-00029" summary="Test the validity of the lock before calling release.">
       <created>1358694714104</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
       <updated>1358694714104</updated>
     </task>
     <task id="LOCAL-00030" summary="Use repo method to write BashExports in request helper.">
       <created>1358695651101</created>
+      <option name="number" value="00030" />
+      <option name="project" value="LOCAL" />
       <updated>1358695651101</updated>
     </task>
     <task id="LOCAL-00031" summary="change language level.">
       <created>1358984645100</created>
+      <option name="number" value="00031" />
+      <option name="project" value="LOCAL" />
       <updated>1358984645100</updated>
     </task>
     <task id="LOCAL-00032" summary="Add ability to refetch installation scripts when the cache was manually deleted.">
       <created>1359063945122</created>
+      <option name="number" value="00032" />
+      <option name="project" value="LOCAL" />
       <updated>1359063945122</updated>
     </task>
     <task id="LOCAL-00033" summary="Add ability to set environment variables on the remote server when performing ssh. Enable automatic command checking with -e for install scripts.">
       <created>1359072631101</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
       <updated>1359072631101</updated>
     </task>
     <task id="LOCAL-00034" summary="Better test for partial installs. Fix refetching when attributes are used.">
       <created>1359144049101</created>
+      <option name="number" value="00034" />
+      <option name="project" value="LOCAL" />
       <updated>1359144049101</updated>
     </task>
     <task id="LOCAL-00035" summary="Adjust the other tests.">
       <created>1359144607101</created>
+      <option name="number" value="00035" />
+      <option name="project" value="LOCAL" />
       <updated>1359144607101</updated>
     </task>
     <task id="LOCAL-00036" summary="Experiment with proguard to reduce the size of jar files.">
       <created>1359640079102</created>
+      <option name="number" value="00036" />
+      <option name="project" value="LOCAL" />
       <updated>1359640079102</updated>
     </task>
     <task id="LOCAL-00037" summary="Discard plugins that are still in the installing state when the repo tries to install another one. These result from failures that Java could not recover form (JVM crash or SGE/user kill). They have to be retried.">
       <created>1360289523102</created>
+      <option name="number" value="00037" />
+      <option name="project" value="LOCAL" />
       <updated>1360289523102</updated>
     </task>
     <task id="LOCAL-00038" summary="Discard plugins that are still in the installing state when the repo tries to install another one. These result from failures that Java could not recover form (JVM crash or SGE/user kill). They have to be retried.">
       <created>1360506771102</created>
+      <option name="number" value="00038" />
+      <option name="project" value="LOCAL" />
       <updated>1360506771102</updated>
     </task>
     <task id="LOCAL-00039" summary="Add methods to CommandExecutor from scp directories to/from a remote server">
       <created>1361459551111</created>
+      <option name="number" value="00039" />
+      <option name="project" value="LOCAL" />
       <updated>1361459551112</updated>
     </task>
     <task id="LOCAL-00040" summary="Adjust protoc invocation. Remove subversion root, add git one.">
       <created>1364146206393</created>
+      <option name="number" value="00040" />
+      <option name="project" value="LOCAL" />
       <updated>1364146206393</updated>
     </task>
     <task id="LOCAL-00041" summary="Remove stray com.sun import.">
       <created>1364146427567</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
       <updated>1364146427567</updated>
     </task>
     <task id="LOCAL-00042" summary="Move repo for this test.">
       <created>1364147916012</created>
+      <option name="number" value="00042" />
+      <option name="project" value="LOCAL" />
       <updated>1364147916012</updated>
     </task>
     <task id="LOCAL-00043" summary="Try to set tmpdir so that the FLAG file can be created in install-test9.">
       <created>1364148435414</created>
+      <option name="number" value="00043" />
+      <option name="project" value="LOCAL" />
       <updated>1364148435414</updated>
     </task>
     <task id="LOCAL-00044" summary="Try to set tmpdir so that the FLAG file can be created in install-test9.">
       <created>1364149018607</created>
+      <option name="number" value="00044" />
+      <option name="project" value="LOCAL" />
       <updated>1364149018607</updated>
     </task>
     <task id="LOCAL-00045" summary="Register environment even when an artifact was already installed.">
       <created>1364437711363</created>
+      <option name="number" value="00045" />
+      <option name="project" value="LOCAL" />
       <updated>1364437711363</updated>
     </task>
     <task id="LOCAL-00046" summary="More logging for env scripts.">
       <created>1364443260781</created>
+      <option name="number" value="00046" />
+      <option name="project" value="LOCAL" />
       <updated>1364443260781</updated>
     </task>
     <task id="LOCAL-00047" summary="Change visibility of normalize() method to public in ArtifactRepo. It is used by plugins-SDK when simulating artifacts' requests.">
       <created>1377705339944</created>
+      <option name="number" value="00047" />
+      <option name="project" value="LOCAL" />
       <updated>1377705339944</updated>
     </task>
     <task id="LOCAL-00048" summary="Update CHANGES log. Update dependencies. Make release 2.2.4.">
       <created>1378394054431</created>
+      <option name="number" value="00048" />
+      <option name="project" value="LOCAL" />
       <updated>1378394054431</updated>
     </task>
     <task id="LOCAL-00049" summary="Advance version to the next SNAPSHOT.">
       <created>1378402588036</created>
+      <option name="number" value="00049" />
+      <option name="project" value="LOCAL" />
       <updated>1378402588036</updated>
     </task>
     <task id="LOCAL-00050" summary="Add mandatory attribute to ArtifactDetails message.">
       <created>1394469593297</created>
+      <option name="number" value="00050" />
+      <option name="project" value="LOCAL" />
       <updated>1394469593297</updated>
     </task>
     <task id="LOCAL-00051" summary="Manage mandatory and non-mandatory artifacts during the installation in the Repository. Add a related test case.">
       <created>1394477480225</created>
+      <option name="number" value="00051" />
+      <option name="project" value="LOCAL" />
       <updated>1394477480225</updated>
     </task>
     <task id="LOCAL-00052" summary="Advance version to 2.3.0">
       <created>1397836249228</created>
+      <option name="number" value="00052" />
+      <option name="project" value="LOCAL" />
       <updated>1397836249228</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Advance version to 2.3.1. Update serverside dependencies to 1.0.9.">
+      <created>1400094487027</created>
+      <option name="number" value="00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1400094487027</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17356000" />
+    <option name="totallyTimeSpent" value="28072000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1447,45 +1680,60 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="2560" height="1330" extended-state="6" />
+    <frame x="0" y="23" width="2560" height="1330" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32809916" sideWeight="0.4935065" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Usages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32784185" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294893" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31466228" sideWeight="0.47396767" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24955752" sideWeight="0.67342585" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46483704" sideWeight="0.9350334" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependencies Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4645799" sideWeight="0.9350334" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4871795" sideWeight="0.09253247" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67937607" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3261944" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32537067" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50823724" sideWeight="0.41396105" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297062" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24741858" sideWeight="0.60991734" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16481334" sideWeight="0.6735537" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17553614" sideWeight="0.6735537" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18427323" sideWeight="0.6735537" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19192751" sideWeight="0.90178573" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28038126" sideWeight="0.6735537" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45551893" sideWeight="0.90178573" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32809916" sideWeight="0.4935065" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67937607" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.6723769" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31570247" sideWeight="0.47396767" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.65429044" sideWeight="0.41396105" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="UsagesViewTool">
+    <version id="0.9997" />
+    <tabs />
+    <default_view_options>
+      <options category_option="false" module_option="true" model_option="true" root_option="true" path_option="false" count_option="true" info_option="true" view_searched_nodes_option="true" group_searched_nodes_option="true" autoscroll_option="false" />
+    </default_view_options>
+  </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
       <collection />
     </option>
   </component>
@@ -1495,10 +1743,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <option name="myTodoPanelSettings">
-      <TodoPanelSettings />
-    </option>
-    <MESSAGE value="Write tests for partial install. Run install scripts with set -e to force an error when a command is not found. Note that some parts of scripts may require set +e, see http://stackoverflow.com/questions/64786/error-handling-in-bash" />
     <MESSAGE value="Test the validity of the lock before calling release." />
     <MESSAGE value="Use repo method to write BashExports in request helper." />
     <MESSAGE value="Add export tests for repo and requests." />
@@ -1523,356 +1767,483 @@
     <MESSAGE value="Add mandatory attribute to ArtifactDetails message." />
     <MESSAGE value="Manage mandatory and non-mandatory artifacts during the installation in the Repository. Add a related test case." />
     <MESSAGE value="Advance version to 2.3.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Advance version to 2.3.0" />
+    <MESSAGE value="Advance version to 2.3.1. Update serverside dependencies to 1.0.9." />
+    <option name="LAST_COMMIT_MESSAGE" value="Advance version to 2.3.1. Update serverside dependencies to 1.0.9." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java</url>
+          <line>174</line>
+          <properties />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java</url>
+          <line>378</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java</url>
+          <line>365</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java</url>
+          <line>779</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java</url>
+          <line>29</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java</url>
+          <line>28</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java</url>
+          <line>30</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
+      <default-breakpoints>
+        <breakpoint type="java-exception">
+          <log-expression disabled="true" expression="&#13;&#13;JAVA" />
+          <properties />
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="8" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bin/protoc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="8" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="55" selection-start="2739" selection-end="2739" vertical-scroll-proportion="0.0" vertical-offset="885" max-vertical-offset="2880">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ConcurrentInstallationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="433" selection-end="433" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1125">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="7" selection-start="2081" selection-end="2081" vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="2670">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="7" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="264" column="37" selection-start="13090" selection-end="13090" vertical-scroll-proportion="0.0" vertical-offset="3960" max-vertical-offset="6555">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="264" column="37" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#21683#21684#0" expanded="false" />
+            <element signature="e#21737#21738#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-B_ARTIFACT.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-C_ARTIFACT.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="16" selection-start="461" selection-end="478" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="2580">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="690">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#376#377#0" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#880#881#0" expanded="false" />
+            <element signature="e#965#966#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="0" selection-start="6958" selection-end="6958" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="5445">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/protoc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="8" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="105">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="27" selection-start="528" selection-end="528" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2880">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="27" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CHANGES.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="5" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="90" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.0" vertical-offset="975" max-vertical-offset="1845">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="65" column="90" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="29" selection-start="3549" selection-end="3549" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="2580">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="29" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="26" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="840" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="26" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="41" selection-start="9892" selection-end="9892" vertical-scroll-proportion="0.0" vertical-offset="3255" max-vertical-offset="5445">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="217" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="594" column="16" selection-start="27369" selection-end="27369" vertical-scroll-proportion="0.0" vertical-offset="8910" max-vertical-offset="17295">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="594" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="690">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#376#377#0" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#880#881#0" expanded="false" />
+            <element signature="e#965#966#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="0" selection-start="6958" selection-end="6958" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="5445">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/protoc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="8" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="105">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="27" selection-start="528" selection-end="528" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2880">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="27" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CHANGES.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="5" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="90" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.0" vertical-offset="975" max-vertical-offset="1845">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="65" column="90" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="29" selection-start="3549" selection-end="3549" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="2580">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="29" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="26" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="840" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="26" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="41" selection-start="9892" selection-end="9892" vertical-scroll-proportion="0.0" vertical-offset="3255" max-vertical-offset="5445">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="217" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="594" column="16" selection-start="27369" selection-end="27369" vertical-scroll-proportion="0.0" vertical-offset="8910" max-vertical-offset="17295">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="594" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="690">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#376#377#0" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#880#881#0" expanded="false" />
+            <element signature="e#965#966#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="0" selection-start="6958" selection-end="6958" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="5445">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/protoc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="8" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="105">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/locks/ExclusiveLockRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/locks/ExclusiveLockRequestWithFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/util/CommandExecutorTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="217" selection-end="217" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/campagnelab/gobyweb/serverside-dependencies/1.0.0/serverside-dependencies-1.0.0-full.jar!/it/unimi/dsi/lang/MutableString.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="160" selection-end="160" vertical-scroll-proportion="0.064822815" vertical-offset="0" max-vertical-offset="0" />
+        <state vertical-scroll-proportion="0.064822815">
+          <caret line="6" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script9.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="26" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="0" selection-start="7144" selection-end="7144" vertical-scroll-proportion="0.0" vertical-offset="2460" max-vertical-offset="6030">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="26" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/protoc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="8" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="7" selection-start="2081" selection-end="2081" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1830">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ConcurrentInstallationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="433" selection-end="433" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="990">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="16" selection-start="461" selection-end="478" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2580">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="34" selection-start="3534" selection-end="3534" vertical-scroll-proportion="0.38537273" vertical-offset="1061" max-vertical-offset="2535">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="16" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.0" vertical-offset="266" max-vertical-offset="1710">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="16" selection-start="1315" selection-end="1315" vertical-scroll-proportion="0.0" vertical-offset="296" max-vertical-offset="5655">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-C_ARTIFACT.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-B_ARTIFACT.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="688">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="264" column="37" selection-start="13090" selection-end="13090" vertical-scroll-proportion="0.0" vertical-offset="3540" max-vertical-offset="6375">
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="349" column="21" selection-start="15869" selection-end="15869" vertical-scroll-proportion="0.33333334" vertical-offset="4579" max-vertical-offset="16905">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="349" column="21" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CHANGES.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="83" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/protobuf/artifacts.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="7" selection-start-line="76" selection-start-column="7" selection-end-line="76" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/BuildArtifactRequestTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="264" column="37" selection-start-line="264" selection-start-column="37" selection-end-line="264" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#21683#21684#0" expanded="false" />
+            <element signature="e#21737#21738#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-B_ARTIFACT.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-data/install-scripts/install-script-C_ARTIFACT.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/AttributeValuePair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="e#376#377#0" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#880#881#0" expanded="false" />
+            <element signature="e#965#966#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.9/junit-4.9-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3376206">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/campagnelab/gobyweb/serverside-dependencies/1.0.12/serverside-dependencies-1.0.12-full.jar!/com/martiansoftware/jsap/JSAP.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-26.037037">
+          <caret line="383" column="22" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.jsap">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-64.44444">
+          <caret line="116" column="15" selection-start-line="116" selection-start-column="13" selection-end-line="116" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ConcurrentInstallationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="53" selection-start-line="37" selection-start-column="53" selection-end-line="37" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="172" selection-start="6081" selection-end="6081" vertical-scroll-proportion="0.41182795" vertical-offset="1717" max-vertical-offset="2880">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="164" column="20" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/campagnelab/gobyweb/artifacts/ArtifactManagerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7361769">
+          <caret line="44" column="62" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
           <folding />
         </state>
       </provider>
@@ -1894,7 +2265,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited>Protobuf Facet</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1906,7 +2277,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>grails-1.3.7</last-edited>
+          <last-edited>grails-2.1.3</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1918,7 +2289,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.6</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1935,7 +2306,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1968,4 +2338,3 @@
     </states>
   </component>
 </project>
-

@@ -305,7 +305,7 @@ public class ArtifactManagerTest {
     @Test
     public void loadJSap() throws Exception {
         ArtifactManager manager = new ArtifactManager("REPO");
-        Assert.assertNotNull(manager.loadJsapConfig());
+        Assert.assertNotNull(manager.loadJsapConfig("--help"));
     }
 
 
