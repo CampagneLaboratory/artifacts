@@ -24,6 +24,24 @@ public class BuildArtifactRequestTest {
 
     private String userName;
 
+
+    @Test
+    // check that we can execute requests sent from the web server in pb format.
+    public void testOneRequestWithNoServer() throws IOException {
+        BuildArtifactRequest request = new BuildArtifactRequest();
+        request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script1.sh");
+        final File output = new File("test-results/requests/request1.pb");
+
+        request.save(output);
+
+        ArtifactRequestHelper helper = new ArtifactRequestHelper(output);
+        helper.install(new File("REPO"),false);
+
+        assertTrue(new File("REPO/artifacts/PLUGIN/FILE1/1.0/installed-file-1").exists());
+        assertFalse(new File("REPO/artifacts/PLUGIN/FILE2/1.0/installed-file-2").exists());
+        helper.show();
+    }
+
     @Test
     // check that we can execute requests sent from the web server in pb format.
     public void testOneRequest() throws IOException {

@@ -25,7 +25,12 @@ public class BuildArtifactRequest {
     private String webServerUsername;
     private Artifacts.InstallationSet.Builder installationSetBuilder;
 
+    public BuildArtifactRequest() {
+        installationSetBuilder = Artifacts.InstallationSet.newBuilder();
+    }
+
     public BuildArtifactRequest(String webServerHostname) {
+        this();
         if (webServerHostname.contains("@")) {
             final String[] split = webServerHostname.split("[@]");
             this.webServerUsername = split[0];
@@ -35,7 +40,6 @@ public class BuildArtifactRequest {
             this.webServerHostname = webServerHostname;
 
         }
-        installationSetBuilder = Artifacts.InstallationSet.newBuilder();
     }
 
     public void addArtifact(String pluginId, String artifactId, String version, boolean mandatory, String installScript) {
@@ -68,7 +72,8 @@ public class BuildArtifactRequest {
         detailsBuilder.setPluginId(pluginId);
         detailsBuilder.setVersion(version);
         detailsBuilder.setScriptInstallPath(new File(installScript).getAbsolutePath());
-        detailsBuilder.setSshWebAppHost(webServerHostname);
+        if (this.webServerHostname != null && !this.webServerHostname.equals(""))
+            detailsBuilder.setSshWebAppHost(webServerHostname);
         detailsBuilder.setRetention(retention);
         detailsBuilder.setMandatory(mandatory);
         detailsBuilder.addAllAttributes(ObjectArrayList.wrap(attributes));

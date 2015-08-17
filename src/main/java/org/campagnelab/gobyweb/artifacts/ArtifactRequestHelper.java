@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.campagnelab.gobyweb.artifacts.scope.RequestInstallScope;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -175,28 +176,51 @@ public class ArtifactRequestHelper {
         String absolutePath = artifactRepo.absolutePathInRepo("scripts", relativePath);
         LOG.info(String.format("Refetching install script for %s:%s, will install to %s  %n", artifact.getPluginId(),
                 artifact.getId(), absolutePath));
-        String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
-                System.getProperty("user.name");
-        String server = request.getSshWebAppHost();
-        final String format = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                server, relativePath);
-        try {
-            int status = scp(username, server, request.getScriptInstallPath(), absolutePath);
-            if (status != 0) {
+
+        if (request.hasSshWebAppHost()) {
+            String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
+                    System.getProperty("user.name");
+            String server = request.getSshWebAppHost();
+            final String format = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                    server, relativePath);
+            try {
+                int status = scp(username, server, request.getScriptInstallPath(), absolutePath);
+                if (status != 0) {
+                    final String message = format;
+                    LOG.error(message);
+                    artifactRepo.getStepsLogger().error(format);
+                    throw new IOException(message);
+                }
+            } catch (InterruptedException e) {
                 final String message = format;
-                LOG.error(message);
+                LOG.error(message, e);
                 artifactRepo.getStepsLogger().error(format);
-                throw new IOException(message);
+            } catch (IOException e) {
+                final String message = format;
+                LOG.error(message, e);
+                artifactRepo.getStepsLogger().error(format);
             }
-        } catch (InterruptedException e) {
-            final String message = format;
-            LOG.error(message, e);
-            artifactRepo.getStepsLogger().error(format);
-        } catch (IOException e) {
-            final String message = format;
-            LOG.error(message, e);
-            artifactRepo.getStepsLogger().error(format);
+        }    else {
+            //just copy locally
+            final String format = String.format("Unable to locally retrieve install script for plugin %s %n", relativePath);
+
+            Path source = Paths.get(request.getScriptInstallPath());
+            Path target = Paths.get(absolutePath);
+            //overwrite existing file, if exists
+            CopyOption[] options = new CopyOption[]{
+                    StandardCopyOption.REPLACE_EXISTING,
+                    StandardCopyOption.COPY_ATTRIBUTES
+            };
+            try {
+                Files.copy(source, target, options);
+            } catch (IOException e) {
+                final String message = format;
+                LOG.error(message, e);
+                artifactRepo.getStepsLogger().error(format);
+            }
+
         }
+
     }
 
     private String getPluginNames(Artifacts.InstallationSet requests) {
