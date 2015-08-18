@@ -57,7 +57,7 @@ public class RemoteSourceRepository implements SourceRepository {
 
     @Override
     public boolean fetch(String sourcePath, String targetPath) throws Exception {
-        return scp(username, server, sourcePath, targetPath) != 0;
+        return scp(username, server, sourcePath, targetPath) == 0;
     }
 
 
