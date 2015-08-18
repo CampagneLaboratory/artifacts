@@ -157,7 +157,7 @@ public class ArtifactRequestHelper {
             final String localFilename = tempInstallFile.getAbsolutePath();
             if (local) {
                 //just copy locally
-                final String format = String.format("Unable to locally retrieve install script for plugin %s %n", relativePath);
+                final String format = String.format("Unable to locally retrieve install script for plugin %s %n", remoteScriptInstallPath);
 
                 Path source = Paths.get(remoteScriptInstallPath);
                 Path target = Paths.get(localFilename);
