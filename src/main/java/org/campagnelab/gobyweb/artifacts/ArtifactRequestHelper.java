@@ -43,7 +43,7 @@ public class ArtifactRequestHelper {
      * @throws IOException
      */
     public void install(File repoDir) throws IOException {
-          install(repoDir,false);
+          install(repoDir, false);
     }
     /**
      * Install artifacts described in a request, obtaining install scripts as needed from remote web app server.
@@ -77,7 +77,7 @@ public class ArtifactRequestHelper {
                 File tmpLocalInstallScript = null;
                 try {
                     tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(), request.getVersion(),
-                            username, request.getSshWebAppHost());
+                            username, request.getSshWebAppHost(), request.hasSshWebAppHost());
 
                 } catch (InterruptedException e) {
 
@@ -146,7 +146,7 @@ public class ArtifactRequestHelper {
     }
 
     public File getCachedInstallFile(String remoteScriptInstallPath, String pluginId, String version,
-                                     String username, String server)
+                                     String username, String server, boolean local)
             throws IOException, InterruptedException {
         if (repo.hasCachedInstallationScript(pluginId, version)) {
             return new File(repo.getCachedInstallationScript(pluginId, version));
@@ -155,14 +155,32 @@ public class ArtifactRequestHelper {
                     FilenameUtils.getBaseName(remoteScriptInstallPath));
 
             final String localFilename = tempInstallFile.getAbsolutePath();
+            if (local) {
+                //just copy locally
+                final String format = String.format("Unable to locally retrieve install script for plugin %s %n", relativePath);
 
-            int status = scp(username, server, remoteScriptInstallPath, localFilename);
-            if (status != 0) {
-                final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                        server, remoteScriptInstallPath);
-                LOG.error(message);
-                repo.getStepsLogger().error(message);
-                throw new IOException(message);
+                Path source = Paths.get(remoteScriptInstallPath);
+                Path target = Paths.get(localFilename);
+                //overwrite existing file, if exists
+                CopyOption[] options = new CopyOption[]{
+                        StandardCopyOption.REPLACE_EXISTING,
+                        StandardCopyOption.COPY_ATTRIBUTES
+                };
+                try {
+                    Files.copy(source, target, options);
+                } catch (IOException e) {
+                    final String message = format;
+                    LOG.error(message, e);
+                }
+            }   else {
+                int status = scp(username, server, remoteScriptInstallPath, localFilename);
+                if (status != 0) {
+                    final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                            server, remoteScriptInstallPath);
+                    LOG.error(message);
+                    repo.getStepsLogger().error(message);
+                    throw new IOException(message);
+                }
             }
             return tempInstallFile;
         }
