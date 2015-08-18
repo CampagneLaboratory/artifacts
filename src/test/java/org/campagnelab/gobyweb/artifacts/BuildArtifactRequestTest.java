@@ -26,7 +26,7 @@ public class BuildArtifactRequestTest {
 
 
     @Test
-    // check that we can execute requests sent from the web server in pb format.
+    // check that we can execute requests from a local plugin repository.
     public void testOneRequestWithNoServer() throws IOException {
         BuildArtifactRequest request = new BuildArtifactRequest();
         request.addArtifact("PLUGIN", "FILE1", "1.0", false, "test-data/install-scripts/install-script1.sh");
@@ -335,7 +335,7 @@ public class BuildArtifactRequestTest {
 
     @Test
     /**
-     * Check that the end user can remove the cached install script from the repository to trigger a new fetch of the script.
+     * Check that the end user can remove the cached install script from the repository to trigger a new fetchWithLog of the script.
      */
     public void testRemoveCachedInstallScript() throws IOException {
         BuildArtifactRequest request1 = new BuildArtifactRequest(getUserName() + "@localhost");

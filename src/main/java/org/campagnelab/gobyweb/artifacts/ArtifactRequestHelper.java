@@ -1,12 +1,14 @@
 package org.campagnelab.gobyweb.artifacts;
 
-import edu.cornell.med.icb.net.CommandExecutor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.campagnelab.gobyweb.artifacts.repositories.LocalSourceRepository;
+import org.campagnelab.gobyweb.artifacts.repositories.RemoteSourceRepository;
+import org.campagnelab.gobyweb.artifacts.repositories.SourceRepository;
 import org.campagnelab.gobyweb.artifacts.scope.RequestInstallScope;
 
 import java.io.*;
-import java.nio.file.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -155,33 +157,22 @@ public class ArtifactRequestHelper {
                     FilenameUtils.getBaseName(remoteScriptInstallPath));
 
             final String localFilename = tempInstallFile.getAbsolutePath();
+            SourceRepository source;
+            String message;
             if (local) {
-                //just copy locally
-                final String format = String.format("Unable to locally retrieve install script for plugin %s %n", remoteScriptInstallPath);
-
-                Path source = Paths.get(remoteScriptInstallPath);
-                Path target = Paths.get(localFilename);
-                //overwrite existing file, if exists
-                CopyOption[] options = new CopyOption[]{
-                        StandardCopyOption.REPLACE_EXISTING,
-                        StandardCopyOption.COPY_ATTRIBUTES
-                };
-                try {
-                    Files.copy(source, target, options);
-                } catch (IOException e) {
-                    final String message = format;
-                    LOG.error(message, e);
-                }
-            }   else {
-                int status = scp(username, server, remoteScriptInstallPath, localFilename);
-                if (status != 0) {
-                    final String message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                            server, remoteScriptInstallPath);
-                    LOG.error(message);
-                    repo.getStepsLogger().error(message);
-                    throw new IOException(message);
-                }
+                source = new LocalSourceRepository();
+                message = String.format("Unable to locally retrieve install script for plugin %s %n", remoteScriptInstallPath);
+            } else {
+                source = new RemoteSourceRepository(server,username);
+                message = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
+                        server, remoteScriptInstallPath);
             }
+            try {
+                source.fetch(remoteScriptInstallPath, localFilename);
+            } catch (Exception e) {
+                LOG.error(message, e);
+            }
+
             return tempInstallFile;
         }
     }
@@ -194,50 +185,14 @@ public class ArtifactRequestHelper {
         String absolutePath = artifactRepo.absolutePathInRepo("scripts", relativePath);
         LOG.info(String.format("Refetching install script for %s:%s, will install to %s  %n", artifact.getPluginId(),
                 artifact.getId(), absolutePath));
-
+        SourceRepository source;
         if (request.hasSshWebAppHost()) {
-            String username = request.hasSshWebAppUserName() ? request.getSshWebAppUserName() :
-                    System.getProperty("user.name");
-            String server = request.getSshWebAppHost();
-            final String format = String.format("Unable to retrieve install script for plugin %s@%s:%s %n", username,
-                    server, relativePath);
-            try {
-                int status = scp(username, server, request.getScriptInstallPath(), absolutePath);
-                if (status != 0) {
-                    final String message = format;
-                    LOG.error(message);
-                    artifactRepo.getStepsLogger().error(format);
-                    throw new IOException(message);
-                }
-            } catch (InterruptedException e) {
-                final String message = format;
-                LOG.error(message, e);
-                artifactRepo.getStepsLogger().error(format);
-            } catch (IOException e) {
-                final String message = format;
-                LOG.error(message, e);
-                artifactRepo.getStepsLogger().error(format);
-            }
+            source = new RemoteSourceRepository(request);
+            source.fetchWithLog(artifactRepo, request.getScriptInstallPath(), relativePath, absolutePath);
         }    else {
-            //just copy locally
-            final String format = String.format("Unable to locally retrieve install script for plugin %s %n", relativePath);
-
-            Path source = Paths.get(request.getScriptInstallPath());
-            Path target = Paths.get(absolutePath);
-            //overwrite existing file, if exists
-            CopyOption[] options = new CopyOption[]{
-                    StandardCopyOption.REPLACE_EXISTING,
-                    StandardCopyOption.COPY_ATTRIBUTES
-            };
-            try {
-                Files.copy(source, target, options);
-            } catch (IOException e) {
-                final String message = format;
-                LOG.error(message, e);
-                artifactRepo.getStepsLogger().error(format);
-            }
-
+            source = new LocalSourceRepository();
         }
+        source.fetchWithLog(artifactRepo, request.getScriptInstallPath(), relativePath, absolutePath);
 
     }
 
@@ -251,12 +206,7 @@ public class ArtifactRequestHelper {
         return sb.toString();
     }
 
-    private static int scp(String username, String remoteHost, String remotePath, String localFilename) throws IOException, InterruptedException {
-        final CommandExecutor commandExecutor = new CommandExecutor(username, remoteHost);
-        commandExecutor.setQuiet(false);
-        return commandExecutor.scpFromRemote(remotePath, localFilename);
 
-    }
 
     /**
      * Remove artifacts described in a request. Please note that this method removes artifacts irrespective of
