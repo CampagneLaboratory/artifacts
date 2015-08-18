@@ -214,7 +214,7 @@ public class ArtifactRepo {
         }
         if (artifact == null) {
 
-            LOG.info(String.format("Artifact %s was not found, proceeding to install..", toText(pluginId, artifactId, version, avp)));
+            LOG.info(String.format("Artifact %s was not found, proceeding    to install..", toText(pluginId, artifactId, version, avp)));
 
             // create the new artifact, register in the index:
             Artifacts.Artifact.Builder artifactBuilder = Artifacts.Artifact.newBuilder();

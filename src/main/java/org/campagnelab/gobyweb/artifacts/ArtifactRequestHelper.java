@@ -79,7 +79,7 @@ public class ArtifactRequestHelper {
                 File tmpLocalInstallScript = null;
                 try {
                     tmpLocalInstallScript = getCachedInstallFile(remoteScriptInstallPath, request.getPluginId(), request.getVersion(),
-                            username, request.getSshWebAppHost(), request.hasSshWebAppHost());
+                            username, request.getSshWebAppHost(), useLocalSourceRepo(request) );
 
                 } catch (InterruptedException e) {
 
@@ -186,11 +186,11 @@ public class ArtifactRequestHelper {
         LOG.info(String.format("Refetching install script for %s:%s, will install to %s  %n", artifact.getPluginId(),
                 artifact.getId(), absolutePath));
         SourceRepository source;
-        if (request.hasSshWebAppHost()) {
+        if (useLocalSourceRepo(request)) {
+            source = new LocalSourceRepository();
+        }    else {
             source = new RemoteSourceRepository(request);
             source.fetchWithLog(artifactRepo, request.getScriptInstallPath(), relativePath, absolutePath);
-        }    else {
-            source = new LocalSourceRepository();
         }
         source.fetchWithLog(artifactRepo, request.getScriptInstallPath(), relativePath, absolutePath);
 
@@ -379,5 +379,13 @@ public class ArtifactRequestHelper {
         getRepo(repo).show();
     }
 
+    /**
+     * Checks if the request refers to local plugins repository
+     * @param request
+     * @return
+     */
+    private static boolean useLocalSourceRepo(Artifacts.ArtifactDetails request) {
+       return (!request.hasSshWebAppHost() || request.getSshWebAppHost().equals(""));
+    }
 
 }
