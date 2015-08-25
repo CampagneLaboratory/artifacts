@@ -156,8 +156,8 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60402685">
-              <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.3691275">
+              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -1453,13 +1453,7 @@
       <workItem from="1439823387936" duration="12103000" />
       <workItem from="1439905053768" duration="11943000" />
       <workItem from="1440017203624" duration="852000" />
-      <workItem from="1440445717337" duration="2093000" />
-    </task>
-    <task id="LOCAL-00012" summary="Make install wait while another process is installing the same artifact.">
-      <created>1357321883103</created>
-      <option name="number" value="00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1357321883103</updated>
+      <workItem from="1440445717337" duration="2254000" />
     </task>
     <task id="LOCAL-00013" summary="Fix a bug with remove.&#10;Make the tests more robust (e.g., adapt to a different user name).">
       <created>1357404382126</created>
@@ -1749,11 +1743,17 @@
       <option name="project" value="LOCAL" />
       <updated>1439920521154</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary=" Use maven-parent 1.0.5 instead of LATEST (to make ivy happy).">
+      <created>1440465924733</created>
+      <option name="number" value="00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1440465924733</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51611000" />
+    <option name="totallyTimeSpent" value="51772000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1777,7 +1777,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1330" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1798,7 +1798,7 @@
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297062" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24741858" sideWeight="0.60991734" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17911041" sideWeight="0.6735537" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17911041" sideWeight="0.6735537" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28038126" sideWeight="0.6735537" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.60873145" sideWeight="0.90178573" order="2" side_tool="false" content_ui="tabs" />
@@ -1839,7 +1839,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Adjust the other tests." />
     <MESSAGE value="Experiment with proguard to reduce the size of jar files." />
     <MESSAGE value="Discard plugins that are still in the installing state when the repo tries to install another one. These result from failures that Java could not recover form (JVM crash or SGE/user kill). They have to be retried." />
     <MESSAGE value="Add methods to CommandExecutor from scp directories to/from a remote server" />
@@ -1864,7 +1863,8 @@
     <MESSAGE value="Fix the condition that checks if a local source repository has to be used." />
     <MESSAGE value="Upgrade version to 2.3.2 for release." />
     <MESSAGE value="Fix check on exit status for scp commands." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix check on exit status for scp commands." />
+    <MESSAGE value=" Use maven-parent 1.0.5 instead of LATEST (to make ivy happy)." />
+    <option name="LAST_COMMIT_MESSAGE" value=" Use maven-parent 1.0.5 instead of LATEST (to make ivy happy)." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2333,8 +2333,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60402685">
-          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.3691275">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding />
         </state>
       </provider>
