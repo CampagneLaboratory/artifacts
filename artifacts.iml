@@ -55,7 +55,7 @@
     <orderEntry type="library" name="Maven: org.javatuples:javatuples:1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.campagnelab:org.campagnelab.stepslogger:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.campagnelab:org.campagnelab.stepslogger:1.2.1" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

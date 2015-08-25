@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iml" afterPath="$PROJECT_DIR$/artifacts.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.ipr" afterPath="$PROJECT_DIR$/artifacts.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
@@ -156,8 +158,8 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3691275">
-              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.60402685">
+              <caret line="18" column="95" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -1453,13 +1455,7 @@
       <workItem from="1439823387936" duration="12103000" />
       <workItem from="1439905053768" duration="11943000" />
       <workItem from="1440017203624" duration="852000" />
-      <workItem from="1440445717337" duration="2254000" />
-    </task>
-    <task id="LOCAL-00013" summary="Fix a bug with remove.&#10;Make the tests more robust (e.g., adapt to a different user name).">
-      <created>1357404382126</created>
-      <option name="number" value="00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1357404382126</updated>
+      <workItem from="1440445717337" duration="3591000" />
     </task>
     <task id="LOCAL-00014" summary="Store the installed size of each artifact.">
       <created>1357406535104</created>
@@ -1749,11 +1745,17 @@
       <option name="project" value="LOCAL" />
       <updated>1440465924733</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Advance version to next snapshot.">
+      <created>1440466226439</created>
+      <option name="number" value="00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1440466226439</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51772000" />
+    <option name="totallyTimeSpent" value="53109000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1839,7 +1841,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Experiment with proguard to reduce the size of jar files." />
     <MESSAGE value="Discard plugins that are still in the installing state when the repo tries to install another one. These result from failures that Java could not recover form (JVM crash or SGE/user kill). They have to be retried." />
     <MESSAGE value="Add methods to CommandExecutor from scp directories to/from a remote server" />
     <MESSAGE value="Remove CommandExecutor and SyncPipe classes from sources, use the same version included in ICB-util instead" />
@@ -1864,7 +1865,8 @@
     <MESSAGE value="Upgrade version to 2.3.2 for release." />
     <MESSAGE value="Fix check on exit status for scp commands." />
     <MESSAGE value=" Use maven-parent 1.0.5 instead of LATEST (to make ivy happy)." />
-    <option name="LAST_COMMIT_MESSAGE" value=" Use maven-parent 1.0.5 instead of LATEST (to make ivy happy)." />
+    <MESSAGE value="Advance version to next snapshot." />
+    <option name="LAST_COMMIT_MESSAGE" value="Advance version to next snapshot." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2333,8 +2335,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3691275">
-          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.60402685">
+          <caret line="18" column="95" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
           <folding />
         </state>
       </provider>

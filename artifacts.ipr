@@ -520,15 +520,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/gobyweb/serverside-dependencies/1.0.13/serverside-dependencies-1.0.13-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.campagnelab:org.campagnelab.stepslogger:1.1.0">
+    <library name="Maven: org.campagnelab:org.campagnelab.stepslogger:1.2.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.1.0/org.campagnelab.stepslogger-1.1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.2.1/org.campagnelab.stepslogger-1.2.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.1.0/org.campagnelab.stepslogger-1.1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.2.1/org.campagnelab.stepslogger-1.2.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.1.0/org.campagnelab.stepslogger-1.1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/campagnelab/org.campagnelab.stepslogger/1.2.1/org.campagnelab.stepslogger-1.2.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.hamcrest:hamcrest-core:1.1">
