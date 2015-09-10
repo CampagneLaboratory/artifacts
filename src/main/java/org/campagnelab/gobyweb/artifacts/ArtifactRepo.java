@@ -20,6 +20,7 @@ import org.campagnelab.stepslogger.FileStepsLogger;
 import org.campagnelab.stepslogger.RedirectStreams;
 import org.campagnelab.stepslogger.SilentStepsLogger;
 import org.campagnelab.stepslogger.StepsLogger;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -443,6 +444,7 @@ public class ArtifactRepo {
         File attributeFile = null;
         try {
             attributeFile = runAttributeValuesFunction(pluginId, artifactId, version, avp, pluginInstallScript);
+            LOG.info("Returned attributes file path: " + attributeFile.getAbsolutePath());
             if (attributeFile != null) {
                 // parse properties and value attributes that were not defined:
                 Properties p = new Properties();
@@ -510,8 +512,11 @@ public class ArtifactRepo {
         String tmpDir = System.getProperty("java.io.tmpdir");
         //the following file is created by the plugins SDK when the user specifies attributes values
         File artifactProps = new File(this.jobDir,artifactId+ ".properties");
+        LOG.info("Looking for attributes values in " + artifactProps.getAbsolutePath());
         if (artifactProps.exists())  {
-            File destination = new File(tmpDir,artifactProps.getName());
+            LOG.info("Attributes values file found");
+            File destination = new File(Files.createTempDir(),artifactProps.getName());
+            LOG.info("Copying attributes values to " + destination.getAbsolutePath());
             Files.copy(artifactProps,destination);
             return destination;
         }  else {

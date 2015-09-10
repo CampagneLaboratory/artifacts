@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="Update dependency on stepslogger to 1.2.1.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CHANGES.txt" afterPath="$PROJECT_DIR$/CHANGES.txt" />
+    <list default="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
     </list>
     <ignored path="artifacts.iws" />
@@ -153,21 +153,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ArtifactRepo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ArtifactRepo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.387096">
-              <caret line="511" column="34" selection-start-line="511" selection-start-column="34" selection-end-line="511" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.24039653">
+              <caret line="517" column="23" selection-start-line="517" selection-start-column="23" selection-end-line="517" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CHANGES.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CHANGES.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CHANGES.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30429596">
-              <caret line="17" column="80" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -198,7 +198,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1641#1642#0" expanded="false" />
+                <element signature="e#1671#1672#0" expanded="false" />
+                <element signature="e#2687#2688#0" expanded="false" />
+                <element signature="e#2718#2719#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -230,7 +236,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -240,7 +248,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="59" column="62" selection-start-line="59" selection-start-column="62" selection-end-line="59" selection-end-column="62" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -299,8 +309,8 @@
         <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/repositories/RemoteSourceRepository.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
         <option value="$PROJECT_DIR$/CHANGES.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
       </list>
     </option>
   </component>
@@ -1265,13 +1275,7 @@
       <workItem from="1440445717337" duration="5001000" />
       <workItem from="1440519481230" duration="470000" />
       <workItem from="1441826381679" duration="7073000" />
-      <workItem from="1441890891507" duration="360000" />
-    </task>
-    <task id="LOCAL-00016" summary="Support chained installations (installs that require environment variables from a previously installed artifact).">
-      <created>1357776128106</created>
-      <option name="number" value="00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1357776128106</updated>
+      <workItem from="1441890891507" duration="2951000" />
     </task>
     <task id="LOCAL-00017" summary="Fix exports for resources with attributes. &#10;Use SyncPipe strategy for Runtime.exec()">
       <created>1357855271101</created>
@@ -1561,11 +1565,17 @@
       <option name="project" value="LOCAL" />
       <updated>1441891201844</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Update change log.">
+      <created>1441891264358</created>
+      <option name="number" value="00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1441891264358</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62422000" />
+    <option name="totallyTimeSpent" value="65013000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1651,7 +1661,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Remove CommandExecutor and SyncPipe classes from sources, use the same version included in ICB-util instead" />
     <MESSAGE value="Adjust protoc invocation. Remove subversion root, add git one." />
     <MESSAGE value="Remove stray com.sun import." />
     <MESSAGE value="Move repo for this test." />
@@ -1676,7 +1685,8 @@
     <MESSAGE value="Advance version to next snapshot." />
     <MESSAGE value="Update dependency on stepslogger to 1.2.1." />
     <MESSAGE value="Get the JOB_DIR from the environment instead of guessing from the pbfile." />
-    <option name="LAST_COMMIT_MESSAGE" value="Get the JOB_DIR from the environment instead of guessing from the pbfile." />
+    <MESSAGE value="Update change log." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update change log." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1701,7 +1711,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java</url>
-          <line>798</line>
+          <line>803</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
@@ -1725,7 +1735,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java</url>
-          <line>934</line>
+          <line>939</line>
           <properties />
           <option name="timeStamp" value="28" />
         </line-breakpoint>
@@ -1795,7 +1805,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="161" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1868,7 +1880,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="161" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2061,7 +2075,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1641#1642#0" expanded="false" />
+            <element signature="e#1671#1672#0" expanded="false" />
+            <element signature="e#2687#2688#0" expanded="false" />
+            <element signature="e#2718#2719#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2077,7 +2097,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2085,7 +2107,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="59" column="62" selection-start-line="59" selection-start-column="62" selection-end-line="59" selection-end-column="62" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2115,18 +2139,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
+    <entry file="file://$PROJECT_DIR$/CHANGES.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.387096">
-          <caret line="511" column="34" selection-start-line="511" selection-start-column="34" selection-end-line="511" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CHANGES.txt">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30429596">
-          <caret line="17" column="80" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.24039653">
+          <caret line="517" column="23" selection-start-line="517" selection-start-column="23" selection-end-line="517" selection-end-column="23" />
           <folding />
         </state>
       </provider>
