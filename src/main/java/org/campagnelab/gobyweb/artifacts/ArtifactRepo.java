@@ -511,7 +511,7 @@ public class ArtifactRepo {
         pluginScript = new File(pluginScript).getAbsolutePath();
         String tmpDir = System.getProperty("java.io.tmpdir");
         //the following file is created by the plugins SDK when the user specifies attributes values
-        File artifactProps = new File(this.jobDir,artifactId+ ".properties");
+        File artifactProps = new File(this.jobDir + File.separator+"artifacts-values",pluginId +"."+artifactId+ ".properties");
         LOG.info("Looking for attributes values in " + artifactProps.getAbsolutePath());
         if (artifactProps.exists())  {
             LOG.info("Attributes values file found");
