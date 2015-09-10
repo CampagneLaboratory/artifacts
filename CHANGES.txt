@@ -1,3 +1,6 @@
+2.3.3 (Sept 10 2015)
+    Use properties file for attributes' values when available in the JOB DIR.
+
 2.3.2 (Aug 17 2015)
     Migration to java 7.
     Enable artifact manager to work with a local plugin repository.

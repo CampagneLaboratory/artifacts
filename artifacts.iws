@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdc8c494-1ba2-4398-a251-49d01e3ce560" name="Default" comment="Update dependency on stepslogger to 1.2.1.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRepo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" afterPath="$PROJECT_DIR$/src/main/java/org/campagnelab/gobyweb/artifacts/ArtifactRequestHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CHANGES.txt" afterPath="$PROJECT_DIR$/CHANGES.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artifacts.iws" afterPath="$PROJECT_DIR$/artifacts.iws" />
     </list>
@@ -168,8 +166,8 @@
       <file leaf-file-name="CHANGES.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CHANGES.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.071599044">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.30429596">
+              <caret line="17" column="80" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -1267,13 +1265,7 @@
       <workItem from="1440445717337" duration="5001000" />
       <workItem from="1440519481230" duration="470000" />
       <workItem from="1441826381679" duration="7073000" />
-      <workItem from="1441890891507" duration="285000" />
-    </task>
-    <task id="LOCAL-00015" summary="Add a mechanism to obtain attribute values from the installation script. This will make it possible for GobyWeb resource scripts to provide organism and referenceBuild to the artifact management system, such that built genome indices can be stored in a repository location suitable for each index.">
-      <created>1357680637102</created>
-      <option name="number" value="00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1357680637102</updated>
+      <workItem from="1441890891507" duration="360000" />
     </task>
     <task id="LOCAL-00016" summary="Support chained installations (installs that require environment variables from a previously installed artifact).">
       <created>1357776128106</created>
@@ -1563,11 +1555,17 @@
       <option name="project" value="LOCAL" />
       <updated>1440468610593</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Get the JOB_DIR from the environment instead of guessing from the pbfile.">
+      <created>1441891201844</created>
+      <option name="number" value="00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1441891201844</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62347000" />
+    <option name="totallyTimeSpent" value="62422000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1653,7 +1651,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Add methods to CommandExecutor from scp directories to/from a remote server" />
     <MESSAGE value="Remove CommandExecutor and SyncPipe classes from sources, use the same version included in ICB-util instead" />
     <MESSAGE value="Adjust protoc invocation. Remove subversion root, add git one." />
     <MESSAGE value="Remove stray com.sun import." />
@@ -1678,7 +1675,8 @@
     <MESSAGE value=" Use maven-parent 1.0.5 instead of LATEST (to make ivy happy)." />
     <MESSAGE value="Advance version to next snapshot." />
     <MESSAGE value="Update dependency on stepslogger to 1.2.1." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update dependency on stepslogger to 1.2.1." />
+    <MESSAGE value="Get the JOB_DIR from the environment instead of guessing from the pbfile." />
+    <option name="LAST_COMMIT_MESSAGE" value="Get the JOB_DIR from the environment instead of guessing from the pbfile." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -2127,8 +2125,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CHANGES.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.071599044">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.30429596">
+          <caret line="17" column="80" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
           <folding />
         </state>
       </provider>
