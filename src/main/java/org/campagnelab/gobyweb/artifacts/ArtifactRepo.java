@@ -1,5 +1,6 @@
 package org.campagnelab.gobyweb.artifacts;
 
+import com.google.common.io.Files;
 import com.google.protobuf.TextFormat;
 import edu.cornell.med.icb.net.SyncPipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -69,6 +70,7 @@ public class ArtifactRepo {
     private boolean quiet = true;
     private Object2ObjectMap<String, String> pluginIdToInstallScriptPath = new Object2ObjectOpenHashMap<String, String>();
     private StepsLogger stepsLogger;
+    private File jobDir;
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -505,36 +507,45 @@ public class ArtifactRepo {
     private File runAttributeValuesFunction(String pluginId, String artifactId, String version, AttributeValuePair[] avp, String pluginScript) throws IOException, InterruptedException {
         pluginScript = new File(pluginScript).getAbsolutePath();
         String tmpDir = System.getProperty("java.io.tmpdir");
-        final long time = new Date().getTime();
-        LOG.debug("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
+        //the following file is created by the plugins SDK when the user specifies attributes values
+        File artifactProps = new File(this.jobDir,artifactId+ ".properties");
+        if (artifactProps.exists())  {
+            File destination = new File(tmpDir,artifactProps.getName());
+            Files.copy(artifactProps,destination);
+            return destination;
+        }  else {
+            final long time = new Date().getTime();
+            LOG.debug("Attempting to execute runAttributeValuesFunction for script= " + pluginScript);
 
-        MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
-        File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
-        String wrapperTemplate = "( set -e ; set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR}; %s  " +
-                " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties; set -xv )%n";
+            MutableString sourceEnvCollectionScripts = getEnvCollectionSourceStatements();
+            File result = new File(String.format("%s/%s-%s-%d/artifact.properties", tmpDir, pluginId, artifactId, time));
+            String wrapperTemplate = "( set -e ; set +xv ; DIR=%s/%s-%s-%d ; script=%s; echo $DIR; mkdir -p ${DIR}; %s  " +
+                    " chmod +x $script ;  . $script ; get_attribute_values %s $DIR/artifact.properties ; cat $DIR/artifact.properties; set -xv )%n";
 
-        String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
-                pluginId, artifactId,
-                time,
-                pluginScript,
-                sourceEnvCollectionScripts, artifactId
-        )};
-        RedirectStreams redirect = stepsLogger.stepProcess("Run runAttributeValuesFunction", wrapperTemplate);
+            String cmds[] = {"/bin/bash", "-c", String.format(wrapperTemplate, tmpDir,
+                    pluginId, artifactId,
+                    time,
+                    pluginScript,
+                    sourceEnvCollectionScripts, artifactId
+            )};
+            RedirectStreams redirect = stepsLogger.stepProcess("Run runAttributeValuesFunction", wrapperTemplate);
 
-        Runtime rt = Runtime.getRuntime();
-        Process pr = rt.exec(cmds);
-        new Thread(new SyncPipe(pr.getErrorStream(), redirect.getStandardError(), LOG)).start();
-        new Thread(new SyncPipe(quiet, pr.getInputStream(), redirect.getStandardOut(), LOG)).start();
+            Runtime rt = Runtime.getRuntime();
+            Process pr = rt.exec(cmds);
+            new Thread(new SyncPipe(pr.getErrorStream(), redirect.getStandardError(), LOG)).start();
+            new Thread(new SyncPipe(quiet, pr.getInputStream(), redirect.getStandardOut(), LOG)).start();
 
-        int exitVal = pr.waitFor();
-        stepsLogger.processReturned(exitVal);
-        LOG.debug("Install script get_attribute_values() exited with error code " + exitVal);
-        if (exitVal != 0) {
-            throw new IllegalStateException();
-        } else {
+            int exitVal = pr.waitFor();
+            stepsLogger.processReturned(exitVal);
+            LOG.debug("Install script get_attribute_values() exited with error code " + exitVal);
+            if (exitVal != 0) {
+                throw new IllegalStateException();
+            } else {
 
-            return result;
+                return result;
+            }
         }
+
     }
 
     private MutableString getEnvCollectionSourceStatements() {
@@ -870,7 +881,7 @@ public class ArtifactRepo {
     }
 
     private String buildCacheKey(String pluginId, String version) {
-        return String.format("$%s$%s$",pluginId, version);
+        return String.format("$%s$%s$", pluginId, version);
     }
 
 
@@ -1203,5 +1214,9 @@ public class ArtifactRepo {
     public void writeLog() {
 
         IOUtils.closeQuietly(stepsLogger);
+    }
+
+    public void setJobDir(File jobDir) {
+        this.jobDir = jobDir;
     }
 }

@@ -24,6 +24,9 @@ public class ArtifactRequestHelper {
     private static final org.apache.log4j.Logger LOG = Logger.getLogger(ArtifactRequestHelper.class);
 
     private final Artifacts.InstallationSet requests;
+
+    private final File jobDir;
+
     private ArtifactRepo repo;
     /**
      * The repository quota. This field is used when a new repo is created, but not if you set a repo directly.
@@ -32,7 +35,7 @@ public class ArtifactRequestHelper {
     private boolean earlyStopRequested;
 
     public ArtifactRequestHelper(File pbRequestFile) throws IOException {
-
+        jobDir = pbRequestFile.getParentFile();
         requests = Artifacts.InstallationSet.parseDelimitedFrom(new FileInputStream(pbRequestFile));
     }
 
@@ -329,6 +332,7 @@ public class ArtifactRequestHelper {
             repo = new ArtifactRepo(repoDir);
             repo.setSpaceRepoDirQuota(spaceRepoDirQuota);
             repo.setInstallationScope(new RequestInstallScope(requests));
+            repo.setJobDir(jobDir);
             return repo;
         }
 
