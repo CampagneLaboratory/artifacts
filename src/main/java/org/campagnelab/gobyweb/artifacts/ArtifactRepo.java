@@ -70,7 +70,8 @@ public class ArtifactRepo {
     private boolean quiet = true;
     private Object2ObjectMap<String, String> pluginIdToInstallScriptPath = new Object2ObjectOpenHashMap<String, String>();
     private StepsLogger stepsLogger;
-    private File jobDir;
+    private String jobDir = System.getenv("JOB_DIR");
+    ;
 
     public long getSpaceRepoDirQuota() {
         return spaceRepoDirQuota;
@@ -1216,7 +1217,4 @@ public class ArtifactRepo {
         IOUtils.closeQuietly(stepsLogger);
     }
 
-    public void setJobDir(File jobDir) {
-        this.jobDir = jobDir;
-    }
 }
