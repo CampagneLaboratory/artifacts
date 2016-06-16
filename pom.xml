@@ -219,16 +219,11 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.campagnelab.gobyweb</groupId>
             <artifactId>serverside-dependencies</artifactId>
-            <version>1.0.13</version>
+            <version>1.0.14</version>
             <classifier>full</classifier>
         </dependency>
 
