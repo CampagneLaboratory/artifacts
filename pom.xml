@@ -223,7 +223,7 @@
         <dependency>
             <groupId>org.campagnelab.gobyweb</groupId>
             <artifactId>serverside-dependencies</artifactId>
-            <version>1.0.14</version>
+            <version>1.0.16</version>
             <classifier>full</classifier>
         </dependency>
 
@@ -237,7 +237,7 @@
         <dependency>
             <groupId>org.campagnelab</groupId>
             <artifactId>org.campagnelab.stepslogger</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2</version>
         </dependency>
 
     </dependencies>
