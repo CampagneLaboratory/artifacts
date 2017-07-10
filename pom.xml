@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.campagnelab.gobyweb</groupId>
     <artifactId>artifacts</artifactId>
-    <version>2.3.3-SNAPSHOT</version>
+    <version>2.3.3</version>
 
     <packaging>jar</packaging>
 
@@ -169,51 +169,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--plugin>
-                <groupId>com.pyx4me</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.0.4</version>
-
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>proguard</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <maxMemory>2g</maxMemory>
-                    <proguardVersion>4.4</proguardVersion>
-                    <obfuscate>false</obfuscate>
-                    <includeDependency>true</includeDependency>
-                    <injar>${project.build.finalName}.jar</injar>
-                    <outjar>${project.build.finalName}-manager-small.jar</outjar>
-                    <outputDirectory>${project.build.directory}</outputDirectory>
-                    <proguardInclude>${basedir}/proguard.conf</proguardInclude>
-                    <options>
-                        <option>-keep public class org.campagnelab.gobyweb.**</option>
-                        <option>-dontskipnonpubliclibraryclasses</option>
-                        <option>-dontskipnonpubliclibraryclassmembers</option>
-                    </options>
-                    <libs>
-
-                        <lib>${java.home}/../Classes/classes.jar</lib>
-                    </libs>
-                </configuration>
-                <dependencies>
-                    <dependency>
-
-                        <groupId>net.sf.proguard</groupId>
-                        <artifactId>proguard</artifactId>
-                        <version>4.4</version>
-
-                        <scope>runtime</scope>
-
-                    </dependency>
-                </dependencies>
-            </plugin-->
 
         </plugins>
     </build>

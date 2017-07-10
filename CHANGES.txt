@@ -1,5 +1,6 @@
-2.3.3 (Sept 10 2015)
+2.3.3 (Jul 10 2017)
     Use properties file for attributes' values when available in the JOB DIR.
+    Migration to protobuf 3.0
 
 2.3.2 (Aug 17 2015)
     Migration to java 7.
